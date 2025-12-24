@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Context Bridge",
+  "version": "0.1.0",
+  "description": "Waits for local context, injects it into ChatGPT, then sends automatically",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [],
+  "host_permissions": [
+    "http://127.0.0.1:3000/*"
+  ]
+}
