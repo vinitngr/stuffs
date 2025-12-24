@@ -1,0 +1,13 @@
+docker:
+	docker compose up
+
+server:
+	go run server/main.go
+
+worker:
+	go run worker/main.go
+
+up:
+	docker compose up -d
+	go run server/main.go &
+	go run worker/main.go
