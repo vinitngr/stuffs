@@ -22,3 +22,4 @@ stuff:
 | name       | what it is? |
 |------------|------|
 | GPTcontext | prompt context injection experiment - extension |
+| asynq | background task queue with worker - using asynq - Golang |
