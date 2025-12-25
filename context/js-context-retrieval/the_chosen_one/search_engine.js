@@ -3,61 +3,38 @@ const traverse = require("@babel/traverse").default;
 const natural = require("natural");
 const fs = require("fs");
 const path = require("path");
-
-// Use natural's Porter Stemmer (proper implementation)
 const PorterStemmer = natural.PorterStemmer;
 const JaroWinklerDistance = natural.JaroWinklerDistance;
 const NGrams = natural.NGrams;
 
-/**
- * THE CHOSEN ONE - Configurable Code Search Engine v1.0
- * Based on claude_pure.js with enhanced controls
- * 
- * Features:
- * - Configurable min/max line ranges
- * - Smart function boundary expansion
- * - Top K results selection
- * - Auto-outputs to pickedup.json
- */
-
-// ============== DEFAULT CONFIG ==============
 const DEFAULT_CONFIG = {
-  minLines: 10,      // Minimum lines per result (smaller = more precise)
-  maxLines: 100,     // Maximum lines per result  
-  topK: 5,           // Number of results to return
-  smartExpand: false, // Disabled by default - improves accuracy
-  outputFile: 'pickedup.json'  // Output file name
+  minLines: 10,
+  maxLines: 100,
+  topK: 5,
+  smartExpand: false,
+  outputFile: 'pickedup.json'
 };
 
-// ============== TUNABLE WEIGHTS ==============
 const WEIGHTS = {
-  // BM25 parameters
-  BM25_K1: 1.2,       // Increased for better term saturation
-  BM25_B: 0.3,        // Slightly more length normalization
-  
-  // Scoring weights  
-  DIRECT_MATCH: 35,   // Boosted direct matches
-  SYNONYM_MATCH: 18,  // Boosted synonym matches
-  PARTIAL_MATCH: 12,  // Boosted partial matches
-  BIGRAM_MATCH: 60,   // Boosted phrase matching
-  TRIGRAM_MATCH: 80,  // Boosted 3-word phrases
-  FUZZY_MATCH: 25,    // Boosted fuzzy matches
-  NAME_EXACT: 250,    // Strong boost for exact name match
-  NAME_PARTIAL: 100,  // Boosted partial name match
-  NAME_FUZZY: 70,     // Boosted fuzzy name match
-  COVERAGE_MULT: 3.0, // Higher reward for covering more query terms
-  
-  // Structural multipliers
-  FUNCTION_MULT: 4.0,  // Increased - functions are usually the answer
-  CLASS_MULT: 3.5,     // Increased for classes
-  TOPLEVEL_MULT: 2.5,  // Increased for top-level
-  PROPERTY_MULT: 2.2,  // Increased for properties
-  
-  // Fuzzy matching threshold
-  FUZZY_THRESHOLD: 0.80  // Lowered to catch more similar words
+  BM25_K1: 1.2,
+  BM25_B: 0.3,
+  DIRECT_MATCH: 35,
+  SYNONYM_MATCH: 18,
+  PARTIAL_MATCH: 12,
+  BIGRAM_MATCH: 60,
+  TRIGRAM_MATCH: 80,
+  FUZZY_MATCH: 25,
+  NAME_EXACT: 250,
+  NAME_PARTIAL: 100,
+  NAME_FUZZY: 70,
+  COVERAGE_MULT: 3.0,
+  FUNCTION_MULT: 4.0,
+  CLASS_MULT: 3.5,
+  TOPLEVEL_MULT: 2.5,
+  PROPERTY_MULT: 2.2,
+  FUZZY_THRESHOLD: 0.80
 };
 
-// Stop words
 const STOP_WORDS = new Set([
   "and", "or", "the", "a", "an", "in", "to", "of", "for", "with", "on", "at", 
   "by", "from", "is", "it", "this", "that", "how", "where", "what", "does", 
@@ -69,7 +46,6 @@ const STOP_WORDS = new Set([
   "only", "own", "same", "than", "too", "very", "just", "also", "any"
 ]);
 
-// Universal programming synonyms
 const UNIVERSAL_SYNONYMS = {
   "create": ["create", "add", "insert", "new", "make", "generate", "build"],
   "read": ["read", "get", "fetch", "retrieve", "load", "find", "query", "select"],
@@ -128,7 +104,6 @@ const UNIVERSAL_SYNONYMS = {
   "session": ["session", "user", "context"],
   "rotate": ["rotate", "roll", "cycle", "archive"],
   
-  // Additional universal patterns (v1.1)
   "register": ["register", "signup", "enroll", "add", "create", "insert"],
   "execute": ["execute", "run", "invoke", "call", "perform", "do"],
   "select": ["select", "choose", "pick", "get", "find"],
@@ -150,7 +125,6 @@ const UNIVERSAL_SYNONYMS = {
   "sequence": ["sequence", "order", "chain", "pipeline", "flow"],
   "endpoint": ["endpoint", "url", "uri", "path", "route", "address"],
   
-  // Express/Web API specific
   "login": ["login", "signin", "authenticate", "auth", "session"],
   "logout": ["logout", "signout", "unauthenticate", "session"],
   "register": ["register", "signup", "enroll", "add", "create", "user"],
@@ -180,7 +154,6 @@ const UNIVERSAL_SYNONYMS = {
   "calculation": ["calculation", "compute", "calculate", "sum", "total", "reduce"]
 };
 
-// Helper functions
 const stem = (word) => {
   if (word.length < 3) return word;
   return PorterStemmer.stem(word);
@@ -229,32 +202,16 @@ const fuzzyMatch = (word1, word2) => {
   return JaroWinklerDistance(word1, word2);
 };
 
-/**
- * MAIN SEARCH FUNCTION - The Chosen One
- * 
- * @param {string} code - The source code to search
- * @param {string} query - The natural language query
- * @param {Object} config - Configuration options
- * @param {number} config.minLines - Minimum lines per result (default: 30)
- * @param {number} config.maxLines - Maximum lines per result (default: 200)
- * @param {number} config.topK - Number of results to return (default: 5)
- * @param {boolean} config.smartExpand - Expand to function boundaries (default: true)
- * @param {string} config.outputFile - Output JSON filename (default: 'pickedup.json')
- * @returns {Array} Array of results with start, end, score, code snippet
- */
 function search(codeOrFilePath, query, config = {}) {
+  console.time('Search Time');
   const cfg = { ...DEFAULT_CONFIG, ...config };
   
-  // Determine if input is file path or code
   let code;
   if (codeOrFilePath.includes('\n') || codeOrFilePath.length > 500) {
-    // Likely code string
     code = codeOrFilePath;
   } else if (fs.existsSync(codeOrFilePath)) {
-    // File path
     code = fs.readFileSync(codeOrFilePath, 'utf-8');
   } else {
-    // Assume it's code
     code = codeOrFilePath;
   }
   
@@ -272,7 +229,6 @@ function search(codeOrFilePath, query, config = {}) {
   
   const expandedQueryTokens = expandWithSynonyms(queryTokens);
   
-  // BM25 Setup
   const allCodeTokens = tokenize(code, true);
   const corpusTF = new Map();
   allCodeTokens.forEach(t => {
@@ -294,9 +250,8 @@ function search(codeOrFilePath, query, config = {}) {
   const queryTokenSet = new Set(queryTokens);
   const queryTokenSetRaw = new Set(queryTokensRaw);
   
-  // Parse AST
   let ast;
-  let functionBoundaries = []; // Store all function/class boundaries for smart expansion
+  let functionBoundaries = [];
   
   try {
     ast = parser.parse(code, {
@@ -325,7 +280,6 @@ function search(codeOrFilePath, query, config = {}) {
     return commentLines.join(' ');
   };
   
-  // First pass: collect ALL function/class boundaries for smart expansion
   traverse(ast, {
     enter(path) {
       const node = path.node;
@@ -357,19 +311,14 @@ function search(codeOrFilePath, query, config = {}) {
   // Sort by start line for efficient lookup
   functionBoundaries.sort((a, b) => a.start - b.start);
   
-  // Helper to extract Express route name from CallExpression
   const extractExpressRouteName = (node) => {
-    // Handle app.get('/route'), app.post('/route'), router.get('/route')
     if (node.type === 'CallExpression' && node.callee && node.callee.type === 'MemberExpression') {
       const obj = node.callee.object;
       const prop = node.callee.property;
-      
-      // Check if it's app.METHOD or router.METHOD
       const objName = obj.name || (obj.callee && obj.callee.property && obj.callee.property.name);
       const methodName = prop.name;
       
       if (['get', 'post', 'put', 'patch', 'delete', 'use', 'all'].includes(methodName)) {
-        // Get the route path from first argument
         if (node.arguments && node.arguments.length > 0) {
           const firstArg = node.arguments[0];
           if (firstArg.type === 'StringLiteral' || firstArg.type === 'Literal') {
@@ -377,7 +326,6 @@ function search(codeOrFilePath, query, config = {}) {
             const callerName = obj.name || 'app';
             return `${callerName}.${methodName}('${route}')`;
           }
-          // Handle middleware like app.use((err, req, res, next) => ...)
           if (firstArg.type === 'ArrowFunctionExpression' || firstArg.type === 'FunctionExpression') {
             const params = firstArg.params.map(p => p.name).join(', ');
             return `${obj.name || 'app'}.${methodName}((${params}))`;
@@ -389,7 +337,6 @@ function search(codeOrFilePath, query, config = {}) {
     return null;
   };
   
-  // Second pass: score candidates
   traverse(ast, {
     enter(path) {
       const node = path.node;
@@ -398,23 +345,18 @@ function search(codeOrFilePath, query, config = {}) {
       const startLine = node.loc.start.line;
       const endLine = node.loc.end.line;
       
-      // Check for Express routes (app.get, app.post, etc.) FIRST
       let expressRouteName = null;
       if (path.isExpressionStatement() && node.expression && node.expression.type === 'CallExpression') {
         expressRouteName = extractExpressRouteName(node.expression);
       }
       
-      // Skip callback functions that are arguments to another function (like Express routes)
-      // This prevents the callback from being scored separately from its parent route
       if (path.isFunction()) {
         const parent = path.parentPath;
         if (parent && parent.isCallExpression()) {
           const grandParent = parent.parentPath;
           if (grandParent && grandParent.isExpressionStatement()) {
-            // Check if grandparent is an Express route
             const possibleRoute = extractExpressRouteName(grandParent.node.expression);
             if (possibleRoute) {
-              // This is a callback inside an Express route, skip it
               return;
             }
           }
@@ -456,7 +398,6 @@ function search(codeOrFilePath, query, config = {}) {
           }
         });
         
-        // Synonym matches
         expandedQueryTokens.forEach(et => {
           if (!queryTokenSet.has(et)) {
             const tf = docTF.get(et) || 0;
@@ -468,7 +409,6 @@ function search(codeOrFilePath, query, config = {}) {
           }
         });
         
-        // Partial matches
         queryTokens.forEach(qt => {
           if (!matchedTokens.has(qt) && qt.length >= 4) {
             nodeTokens.forEach(nt => {
@@ -480,7 +420,6 @@ function search(codeOrFilePath, query, config = {}) {
           }
         });
         
-        // Fuzzy matches
         queryTokens.forEach(qt => {
           if (!matchedTokens.has(qt) && qt.length >= 4) {
             for (const nt of nodeTokens) {
@@ -496,7 +435,6 @@ function search(codeOrFilePath, query, config = {}) {
           }
         });
         
-        // Bigram/Trigram matches
         queryBigrams.forEach(qb => {
           if (nodeBigrams.includes(qb)) score += WEIGHTS.BIGRAM_MATCH;
         });
@@ -504,26 +442,21 @@ function search(codeOrFilePath, query, config = {}) {
           if (nodeTrigrams.includes(qt)) score += WEIGHTS.TRIGRAM_MATCH;
         });
         
-        // Coverage bonus
         const coverage = matchedTokens.size / Math.max(1, queryTokens.length);
         score *= (1 + coverage * WEIGHTS.COVERAGE_MULT);
         
         if (score > 0) {
           let name = "";
           
-          // First try Express route name
           if (expressRouteName) {
             name = expressRouteName;
           }
-          // Then try standard identifiers
           else if (node.id && node.id.name) name = node.id.name.toLowerCase();
           else if (node.key && node.key.name) name = node.key.name.toLowerCase();
-          // For variable declarations, get the variable name
           else if (node.declarations && node.declarations[0] && node.declarations[0].id) {
             name = node.declarations[0].id.name || '';
           }
           
-          // Name matching bonus
           if (name) {
             const nameTokens = tokenize(name, true);
             const nameTokensRaw = tokenize(name, false);
@@ -568,12 +501,6 @@ function search(codeOrFilePath, query, config = {}) {
   // Sort by score
   candidates.sort((a, b) => b.score - a.score);
   
-  /**
-   * SMART RANGE EXPANSION
-   * - If result is inside a small function (< maxLines) → expand to full function
-   * - If result is inside a big function (> maxLines) → take chunk around match
-   * - Ensure at least minLines are included
-   */
   const smartExpandRange = (start, end, originalSize) => {
     let newStart = start;
     let newEnd = end;
@@ -616,8 +543,6 @@ function search(codeOrFilePath, query, config = {}) {
         newStart = Math.max(containingBlock.start, midPoint - halfMax);
         newEnd = Math.min(containingBlock.end, midPoint + halfMax);
         
-        // Ensure we don't cut off mid-statement - look for empty lines or braces
-        // Adjust start to nearest good boundary
         for (let i = newStart; i > Math.max(1, newStart - 10); i--) {
           const line = lines[i - 1].trim();
           if (line === '' || line === '{' || line.endsWith('{')) {
@@ -688,13 +613,10 @@ function search(codeOrFilePath, query, config = {}) {
       }
     }
   }
-  
+
   return finalResults;
 }
 
-/**
- * Fallback search when AST parsing fails
- */
 function fallbackSearch(lines, queryTokenSet, totalLines, queryTokens, cfg) {
   const lineScores = [];
   const queryTokensArr = Array.from(queryTokenSet);
@@ -749,16 +671,9 @@ function fallbackSearch(lines, queryTokenSet, totalLines, queryTokens, cfg) {
   return results;
 }
 
-/**
- * MAIN FUNCTION - Search and save to pickedup.json
- * 
- * @param {string} codeOrFilePath - Either code string or path to JS file
- * @param {string} query - Natural language search query
- * @param {Object} config - Configuration options
- */
 function searchAndSave(codeOrFilePath, query, config = {}) {
   const cfg = { ...DEFAULT_CONFIG, ...config };
-  
+  console.time("Total Search Time");
   // Determine if input is file path or code
   let code;
   let sourcePath = null;
@@ -810,19 +725,18 @@ function searchAndSave(codeOrFilePath, query, config = {}) {
   });
   
   console.log(`\n✅ Saved to: ${outputPath}`);
+  console.timeEnd("Total Search Time");
   
   return output;
 }
 
-// Export functions
 module.exports = { 
-  search,              // Core search function
-  searchAndSave,       // Search and save to JSON
-  DEFAULT_CONFIG,      // Default configuration
-  WEIGHTS              // Tunable weights (for advanced users)
+  search,
+  searchAndSave,
+  DEFAULT_CONFIG,
+  WEIGHTS
 };
 
-// CLI usage
 if (require.main === module) {
   const args = process.argv.slice(2);
   
