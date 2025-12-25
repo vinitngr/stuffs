@@ -1,0 +1,1003 @@
+{
+  "meta": {
+    "file": "test3.file.js",
+    "totalQuestions": 28,
+    "maxScore": 280
+  },
+  "questions": [
+    {
+      "id": 1,
+      "query": "How does the system retry failed tasks with exponential backoff?",
+      "description": "Retry Logic Core",
+      "truth": {
+        "start": 78,
+        "end": 93
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 521,
+            "end": 584
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 539,
+            "end": 566
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 525,
+            "end": 580
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 2,
+      "query": "Where is the exponential delay calculated for retries?",
+      "description": "Retry Delay Calculation",
+      "truth": {
+        "start": 86,
+        "end": 92
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 530,
+            "end": 544
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 530,
+            "end": 544
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 525,
+            "end": 580
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 3,
+      "query": "How many retry attempts are allowed per task?",
+      "description": "Retry Attempts Limit",
+      "truth": {
+        "start": 75,
+        "end": 93
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 521,
+            "end": 584
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 539,
+            "end": 566
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 525,
+            "end": 580
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 4,
+      "query": "Where are task attempts incremented?",
+      "description": "Attempts Increment",
+      "truth": {
+        "start": 81,
+        "end": 84
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 236,
+            "end": 344
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 539,
+            "end": 566
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 525,
+            "end": 580
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 5,
+      "query": "Where are system health metrics computed?",
+      "description": "Health Metrics Computation",
+      "truth": {
+        "start": 96,
+        "end": 105
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 421,
+            "end": 526
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 482,
+            "end": 507
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 425,
+            "end": 522
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 6,
+      "query": "How is system uptime calculated?",
+      "description": "Uptime Calculation",
+      "truth": {
+        "start": 96,
+        "end": 101
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 421,
+            "end": 526
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 482,
+            "end": 507
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 425,
+            "end": 522
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 7,
+      "query": "Where is success rate derived from completed and failed tasks?",
+      "description": "Success Rate Logic",
+      "truth": {
+        "start": 98,
+        "end": 104
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 179,
+            "end": 203
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 179,
+            "end": 203
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 240,
+            "end": 340
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 8,
+      "query": "Where are active and queued tasks counted?",
+      "description": "Queue and Active Counts",
+      "truth": {
+        "start": 97,
+        "end": 100
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 236,
+            "end": 344
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 245,
+            "end": 264
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 240,
+            "end": 340
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 9,
+      "query": "Where are tasks registered into the system?",
+      "description": "Task Registration",
+      "truth": {
+        "start": 33,
+        "end": 63
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 11,
+            "end": 31
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 11,
+            "end": 31
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 15,
+            "end": 27
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 10,
+      "query": "How are tasks added to the execution queue?",
+      "description": "Queue Push Logic",
+      "truth": {
+        "start": 44,
+        "end": 50
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 236,
+            "end": 344
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 245,
+            "end": 264
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 240,
+            "end": 340
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 11,
+      "query": "Where does task processing start automatically?",
+      "description": "Auto Queue Processing",
+      "truth": {
+        "start": 52,
+        "end": 55
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 502,
+            "end": 517
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 502,
+            "end": 517
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 183,
+            "end": 199
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 12,
+      "query": "How does the system enforce concurrency limits?",
+      "description": "Concurrency Control",
+      "truth": {
+        "start": 57,
+        "end": 70
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 179,
+            "end": 203
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 179,
+            "end": 203
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 183,
+            "end": 199
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 13,
+      "query": "Where is running task count incremented and decremented?",
+      "description": "Running Count Management",
+      "truth": {
+        "start": 65,
+        "end": 74
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 236,
+            "end": 344
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 245,
+            "end": 264
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 183,
+            "end": 199
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 14,
+      "query": "Where does task execution actually happen?",
+      "description": "Task Execution Flow",
+      "truth": {
+        "start": 60,
+        "end": 74
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 502,
+            "end": 517
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 502,
+            "end": 517
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 543,
+            "end": 562
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 15,
+      "query": "Where are task success events emitted?",
+      "description": "Task Success Event",
+      "truth": {
+        "start": 66,
+        "end": 69
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 236,
+            "end": 344
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 245,
+            "end": 264
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 263,
+            "end": 290
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 16,
+      "query": "Where are task failure events handled?",
+      "description": "Task Failure Handling",
+      "truth": {
+        "start": 69,
+        "end": 73
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 236,
+            "end": 344
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 245,
+            "end": 264
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 312,
+            "end": 319
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 17,
+      "query": "Where is database cleanup simulated?",
+      "description": "DB Cleanup Task",
+      "truth": {
+        "start": 155,
+        "end": 160
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 579,
+            "end": 652
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 579,
+            "end": 606
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 1,
+            "end": 2
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 18,
+      "query": "What logic simulates database failure?",
+      "description": "DB Failure Simulation",
+      "truth": {
+        "start": 156,
+        "end": 159
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 421,
+            "end": 526
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 308,
+            "end": 323
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 312,
+            "end": 319
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 19,
+      "query": "Where are image processing tasks created?",
+      "description": "Image Processing Tasks",
+      "truth": {
+        "start": 163,
+        "end": 170
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 236,
+            "end": 344
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 245,
+            "end": 264
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 240,
+            "end": 340
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 20,
+      "query": "How does the system periodically report status?",
+      "description": "Periodic Status Reporting",
+      "truth": {
+        "start": 173,
+        "end": 189
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 421,
+            "end": 526
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 482,
+            "end": 507
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 425,
+            "end": 522
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 21,
+      "query": "Where are metrics exported to disk?",
+      "description": "Metrics Export Logic",
+      "truth": {
+        "start": 118,
+        "end": 134
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 579,
+            "end": 652
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 482,
+            "end": 507
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 1,
+            "end": 2
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 22,
+      "query": "Where is metrics history read back from storage?",
+      "description": "Metrics Read History",
+      "truth": {
+        "start": 136,
+        "end": 144
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 579,
+            "end": 652
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 482,
+            "end": 507
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 1,
+            "end": 2
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 23,
+      "query": "How does the system handle graceful shutdown on SIGINT?",
+      "description": "SIGINT Shutdown Handler",
+      "truth": {
+        "start": 229,
+        "end": 232
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 421,
+            "end": 526
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 512,
+            "end": 525
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 425,
+            "end": 522
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 24,
+      "query": "Where are unhandled promise rejections logged?",
+      "description": "Unhandled Rejection Handler",
+      "truth": {
+        "start": 234,
+        "end": 238
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 421,
+            "end": 526
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 437,
+            "end": 473
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 443,
+            "end": 474
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 25,
+      "query": "How is disk usage calculated recursively?",
+      "description": "Disk Usage Calculation",
+      "truth": {
+        "start": 247,
+        "end": 260
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 530,
+            "end": 544
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 1,
+            "end": 2
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 1,
+            "end": 2
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 26,
+      "query": "Where does the filesystem traversal happen?",
+      "description": "Filesystem Traversal",
+      "truth": {
+        "start": 250,
+        "end": 259
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 1,
+            "end": 6
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 1,
+            "end": 2
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 1,
+            "end": 2
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 27,
+      "query": "Where is configuration loaded from environment variables?",
+      "description": "Configuration Manager",
+      "truth": {
+        "start": 268,
+        "end": 284
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 579,
+            "end": 652
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 630,
+            "end": 644
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 583,
+            "end": 648
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 28,
+      "query": "Where is CPU intensive computation simulated?",
+      "description": "Complex Math Algorithm",
+      "truth": {
+        "start": 287,
+        "end": 296
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "predicted": {
+            "start": 530,
+            "end": 544
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "predicted": {
+            "start": 521,
+            "end": 584
+          },
+          "overlapLines": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "predicted": {
+            "start": 534,
+            "end": 540
+          },
+          "overlapLines": 0,
+          "marks": 0
+        }
+      }
+    }
+  ],
+  "finalScores": {
+    "Gemini-3.0-pro": {
+      "score": 0,
+      "accuracy": 0
+    },
+    "GPT-5.1-codex-max": {
+      "score": 0,
+      "accuracy": 0
+    },
+    "Claude-Opus-4.5": {
+      "score": 0,
+      "accuracy": 0
+    }
+  }
+}

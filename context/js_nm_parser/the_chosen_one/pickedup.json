@@ -1,0 +1,50 @@
+{
+  "query": "how does the load balancer select servers",
+  "timestamp": "2025-12-25T01:47:44.507Z",
+  "config": {
+    "minLines": 40,
+    "maxLines": 100,
+    "topK": 3,
+    "smartExpand": true
+  },
+  "source": "../test3.file.js",
+  "totalResults": 3,
+  "results": [
+    {
+      "rank": 1,
+      "start": 78,
+      "end": 150,
+      "originalStart": 78,
+      "originalEnd": 150,
+      "lines": 73,
+      "score": 9939.26,
+      "name": "loadbalancer",
+      "type": "ClassDeclaration",
+      "code": "class LoadBalancer {\r\n  constructor(strategy = 'round-robin') {\r\n    this.strategy = strategy;\r\n    this.currentIndex = 0;\r\n    this.weights = new Map();\r\n    this.activeConnections = new Map();\r\n  }\r\n\r\n  // Select next server using round-robin\r\n  roundRobinSelect(servers) {\r\n    if (servers.length === 0) return null;\r\n    const server = servers[this.currentIndex % servers.length];\r\n    this.currentIndex++;\r\n    return server;\r\n  }\r\n\r\n  // Select server with least connections\r\n  leastConnectionsSelect(servers) {\r\n    if (servers.length === 0) return null;\r\n    let minConnections = Infinity;\r\n    let selectedServer = null;\r\n    \r\n    for (const server of servers) {\r\n      const connections = this.activeConnections.get(server.id) || 0;\r\n      if (connections < minConnections) {\r\n        minConnections = connections;\r\n        selectedServer = server;\r\n      }\r\n    }\r\n    return selectedServer;\r\n  }\r\n\r\n  // Select server based on weighted distribution\r\n  weightedSelect(servers) {\r\n    if (servers.length === 0) return null;\r\n    const totalWeight = servers.reduce((sum, s) => \r\n      sum + (this.weights.get(s.id) || 1), 0);\r\n    let random = Math.random() * totalWeight;\r\n    \r\n    for (const server of servers) {\r\n      const weight = this.weights.get(server.id) || 1;\r\n      random -= weight;\r\n      if (random <= 0) return server;\r\n    }\r\n    return servers[0];\r\n  }\r\n\r\n  // Main selection method\r\n  selectServer(servers) {\r\n    switch (this.strategy) {\r\n      case 'round-robin':\r\n        return this.roundRobinSelect(servers);\r\n      case 'least-connections':\r\n        return this.leastConnectionsSelect(servers);\r\n      case 'weighted':\r\n        return this.weightedSelect(servers);\r\n      default:\r\n        return this.roundRobinSelect(servers);\r\n    }\r\n  }\r\n\r\n  // Track connection start\r\n  connectionStart(serverId) {\r\n    const current = this.activeConnections.get(serverId) || 0;\r\n    this.activeConnections.set(serverId, current + 1);\r\n  }\r\n\r\n  // Track connection end\r\n  connectionEnd(serverId) {\r\n    const current = this.activeConnections.get(serverId) || 0;\r\n    this.activeConnections.set(serverId, Math.max(0, current - 1));\r\n  }\r\n}\r"
+    },
+    {
+      "rank": 2,
+      "start": 153,
+      "end": 237,
+      "originalStart": 153,
+      "originalEnd": 237,
+      "lines": 85,
+      "score": 9774.84,
+      "name": "apigateway",
+      "type": "ClassDeclaration",
+      "code": "class APIGateway {\r\n  constructor(registry, loadBalancer) {\r\n    this.registry = registry;\r\n    this.loadBalancer = loadBalancer;\r\n    this.rateLimits = new Map();\r\n    this.apiKeys = new Map();\r\n    this.requestCount = 0;\r\n  }\r\n\r\n  // Validate API key\r\n  validateApiKey(apiKey) {\r\n    if (!apiKey) return { valid: false, reason: 'Missing API key' };\r\n    const keyData = this.apiKeys.get(apiKey);\r\n    if (!keyData) return { valid: false, reason: 'Invalid API key' };\r\n    if (keyData.expiresAt && keyData.expiresAt < Date.now()) {\r\n      return { valid: false, reason: 'API key expired' };\r\n    }\r\n    return { valid: true, permissions: keyData.permissions };\r\n  }\r\n\r\n  // Register a new API key\r\n  registerApiKey(apiKey, permissions = [], expiresIn = null) {\r\n    this.apiKeys.set(apiKey, {\r\n      permissions,\r\n      createdAt: Date.now(),\r\n      expiresAt: expiresIn ? Date.now() + expiresIn : null\r\n    });\r\n  }\r\n\r\n  // Check rate limit for a client\r\n  checkRateLimit(clientId, limit = 100, windowMs = 60000) {\r\n    const now = Date.now();\r\n    const clientData = this.rateLimits.get(clientId) || { count: 0, windowStart: now };\r\n    \r\n    if (now - clientData.windowStart > windowMs) {\r\n      clientData.count = 0;\r\n      clientData.windowStart = now;\r\n    }\r\n    \r\n    if (clientData.count >= limit) {\r\n      return { allowed: false, retryAfter: clientData.windowStart + windowMs - now };\r\n    }\r\n    \r\n    clientData.count++;\r\n    this.rateLimits.set(clientId, clientData);\r\n    return { allowed: true, remaining: limit - clientData.count };\r\n  }\r\n\r\n  // Route request to appropriate service\r\n  async routeRequest(serviceName, request) {\r\n    this.requestCount++;\r\n    \r\n    // Discover available instances\r\n    const instances = this.registry.discoverService(serviceName);\r\n    if (instances.length === 0) {\r\n      return { error: 'Service unavailable', status: 503 };\r\n    }\r\n    \r\n    // Select instance using load balancer\r\n    const selected = this.loadBalancer.selectServer(instances);\r\n    this.loadBalancer.connectionStart(selected.id);\r\n    \r\n    try {\r\n      // Forward request to selected instance\r\n      const response = await this.forwardRequest(selected.endpoint, request);\r\n      return response;\r\n    } finally {\r\n      this.loadBalancer.connectionEnd(selected.id);\r\n    }\r\n  }\r\n\r\n  // Forward request to backend service\r\n  async forwardRequest(endpoint, request) {\r\n    // Simulate HTTP request forwarding\r\n    return new Promise(resolve => {\r\n      setTimeout(() => {\r\n        resolve({ \r\n          status: 200, \r\n          data: { forwarded: true, endpoint },\r\n          timestamp: Date.now()\r\n        });\r\n      }, Math.random() * 100);\r\n    });\r\n  }\r\n}\r"
+    },
+    {
+      "rank": 3,
+      "start": 636,
+      "end": 661,
+      "originalStart": 651,
+      "originalEnd": 660,
+      "lines": 26,
+      "score": 2057.55,
+      "name": null,
+      "type": "ExpressionStatement",
+      "code": "    for (const [key, entry] of this.config) {\r\n      result[key] = entry.value;\r\n    }\r\n    return result;\r\n  }\r\n\r\n  // Load configuration from object\r\n  loadFromObject(obj) {\r\n    for (const [key, value] of Object.entries(obj)) {\r\n      this.setValue(key, value);\r\n    }\r\n  }\r\n}\r\n\r\n// ============== Export Classes ==============\r\nmodule.exports = {\r\n  ServiceRegistry,\r\n  LoadBalancer,\r\n  APIGateway,\r\n  MessageQueue,\r\n  DistributedLock,\r\n  HealthMonitor,\r\n  RetryHandler,\r\n  ConfigStore\r\n};\r\n"
+    }
+  ]
+}

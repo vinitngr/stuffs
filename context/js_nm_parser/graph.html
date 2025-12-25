@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Code Retrieval Benchmark</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-900 text-gray-100 min-h-screen p-6">
+  <div class="max-w-7xl mx-auto">
+    <h1 class="text-2xl font-bold mb-2">IDE Context Retrieval Benchmark</h1>
+    <p class="text-gray-400 mb-6">
+      X-axis: Questions (1–30) · Y-axis: Overlap Ratio (Truth Coverage)
+    </p>
+
+    <div class="bg-gray-800 p-4 rounded-xl shadow">
+      <canvas id="benchmarkChart" height="120"></canvas>
+    </div>
+  </div>
+
+<script>
+async function loadBenchmark() {
+  const res = await fetch('benchmark_results.json');
+  const data = await res.json();
+
+  const questions = data.questions;
+  const models = Object.keys(data.finalScores);
+
+  const labels = questions.map(q => `Q${q.id}`);
+
+  // Ground truth = always 1.0 (full coverage reference)
+  const groundTruth = questions.map(() => 1.0);
+
+  const datasets = [];
+
+  datasets.push({
+    label: 'Ground Truth',
+    data: groundTruth,
+    borderColor: '#ffffff',
+    backgroundColor: '#ffffff',
+    borderWidth: 4,
+    pointRadius: 0,
+    tension: 0,
+    order: 0
+  });
+
+  const COLORS = {
+    Gemini: '#22c55e',
+    'GPT-4': '#3b82f6',
+    Claude: '#f97316',
+    DeepSeek: '#ef4444'
+  };
+
+  models.forEach(model => {
+    const points = questions.map(q => {
+      const r = q.results[model];
+      if (!r || !r.predicted) return 0;
+      return Math.min(1, r.marks / 10);
+    });
+
+    datasets.push({
+      label: model,
+      data: points,
+      borderColor: COLORS[model] || '#888888',
+      backgroundColor: COLORS[model] || '#888888',
+      borderWidth: 2,
+      pointRadius: 3,
+      tension: 0.25,
+      order: 1
+    });
+  });
+
+  const ctx = document.getElementById('benchmarkChart');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets
+    },
+    options: {
+      responsive: true,
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: '#e5e7eb'
+          }
+        },
+        tooltip: {
+          backgroundColor: '#111827',
+          borderColor: '#374151',
+          borderWidth: 1,
+          callbacks: {
+            label: ctx => {
+              const v = ctx.parsed.y;
+              return `${ctx.dataset.label}: ${(v * 100).toFixed(1)}% overlap`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: '#9ca3af'
+          },
+          grid: {
+            color: '#1f2937'
+          }
+        },
+        y: {
+          min: 0,
+          max: 1,
+          ticks: {
+            color: '#9ca3af',
+            callback: v => `${Math.round(v * 100)}%`
+          },
+          grid: {
+            color: '#1f2937'
+          }
+        }
+      }
+    }
+  });
+}
+
+loadBenchmark();
+</script>
+</body>
+</html>

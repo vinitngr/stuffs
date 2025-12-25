@@ -1,0 +1,289 @@
+{
+  "testFile": "test2.file.js",
+  "timestamp": "2025-12-25T01:00:05.642Z",
+  "maxScore": 300,
+  "scores": {
+    "Gemini-3.0-pro": 210,
+    "GPT-5.1-codex-max": 156.66666666666669,
+    "Claude-Opus-4.5": 214.69590643274853,
+    "DeepSeek-R1": 0
+  },
+  "accuracy": {
+    "Gemini-3.0-pro": "70.0%",
+    "GPT-5.1-codex-max": "52.2%",
+    "Claude-Opus-4.5": "71.6%",
+    "DeepSeek-R1": "0.0%"
+  },
+  "questions": [
+    {
+      "id": "Q1",
+      "name": "Cache Set Operation",
+      "query": "Where does the cache store values with TTL?",
+      "truth": {
+        "start": 16,
+        "end": 21
+      }
+    },
+    {
+      "id": "Q2",
+      "name": "Cache Get Logic",
+      "query": "How does the cache retrieve values and track hits/misses?",
+      "truth": {
+        "start": 22,
+        "end": 35
+      }
+    },
+    {
+      "id": "Q3",
+      "name": "Cache Cleanup Scheduler",
+      "query": "Where is automatic cache cleanup scheduled?",
+      "truth": {
+        "start": 37,
+        "end": 44
+      }
+    },
+    {
+      "id": "Q4",
+      "name": "Cache Statistics",
+      "query": "How are cache hit rate statistics calculated?",
+      "truth": {
+        "start": 46,
+        "end": 56
+      }
+    },
+    {
+      "id": "Q5",
+      "name": "Token Bucket Refill",
+      "query": "Where are rate limiter tokens refilled over time?",
+      "truth": {
+        "start": 75,
+        "end": 84
+      }
+    },
+    {
+      "id": "Q6",
+      "name": "Rate Limit Check",
+      "query": "How does the system check if a request is rate limited?",
+      "truth": {
+        "start": 85,
+        "end": 102
+      }
+    },
+    {
+      "id": "Q7",
+      "name": "Client Blocking",
+      "query": "Where are clients blocked for exceeding limits?",
+      "truth": {
+        "start": 104,
+        "end": 107
+      }
+    },
+    {
+      "id": "Q8",
+      "name": "Block Status Check",
+      "query": "How is client block status verified?",
+      "truth": {
+        "start": 108,
+        "end": 116
+      }
+    },
+    {
+      "id": "Q9",
+      "name": "Request Logging",
+      "query": "Where are HTTP requests logged with metadata?",
+      "truth": {
+        "start": 129,
+        "end": 145
+      }
+    },
+    {
+      "id": "Q10",
+      "name": "Log Rotation",
+      "query": "How does the logger rotate old entries?",
+      "truth": {
+        "start": 147,
+        "end": 152
+      }
+    },
+    {
+      "id": "Q11",
+      "name": "Error Rate Calculation",
+      "query": "Where is the request error rate calculated?",
+      "truth": {
+        "start": 162,
+        "end": 166
+      }
+    },
+    {
+      "id": "Q12",
+      "name": "Log Search Filter",
+      "query": "How can logs be searched with filters?",
+      "truth": {
+        "start": 167,
+        "end": 176
+      }
+    },
+    {
+      "id": "Q13",
+      "name": "Middleware Registration",
+      "query": "Where is middleware added to the router?",
+      "truth": {
+        "start": 188,
+        "end": 190
+      }
+    },
+    {
+      "id": "Q14",
+      "name": "Route Registration",
+      "query": "How are routes added with method and path?",
+      "truth": {
+        "start": 192,
+        "end": 195
+      }
+    },
+    {
+      "id": "Q15",
+      "name": "Middleware Execution Chain",
+      "query": "How does the router execute middleware in sequence?",
+      "truth": {
+        "start": 217,
+        "end": 229
+      }
+    },
+    {
+      "id": "Q16",
+      "name": "Route Handler Dispatch",
+      "query": "Where does the router match and dispatch to handlers?",
+      "truth": {
+        "start": 231,
+        "end": 245
+      }
+    },
+    {
+      "id": "Q17",
+      "name": "Auth Middleware",
+      "query": "Where is the Bearer token authentication checked?",
+      "truth": {
+        "start": 279,
+        "end": 292
+      }
+    },
+    {
+      "id": "Q18",
+      "name": "Token Validation",
+      "query": "How are authentication tokens validated?",
+      "truth": {
+        "start": 287,
+        "end": 296
+      }
+    },
+    {
+      "id": "Q19",
+      "name": "Session Creation",
+      "query": "Where are user sessions created with IDs?",
+      "truth": {
+        "start": 349,
+        "end": 361
+      }
+    },
+    {
+      "id": "Q20",
+      "name": "Session ID Generation",
+      "query": "How are unique session IDs generated?",
+      "truth": {
+        "start": 362,
+        "end": 364
+      }
+    },
+    {
+      "id": "Q21",
+      "name": "Session Retrieval",
+      "query": "Where is session data retrieved and validated?",
+      "truth": {
+        "start": 365,
+        "end": 377
+      }
+    },
+    {
+      "id": "Q22",
+      "name": "Expired Session Cleanup",
+      "query": "How are expired sessions cleaned up?",
+      "truth": {
+        "start": 382,
+        "end": 391
+      }
+    },
+    {
+      "id": "Q23",
+      "name": "Email Validation",
+      "query": "Where is email format validated with regex?",
+      "truth": {
+        "start": 399,
+        "end": 403
+      }
+    },
+    {
+      "id": "Q24",
+      "name": "Password Validation",
+      "query": "How are password requirements enforced?",
+      "truth": {
+        "start": 404,
+        "end": 409
+      }
+    },
+    {
+      "id": "Q25",
+      "name": "Input Sanitization",
+      "query": "Where is user input sanitized for XSS?",
+      "truth": {
+        "start": 416,
+        "end": 424
+      }
+    },
+    {
+      "id": "Q26",
+      "name": "Connection Acquisition",
+      "query": "How does the pool acquire database connections?",
+      "truth": {
+        "start": 453,
+        "end": 464
+      }
+    },
+    {
+      "id": "Q27",
+      "name": "Connection Release",
+      "query": "Where are connections released back to the pool?",
+      "truth": {
+        "start": 466,
+        "end": 477
+      }
+    },
+    {
+      "id": "Q28",
+      "name": "Event Subscription",
+      "query": "How are event listeners subscribed?",
+      "truth": {
+        "start": 498,
+        "end": 508
+      }
+    },
+    {
+      "id": "Q29",
+      "name": "Event Publishing",
+      "query": "Where are events published to subscribers?",
+      "truth": {
+        "start": 514,
+        "end": 530
+      }
+    },
+    {
+      "id": "Q30",
+      "name": "Circuit Breaker Execute",
+      "query": "How does the circuit breaker protect function calls?",
+      "truth": {
+        "start": 572,
+        "end": 590
+      }
+    }
+  ]
+}

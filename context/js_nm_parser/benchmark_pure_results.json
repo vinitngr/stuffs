@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-12-25T01:20:53.103Z",
+  "analysis": "keyword-independence",
+  "benchmarks": [
+    {
+      "name": "BENCHMARK 1 (test.file.js)",
+      "scores": {
+        "Gemini (biased)": 123.46685340802986,
+        "GPT (biased)": 138.17273576097105,
+        "Claude (biased)": 207.50326797385623,
+        "Claude (PURE)": 209.33660130718954
+      },
+      "maxScore": 280
+    },
+    {
+      "name": "BENCHMARK 2 (test2.file.js)",
+      "scores": {
+        "Gemini (biased)": 220,
+        "GPT (biased)": 156.66666666666669,
+        "Claude (biased)": 214.69590643274853,
+        "Claude (PURE)": 221.63398692810458
+      },
+      "maxScore": 300
+    }
+  ]
+}

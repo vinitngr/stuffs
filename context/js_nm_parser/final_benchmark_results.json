@@ -1,0 +1,2568 @@
+{
+  "timestamp": "2025-12-25T01:28:04.907Z",
+  "summary": {
+    "Claude (biased)": {
+      "score": 730.6333013907318,
+      "maxScore": 880,
+      "percentage": 83,
+      "type": "BIASED"
+    },
+    "Claude PURE": {
+      "score": 692.6354844501905,
+      "maxScore": 880,
+      "percentage": 78.7,
+      "type": "PURE"
+    },
+    "Gemini (biased)": {
+      "score": 555.8719754102107,
+      "maxScore": 880,
+      "percentage": 63.2,
+      "type": "BIASED"
+    },
+    "Gemini PURE": {
+      "score": 467.64203330930087,
+      "maxScore": 880,
+      "percentage": 53.1,
+      "type": "PURE"
+    }
+  },
+  "byFile": [
+    {
+      "file": "test.file.js",
+      "name": "Task Queue System",
+      "questions": 24,
+      "scores": {
+        "Claude PURE": 201.22549019607843,
+        "Gemini PURE": 98.8181078883166,
+        "Claude (biased)": 196.05882352941177,
+        "Gemini (biased)": 102.68907563025209
+      },
+      "details": [
+        {
+          "query": "How does the system retry failed tasks with exponential backoff?",
+          "truth": "L78-93",
+          "category": "Retry",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L140-183",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L140-183",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where is the exponential delay calculated for retries?",
+          "truth": "L86-92",
+          "category": "Retry",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L79-94",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L75-98",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L79-94",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L75-98",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How many retry attempts are allowed per task?",
+          "truth": "L75-93",
+          "category": "Retry",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L75-98",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L75-98",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where are task attempts incremented?",
+          "truth": "L81-84",
+          "category": "Retry",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L26-51",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L26-51",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where are system health metrics computed?",
+          "truth": "L96-105",
+          "category": "Metrics",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L144-179",
+              "score": "0.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L92-108",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L96-104",
+              "score": "9.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L92-108",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How is system uptime calculated?",
+          "truth": "L96-101",
+          "category": "Metrics",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L96-104",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L140-183",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L96-104",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L140-183",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where is success rate derived from completed and failed tasks?",
+          "truth": "L98-104",
+          "category": "Metrics",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L243-266",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L243-266",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where are active and queued tasks counted?",
+          "truth": "L97-100",
+          "category": "Metrics",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L96-104",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L45-81",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L45-81",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where are tasks registered into the system?",
+          "truth": "L33-63",
+          "category": "Queue",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L26-51",
+              "score": "6.1"
+            },
+            "Claude (biased)": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L140-183",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "How are tasks added to the execution queue?",
+          "truth": "L44-50",
+          "category": "Queue",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L45-81",
+              "score": "8.6"
+            },
+            "Claude (biased)": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L45-81",
+              "score": "8.6"
+            }
+          }
+        },
+        {
+          "query": "Where does task processing start automatically?",
+          "truth": "L52-55",
+          "category": "Queue",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L26-51",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L45-81",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How does the system enforce concurrency limits?",
+          "truth": "L57-70",
+          "category": "Queue",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L140-183",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L140-183",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where is running task count incremented and decremented?",
+          "truth": "L65-74",
+          "category": "Queue",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L26-51",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L140-183",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where does task execution actually happen?",
+          "truth": "L60-74",
+          "category": "Queue",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L26-51",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L49-77",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L75-98",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where are task success events emitted?",
+          "truth": "L66-69",
+          "category": "Events",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L1-5",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L1-5",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where are task failure events handled?",
+          "truth": "L69-73",
+          "category": "Events",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L1-5",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L9-105",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L1-5",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where is database cleanup simulated?",
+          "truth": "L155-160",
+          "category": "Database",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L154-158",
+              "score": "6.7"
+            },
+            "Gemini PURE": {
+              "predicted": "L140-183",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L144-179",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L140-183",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "What logic simulates database failure?",
+          "truth": "L156-159",
+          "category": "Database",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L144-179",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L140-183",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L144-179",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L140-183",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where are image processing tasks created?",
+          "truth": "L163-170",
+          "category": "Tasks",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L9-105",
+              "score": "0.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L26-51",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L30-47",
+              "score": "0.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L26-51",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "How does the system periodically report status?",
+          "truth": "L173-189",
+          "category": "Status",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L169-178",
+              "score": "3.5"
+            },
+            "Gemini PURE": {
+              "predicted": "L140-183",
+              "score": "6.5"
+            },
+            "Claude (biased)": {
+              "predicted": "L144-179",
+              "score": "4.1"
+            },
+            "Gemini (biased)": {
+              "predicted": "L140-183",
+              "score": "6.5"
+            }
+          }
+        },
+        {
+          "query": "Where are metrics exported to disk?",
+          "truth": "L118-134",
+          "category": "Metrics",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L116-129",
+              "score": "7.1"
+            },
+            "Gemini PURE": {
+              "predicted": "L243-266",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L247-262",
+              "score": "0.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L243-266",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "How does the system handle graceful shutdown on SIGINT?",
+          "truth": "L229-232",
+          "category": "Lifecycle",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L228-231",
+              "score": "7.5"
+            },
+            "Gemini PURE": {
+              "predicted": "L224-235",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L144-179",
+              "score": "0.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L224-235",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How is disk usage calculated recursively?",
+          "truth": "L247-260",
+          "category": "Filesystem",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L247-262",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L243-266",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L247-262",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L243-266",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where is configuration loaded from environment variables?",
+          "truth": "L268-284",
+          "category": "Config",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L264-278",
+              "score": "6.5"
+            },
+            "Gemini PURE": {
+              "predicted": "L269-281",
+              "score": "7.6"
+            },
+            "Claude (biased)": {
+              "predicted": "L273-277",
+              "score": "2.9"
+            },
+            "Gemini (biased)": {
+              "predicted": "L269-281",
+              "score": "7.6"
+            }
+          }
+        }
+      ],
+      "maxScore": 240
+    },
+    {
+      "file": "test2.file.js",
+      "name": "Web Framework",
+      "questions": 30,
+      "scores": {
+        "Claude PURE": 221.63398692810458,
+        "Gemini PURE": 143.33333333333334,
+        "Claude (biased)": 214.69590643274853,
+        "Gemini (biased)": 220
+      },
+      "details": [
+        {
+          "query": "Where does the cache store values with TTL?",
+          "truth": "L16-21",
+          "category": "Cache",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L8-61",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L12-24",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L8-61",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L4-65",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How does the cache retrieve values and track hits/misses?",
+          "truth": "L22-35",
+          "category": "Cache",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L8-61",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L104-119",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L8-61",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L104-119",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where is automatic cache cleanup scheduled?",
+          "truth": "L37-44",
+          "category": "Cache",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L37-44",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L33-48",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L8-61",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L33-48",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How are cache hit rate statistics calculated?",
+          "truth": "L46-56",
+          "category": "Cache",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L8-61",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L684-694",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L669-750",
+              "score": "0.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L104-119",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where are rate limiter tokens refilled over time?",
+          "truth": "L75-84",
+          "category": "RateLimiter",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L66-116",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L324-342",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L66-116",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L71-87",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How does the system check if a request is rate limited?",
+          "truth": "L85-102",
+          "category": "RateLimiter",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L669-750",
+              "score": "0.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L213-233",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L669-750",
+              "score": "0.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L357-367",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where are clients blocked for exceeding limits?",
+          "truth": "L104-107",
+          "category": "RateLimiter",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L66-116",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L104-119",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L66-116",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L104-119",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How is client block status verified?",
+          "truth": "L108-116",
+          "category": "RateLimiter",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L669-750",
+              "score": "0.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L100-110",
+              "score": "3.3"
+            },
+            "Claude (biased)": {
+              "predicted": "L669-750",
+              "score": "0.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L104-119",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where are HTTP requests logged with metadata?",
+          "truth": "L129-145",
+          "category": "Logger",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L712-740",
+              "score": "0.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L698-709",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L640-664",
+              "score": "0.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L117-180",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How does the logger rotate old entries?",
+          "truth": "L147-152",
+          "category": "Logger",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L121-176",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L147-160",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L669-750",
+              "score": "0.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L147-160",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where is the request error rate calculated?",
+          "truth": "L162-166",
+          "category": "Logger",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L712-740",
+              "score": "0.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L213-233",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L669-750",
+              "score": "0.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L158-169",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How can logs be searched with filters?",
+          "truth": "L167-176",
+          "category": "Logger",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L167-175",
+              "score": "9.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L163-179",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L121-176",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L163-179",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where is middleware added to the router?",
+          "truth": "L188-190",
+          "category": "Router",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L181-247",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L213-233",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L181-247",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L213-233",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "How are routes added with method and path?",
+          "truth": "L192-195",
+          "category": "Router",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L669-750",
+              "score": "0.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L188-199",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L181-247",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L188-199",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How does the router execute middleware in sequence?",
+          "truth": "L217-229",
+          "category": "Router",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L181-247",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L213-233",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L181-247",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L213-233",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where does the router match and dispatch to handlers?",
+          "truth": "L231-245",
+          "category": "Router",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L669-750",
+              "score": "0.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L227-250",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L181-247",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L227-250",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where is the Bearer token authentication checked?",
+          "truth": "L279-292",
+          "category": "Auth",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L279-294",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L275-298",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L279-294",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L71-87",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "How are authentication tokens validated?",
+          "truth": "L287-296",
+          "category": "Auth",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L279-294",
+              "score": "8.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L275-298",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L66-116",
+              "score": "0.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L104-119",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where are user sessions created with IDs?",
+          "truth": "L349-361",
+          "category": "Session",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L343-394",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L213-233",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L343-394",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L345-363",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How are unique session IDs generated?",
+          "truth": "L362-364",
+          "category": "Session",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L343-394",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L357-367",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L343-394",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L357-367",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where is session data retrieved and validated?",
+          "truth": "L365-377",
+          "category": "Session",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L669-750",
+              "score": "0.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L688-704",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L343-394",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L378-393",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "How are expired sessions cleaned up?",
+          "truth": "L382-391",
+          "category": "Session",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L343-394",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L378-393",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L343-394",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L378-393",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where is email format validated with regex?",
+          "truth": "L399-403",
+          "category": "Validation",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L399-402",
+              "score": "8.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L688-704",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L399-402",
+              "score": "8.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L395-406",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How are password requirements enforced?",
+          "truth": "L404-409",
+          "category": "Validation",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L404-408",
+              "score": "8.3"
+            },
+            "Gemini PURE": {
+              "predicted": "L213-233",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L404-408",
+              "score": "8.3"
+            },
+            "Gemini (biased)": {
+              "predicted": "L308-327",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where is user input sanitized for XSS?",
+          "truth": "L416-424",
+          "category": "Validation",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L416-423",
+              "score": "8.9"
+            },
+            "Gemini PURE": {
+              "predicted": "L412-427",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L416-423",
+              "score": "8.9"
+            },
+            "Gemini (biased)": {
+              "predicted": "L412-427",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How does the pool acquire database connections?",
+          "truth": "L453-464",
+          "category": "Database",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L428-486",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L636-668",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L453-464",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L449-468",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where are connections released back to the pool?",
+          "truth": "L466-477",
+          "category": "Database",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L428-486",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L213-233",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L640-664",
+              "score": "0.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L462-480",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How are event listeners subscribed?",
+          "truth": "L498-508",
+          "category": "Events",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L491-537",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L213-233",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L491-537",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L494-509",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where are events published to subscribers?",
+          "truth": "L514-530",
+          "category": "Events",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L514-529",
+              "score": "9.4"
+            },
+            "Gemini PURE": {
+              "predicted": "L510-533",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L491-537",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L510-533",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How does the circuit breaker protect function calls?",
+          "truth": "L572-590",
+          "category": "CircuitBreaker",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L563-612",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L213-233",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L572-589",
+              "score": "9.5"
+            },
+            "Gemini (biased)": {
+              "predicted": "L559-616",
+              "score": "10.0"
+            }
+          }
+        }
+      ],
+      "maxScore": 300
+    },
+    {
+      "file": "test3.file.js",
+      "name": "Microservices Patterns",
+      "questions": 34,
+      "scores": {
+        "Claude PURE": 269.7760073260073,
+        "Gemini PURE": 225.49059208765092,
+        "Claude (biased)": 319.87857142857143,
+        "Gemini (biased)": 233.1828997799586
+      },
+      "details": [
+        {
+          "query": "How are new services registered with endpoints?",
+          "truth": "L14-27",
+          "category": "ServiceRegistry",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L153-237",
+              "score": "0.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L11-31",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L7-75",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L11-31",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where is a service deregistered by ID?",
+          "truth": "L30-40",
+          "category": "ServiceRegistry",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L30-40",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L26-44",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L7-75",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L26-44",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How does service discovery find healthy instances?",
+          "truth": "L43-51",
+          "category": "ServiceRegistry",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L7-75",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L39-55",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L7-75",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L39-55",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where is heartbeat updated for a service?",
+          "truth": "L54-60",
+          "category": "ServiceRegistry",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L54-60",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L26-44",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L54-60",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L11-31",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "How are stale services detected and marked unhealthy?",
+          "truth": "L63-73",
+          "category": "ServiceRegistry",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L63-74",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L59-78",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L7-75",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L59-78",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How does round-robin select the next server?",
+          "truth": "L82-88",
+          "category": "LoadBalancer",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L78-150",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L83-96",
+              "score": "8.6"
+            },
+            "Claude (biased)": {
+              "predicted": "L78-150",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L83-96",
+              "score": "8.6"
+            }
+          }
+        },
+        {
+          "query": "Where is the server with least connections selected?",
+          "truth": "L91-107",
+          "category": "LoadBalancer",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L78-150",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L91-112",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L78-150",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L91-112",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How does weighted selection distribute traffic?",
+          "truth": "L110-123",
+          "category": "LoadBalancer",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L78-150",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L107-127",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L78-150",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L107-127",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where is connection tracking started for a server?",
+          "truth": "L139-142",
+          "category": "LoadBalancer",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L140-143",
+              "score": "7.5"
+            },
+            "Gemini PURE": {
+              "predicted": "L136-147",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L78-150",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L136-147",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How are active connections decremented?",
+          "truth": "L145-148",
+          "category": "LoadBalancer",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L140-143",
+              "score": "0.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L91-112",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L78-150",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L91-112",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "How is API key validated for expiry?",
+          "truth": "L161-169",
+          "category": "APIGateway",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L153-237",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L159-175",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L153-237",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L159-175",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where are new API keys registered?",
+          "truth": "L172-179",
+          "category": "APIGateway",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L174-180",
+              "score": "7.5"
+            },
+            "Gemini PURE": {
+              "predicted": "L170-184",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L153-237",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L170-184",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How does rate limiting check request counts?",
+          "truth": "L182-196",
+          "category": "APIGateway",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L153-237",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L179-203",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L153-237",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L179-203",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where are requests routed to backend services?",
+          "truth": "L199-217",
+          "category": "APIGateway",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L153-237",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L198-226",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L7-75",
+              "score": "0.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L198-226",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How is the request forwarded to the endpoint?",
+          "truth": "L220-232",
+          "category": "APIGateway",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L153-237",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L221-240",
+              "score": "9.2"
+            },
+            "Claude (biased)": {
+              "predicted": "L153-237",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L221-240",
+              "score": "9.2"
+            }
+          }
+        },
+        {
+          "query": "Where is a new message queue created?",
+          "truth": "L242-253",
+          "category": "MessageQueue",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L240-340",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L245-264",
+              "score": "7.5"
+            },
+            "Claude (biased)": {
+              "predicted": "L240-340",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L245-264",
+              "score": "7.5"
+            }
+          }
+        },
+        {
+          "query": "How are messages published with priority?",
+          "truth": "L256-280",
+          "category": "MessageQueue",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L263-290",
+              "score": "7.2"
+            },
+            "Gemini PURE": {
+              "predicted": "L259-294",
+              "score": "8.8"
+            },
+            "Claude (biased)": {
+              "predicted": "L263-290",
+              "score": "7.2"
+            },
+            "Gemini (biased)": {
+              "predicted": "L259-294",
+              "score": "8.8"
+            }
+          }
+        },
+        {
+          "query": "Where is a message consumed from the queue?",
+          "truth": "L283-293",
+          "category": "MessageQueue",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L240-340",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L289-306",
+              "score": "4.5"
+            },
+            "Claude (biased)": {
+              "predicted": "L240-340",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L289-306",
+              "score": "4.5"
+            }
+          }
+        },
+        {
+          "query": "How are failed messages moved to dead letter queue?",
+          "truth": "L301-308",
+          "category": "MessageQueue",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L312-319",
+              "score": "0.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L308-323",
+              "score": "1.3"
+            },
+            "Claude (biased)": {
+              "predicted": "L240-340",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L308-323",
+              "score": "1.3"
+            }
+          }
+        },
+        {
+          "query": "Where are queue subscribers notified?",
+          "truth": "L318-328",
+          "category": "MessageQueue",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L240-340",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L245-264",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L240-340",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L318-331",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How is a distributed lock acquired with timeout?",
+          "truth": "L338-357",
+          "category": "DistributedLock",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L343-422",
+              "score": "7.5"
+            },
+            "Gemini PURE": {
+              "predicted": "L346-375",
+              "score": "6.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L343-422",
+              "score": "7.5"
+            },
+            "Gemini (biased)": {
+              "predicted": "L346-375",
+              "score": "6.0"
+            }
+          }
+        },
+        {
+          "query": "Where does the system wait for lock release?",
+          "truth": "L360-372",
+          "category": "DistributedLock",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L343-422",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L370-388",
+              "score": "2.3"
+            },
+            "Claude (biased)": {
+              "predicted": "L343-422",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L383-414",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "How is a lock released and waiting queue processed?",
+          "truth": "L375-410",
+          "category": "DistributedLock",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L387-410",
+              "score": "6.7"
+            },
+            "Gemini PURE": {
+              "predicted": "L383-414",
+              "score": "7.8"
+            },
+            "Claude (biased)": {
+              "predicted": "L343-422",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L383-414",
+              "score": "7.8"
+            }
+          }
+        },
+        {
+          "query": "Where is lock duration extended?",
+          "truth": "L413-422",
+          "category": "DistributedLock",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L413-421",
+              "score": "9.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L409-425",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L343-422",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L409-425",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "How is a single health check executed?",
+          "truth": "L441-466",
+          "category": "HealthMonitor",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L443-474",
+              "score": "9.2"
+            },
+            "Gemini PURE": {
+              "predicted": "L59-78",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L425-522",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L421-526",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where are all health checks run together?",
+          "truth": "L469-475",
+          "category": "HealthMonitor",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L425-522",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L473-487",
+              "score": "4.3"
+            },
+            "Claude (biased)": {
+              "predicted": "L425-522",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L473-487",
+              "score": "4.3"
+            }
+          }
+        },
+        {
+          "query": "How is overall system health status determined?",
+          "truth": "L478-494",
+          "category": "HealthMonitor",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L486-503",
+              "score": "5.3"
+            },
+            "Gemini PURE": {
+              "predicted": "L482-507",
+              "score": "7.6"
+            },
+            "Claude (biased)": {
+              "predicted": "L425-522",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L482-507",
+              "score": "7.6"
+            }
+          }
+        },
+        {
+          "query": "Where is periodic health monitoring started?",
+          "truth": "L497-505",
+          "category": "HealthMonitor",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L425-522",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L502-517",
+              "score": "4.4"
+            },
+            "Claude (biased)": {
+              "predicted": "L425-522",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L502-517",
+              "score": "4.4"
+            }
+          }
+        },
+        {
+          "query": "How is exponential backoff delay calculated with jitter?",
+          "truth": "L524-531",
+          "category": "RetryHandler",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L525-580",
+              "score": "8.8"
+            },
+            "Gemini PURE": {
+              "predicted": "L530-544",
+              "score": "2.5"
+            },
+            "Claude (biased)": {
+              "predicted": "L525-580",
+              "score": "8.8"
+            },
+            "Gemini (biased)": {
+              "predicted": "L530-544",
+              "score": "2.5"
+            }
+          }
+        },
+        {
+          "query": "Where is function executed with retry logic?",
+          "truth": "L534-550",
+          "category": "RetryHandler",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L543-562",
+              "score": "4.7"
+            },
+            "Gemini PURE": {
+              "predicted": "L539-566",
+              "score": "7.1"
+            },
+            "Claude (biased)": {
+              "predicted": "L525-580",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L539-566",
+              "score": "7.1"
+            }
+          }
+        },
+        {
+          "query": "How does the system determine if an error is retryable?",
+          "truth": "L553-563",
+          "category": "RetryHandler",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L565-574",
+              "score": "0.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L539-566",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L525-580",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L326-343",
+              "score": "0.0"
+            }
+          }
+        },
+        {
+          "query": "Where is configuration value set with versioning?",
+          "truth": "L578-591",
+          "category": "ConfigStore",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L583-648",
+              "score": "6.4"
+            },
+            "Gemini PURE": {
+              "predicted": "L587-608",
+              "score": "3.6"
+            },
+            "Claude (biased)": {
+              "predicted": "L583-648",
+              "score": "6.4"
+            },
+            "Gemini (biased)": {
+              "predicted": "L587-608",
+              "score": "3.6"
+            }
+          }
+        },
+        {
+          "query": "How are configuration watchers notified of changes?",
+          "truth": "L607-616",
+          "category": "ConfigStore",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L583-648",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L579-652",
+              "score": "10.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L583-648",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L579-652",
+              "score": "10.0"
+            }
+          }
+        },
+        {
+          "query": "Where is configuration loaded from an object?",
+          "truth": "L628-632",
+          "category": "ConfigStore",
+          "results": {
+            "Claude PURE": {
+              "predicted": "L583-648",
+              "score": "10.0"
+            },
+            "Gemini PURE": {
+              "predicted": "L639-651",
+              "score": "0.0"
+            },
+            "Claude (biased)": {
+              "predicted": "L583-648",
+              "score": "10.0"
+            },
+            "Gemini (biased)": {
+              "predicted": "L639-651",
+              "score": "0.0"
+            }
+          }
+        }
+      ],
+      "maxScore": 340
+    }
+  ],
+  "byCategory": {
+    "Retry": {
+      "Claude PURE": {
+        "score": 40,
+        "count": 4
+      },
+      "Gemini PURE": {
+        "score": 20,
+        "count": 4
+      },
+      "Claude (biased)": {
+        "score": 40,
+        "count": 4
+      },
+      "Gemini (biased)": {
+        "score": 20,
+        "count": 4
+      }
+    },
+    "Metrics": {
+      "Claude PURE": {
+        "score": 37.05882352941177,
+        "count": 5
+      },
+      "Gemini PURE": {
+        "score": 10,
+        "count": 5
+      },
+      "Claude (biased)": {
+        "score": 39,
+        "count": 5
+      },
+      "Gemini (biased)": {
+        "score": 10,
+        "count": 5
+      }
+    },
+    "Queue": {
+      "Claude PURE": {
+        "score": 60,
+        "count": 6
+      },
+      "Gemini PURE": {
+        "score": 14.700460829493087,
+        "count": 6
+      },
+      "Claude (biased)": {
+        "score": 60,
+        "count": 6
+      },
+      "Gemini (biased)": {
+        "score": 18.57142857142857,
+        "count": 6
+      }
+    },
+    "Events": {
+      "Claude PURE": {
+        "score": 39.411764705882355,
+        "count": 4
+      },
+      "Gemini PURE": {
+        "score": 10,
+        "count": 4
+      },
+      "Claude (biased)": {
+        "score": 40,
+        "count": 4
+      },
+      "Gemini (biased)": {
+        "score": 20,
+        "count": 4
+      }
+    },
+    "Database": {
+      "Claude PURE": {
+        "score": 36.666666666666664,
+        "count": 4
+      },
+      "Gemini PURE": {
+        "score": 20,
+        "count": 4
+      },
+      "Claude (biased)": {
+        "score": 30,
+        "count": 4
+      },
+      "Gemini (biased)": {
+        "score": 40,
+        "count": 4
+      }
+    },
+    "Tasks": {
+      "Claude PURE": {
+        "score": 0,
+        "count": 1
+      },
+      "Gemini PURE": {
+        "score": 0,
+        "count": 1
+      },
+      "Claude (biased)": {
+        "score": 0,
+        "count": 1
+      },
+      "Gemini (biased)": {
+        "score": 0,
+        "count": 1
+      }
+    },
+    "Status": {
+      "Claude PURE": {
+        "score": 3.5294117647058827,
+        "count": 1
+      },
+      "Gemini PURE": {
+        "score": 6.470588235294118,
+        "count": 1
+      },
+      "Claude (biased)": {
+        "score": 4.117647058823529,
+        "count": 1
+      },
+      "Gemini (biased)": {
+        "score": 6.470588235294118,
+        "count": 1
+      }
+    },
+    "Lifecycle": {
+      "Claude PURE": {
+        "score": 7.5,
+        "count": 1
+      },
+      "Gemini PURE": {
+        "score": 10,
+        "count": 1
+      },
+      "Claude (biased)": {
+        "score": 0,
+        "count": 1
+      },
+      "Gemini (biased)": {
+        "score": 10,
+        "count": 1
+      }
+    },
+    "Filesystem": {
+      "Claude PURE": {
+        "score": 10,
+        "count": 1
+      },
+      "Gemini PURE": {
+        "score": 10,
+        "count": 1
+      },
+      "Claude (biased)": {
+        "score": 10,
+        "count": 1
+      },
+      "Gemini (biased)": {
+        "score": 10,
+        "count": 1
+      }
+    },
+    "Config": {
+      "Claude PURE": {
+        "score": 6.470588235294118,
+        "count": 1
+      },
+      "Gemini PURE": {
+        "score": 7.647058823529411,
+        "count": 1
+      },
+      "Claude (biased)": {
+        "score": 2.9411764705882355,
+        "count": 1
+      },
+      "Gemini (biased)": {
+        "score": 7.647058823529411,
+        "count": 1
+      }
+    },
+    "Cache": {
+      "Claude PURE": {
+        "score": 40,
+        "count": 4
+      },
+      "Gemini PURE": {
+        "score": 20,
+        "count": 4
+      },
+      "Claude (biased)": {
+        "score": 30,
+        "count": 4
+      },
+      "Gemini (biased)": {
+        "score": 20,
+        "count": 4
+      }
+    },
+    "RateLimiter": {
+      "Claude PURE": {
+        "score": 20,
+        "count": 4
+      },
+      "Gemini PURE": {
+        "score": 13.333333333333332,
+        "count": 4
+      },
+      "Claude (biased)": {
+        "score": 20,
+        "count": 4
+      },
+      "Gemini (biased)": {
+        "score": 30,
+        "count": 4
+      }
+    },
+    "Logger": {
+      "Claude PURE": {
+        "score": 19,
+        "count": 4
+      },
+      "Gemini PURE": {
+        "score": 20,
+        "count": 4
+      },
+      "Claude (biased)": {
+        "score": 10,
+        "count": 4
+      },
+      "Gemini (biased)": {
+        "score": 40,
+        "count": 4
+      }
+    },
+    "Router": {
+      "Claude PURE": {
+        "score": 20,
+        "count": 4
+      },
+      "Gemini PURE": {
+        "score": 30,
+        "count": 4
+      },
+      "Claude (biased)": {
+        "score": 40,
+        "count": 4
+      },
+      "Gemini (biased)": {
+        "score": 30,
+        "count": 4
+      }
+    },
+    "Auth": {
+      "Claude PURE": {
+        "score": 18,
+        "count": 2
+      },
+      "Gemini PURE": {
+        "score": 20,
+        "count": 2
+      },
+      "Claude (biased)": {
+        "score": 10,
+        "count": 2
+      },
+      "Gemini (biased)": {
+        "score": 0,
+        "count": 2
+      }
+    },
+    "Session": {
+      "Claude PURE": {
+        "score": 30,
+        "count": 4
+      },
+      "Gemini PURE": {
+        "score": 20,
+        "count": 4
+      },
+      "Claude (biased)": {
+        "score": 40,
+        "count": 4
+      },
+      "Gemini (biased)": {
+        "score": 30,
+        "count": 4
+      }
+    },
+    "Validation": {
+      "Claude PURE": {
+        "score": 25.222222222222225,
+        "count": 3
+      },
+      "Gemini PURE": {
+        "score": 10,
+        "count": 3
+      },
+      "Claude (biased)": {
+        "score": 25.222222222222225,
+        "count": 3
+      },
+      "Gemini (biased)": {
+        "score": 20,
+        "count": 3
+      }
+    },
+    "CircuitBreaker": {
+      "Claude PURE": {
+        "score": 10,
+        "count": 1
+      },
+      "Gemini PURE": {
+        "score": 0,
+        "count": 1
+      },
+      "Claude (biased)": {
+        "score": 9.473684210526315,
+        "count": 1
+      },
+      "Gemini (biased)": {
+        "score": 10,
+        "count": 1
+      }
+    },
+    "ServiceRegistry": {
+      "Claude PURE": {
+        "score": 40,
+        "count": 5
+      },
+      "Gemini PURE": {
+        "score": 40,
+        "count": 5
+      },
+      "Claude (biased)": {
+        "score": 50,
+        "count": 5
+      },
+      "Gemini (biased)": {
+        "score": 40,
+        "count": 5
+      }
+    },
+    "LoadBalancer": {
+      "Claude PURE": {
+        "score": 37.5,
+        "count": 5
+      },
+      "Gemini PURE": {
+        "score": 38.57142857142857,
+        "count": 5
+      },
+      "Claude (biased)": {
+        "score": 50,
+        "count": 5
+      },
+      "Gemini (biased)": {
+        "score": 38.57142857142857,
+        "count": 5
+      }
+    },
+    "APIGateway": {
+      "Claude PURE": {
+        "score": 47.5,
+        "count": 5
+      },
+      "Gemini PURE": {
+        "score": 49.23076923076923,
+        "count": 5
+      },
+      "Claude (biased)": {
+        "score": 40,
+        "count": 5
+      },
+      "Gemini (biased)": {
+        "score": 49.23076923076923,
+        "count": 5
+      }
+    },
+    "MessageQueue": {
+      "Claude PURE": {
+        "score": 37.2,
+        "count": 5
+      },
+      "Gemini PURE": {
+        "score": 22.095454545454544,
+        "count": 5
+      },
+      "Claude (biased)": {
+        "score": 47.2,
+        "count": 5
+      },
+      "Gemini (biased)": {
+        "score": 32.095454545454544,
+        "count": 5
+      }
+    },
+    "DistributedLock": {
+      "Claude PURE": {
+        "score": 33.166666666666664,
+        "count": 4
+      },
+      "Gemini PURE": {
+        "score": 26.085470085470085,
+        "count": 4
+      },
+      "Claude (biased)": {
+        "score": 37.5,
+        "count": 4
+      },
+      "Gemini (biased)": {
+        "score": 23.77777777777778,
+        "count": 4
+      }
+    },
+    "HealthMonitor": {
+      "Claude PURE": {
+        "score": 34.52488687782805,
+        "count": 4
+      },
+      "Gemini PURE": {
+        "score": 16.37721755368814,
+        "count": 4
+      },
+      "Claude (biased)": {
+        "score": 40,
+        "count": 4
+      },
+      "Gemini (biased)": {
+        "score": 26.37721755368814,
+        "count": 4
+      }
+    },
+    "RetryHandler": {
+      "Claude PURE": {
+        "score": 13.455882352941178,
+        "count": 3
+      },
+      "Gemini PURE": {
+        "score": 19.558823529411764,
+        "count": 3
+      },
+      "Claude (biased)": {
+        "score": 28.75,
+        "count": 3
+      },
+      "Gemini (biased)": {
+        "score": 9.558823529411764,
+        "count": 3
+      }
+    },
+    "ConfigStore": {
+      "Claude PURE": {
+        "score": 26.42857142857143,
+        "count": 3
+      },
+      "Gemini PURE": {
+        "score": 13.571428571428571,
+        "count": 3
+      },
+      "Claude (biased)": {
+        "score": 26.42857142857143,
+        "count": 3
+      },
+      "Gemini (biased)": {
+        "score": 13.571428571428571,
+        "count": 3
+      }
+    }
+  },
+  "detailed": []
+}

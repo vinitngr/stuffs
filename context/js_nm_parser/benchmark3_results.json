@@ -1,0 +1,541 @@
+{
+  "meta": {
+    "file": "test2.file.js",
+    "totalQuestions": 14,
+    "maxScore": 140
+  },
+  "questions": [
+    {
+      "id": 1,
+      "query": "How is cache expiry calculated when setting a value?",
+      "truth": {
+        "start": 16,
+        "end": 20
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 4,
+            "end": 65,
+            "score": 181.5
+          },
+          "overlap": 5,
+          "marks": 10
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 4,
+            "end": 65,
+            "score": 67.07530845496338
+          },
+          "overlap": 5,
+          "marks": 10
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 8,
+            "end": 61,
+            "score": 46.5
+          },
+          "overlap": 5,
+          "marks": 10
+        }
+      }
+    },
+    {
+      "id": 2,
+      "query": "Where is the cache cleanup scheduled?",
+      "truth": {
+        "start": 37,
+        "end": 44
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 33,
+            "end": 48,
+            "score": 174
+          },
+          "overlap": 8,
+          "marks": 10
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 33,
+            "end": 48,
+            "score": 119.18657337603533
+          },
+          "overlap": 8,
+          "marks": 10
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 8,
+            "end": 61,
+            "score": 31.5
+          },
+          "overlap": 8,
+          "marks": 10
+        }
+      }
+    },
+    {
+      "id": 3,
+      "query": "How does the cache handle expired items during retrieval?",
+      "truth": {
+        "start": 28,
+        "end": 32
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 4,
+            "end": 65,
+            "score": 169.5
+          },
+          "overlap": 5,
+          "marks": 10
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 378,
+            "end": 393,
+            "score": 113.6835486390457
+          },
+          "overlap": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 231,
+            "end": 246,
+            "score": 92
+          },
+          "overlap": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 4,
+      "query": "How are tokens refilled in the rate limiter?",
+      "truth": {
+        "start": 75,
+        "end": 83
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 62,
+            "end": 120,
+            "score": 231
+          },
+          "overlap": 9,
+          "marks": 10
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 71,
+            "end": 87,
+            "score": 123.92346986137485
+          },
+          "overlap": 9,
+          "marks": 10
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 66,
+            "end": 116,
+            "score": 63
+          },
+          "overlap": 9,
+          "marks": 10
+        }
+      }
+    },
+    {
+      "id": 5,
+      "query": "Where is the token consumption logic?",
+      "truth": {
+        "start": 85,
+        "end": 101
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 62,
+            "end": 120,
+            "score": 129
+          },
+          "overlap": 17,
+          "marks": 10
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 295,
+            "end": 306,
+            "score": 59.72431357396133
+          },
+          "overlap": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 279,
+            "end": 294,
+            "score": 22
+          },
+          "overlap": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 6,
+      "query": "How does the system check if a client is blocked?",
+      "truth": {
+        "start": 107,
+        "end": 114
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 104,
+            "end": 119,
+            "score": 116
+          },
+          "overlap": 8,
+          "marks": 10
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 104,
+            "end": 119,
+            "score": 129.97011068008797
+          },
+          "overlap": 8,
+          "marks": 10
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 66,
+            "end": 116,
+            "score": 46.5
+          },
+          "overlap": 8,
+          "marks": 10
+        }
+      }
+    },
+    {
+      "id": 7,
+      "query": "How are requests logged with rotation?",
+      "truth": {
+        "start": 129,
+        "end": 148
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 117,
+            "end": 180,
+            "score": 88.5
+          },
+          "overlap": 20,
+          "marks": 10
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 1,
+            "end": 2,
+            "score": 0
+          },
+          "overlap": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 1,
+            "end": 2,
+            "score": 0
+          },
+          "overlap": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 8,
+      "query": "Where does log rotation happen?",
+      "truth": {
+        "start": 150,
+        "end": 155
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 117,
+            "end": 180,
+            "score": 88.5
+          },
+          "overlap": 6,
+          "marks": 10
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 1,
+            "end": 2,
+            "score": 0
+          },
+          "overlap": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 1,
+            "end": 2,
+            "score": 0
+          },
+          "overlap": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 9,
+      "query": "How can logs be searched with filters?",
+      "truth": {
+        "start": 166,
+        "end": 174
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 527,
+            "end": 540,
+            "score": 96
+          },
+          "overlap": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 154,
+            "end": 164,
+            "score": 114.85759917811184
+          },
+          "overlap": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 121,
+            "end": 176,
+            "score": 28.5
+          },
+          "overlap": 9,
+          "marks": 10
+        }
+      }
+    },
+    {
+      "id": 10,
+      "query": "How is middleware executed recursively?",
+      "truth": {
+        "start": 195,
+        "end": 207
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 213,
+            "end": 233,
+            "score": 162
+          },
+          "overlap": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 213,
+            "end": 233,
+            "score": 114.043422456536
+          },
+          "overlap": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 181,
+            "end": 247,
+            "score": 18
+          },
+          "overlap": 13,
+          "marks": 10
+        }
+      }
+    },
+    {
+      "id": 11,
+      "query": "Where are requests matched to routes?",
+      "truth": {
+        "start": 209,
+        "end": 224
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 177,
+            "end": 251,
+            "score": 12
+          },
+          "overlap": 16,
+          "marks": 10
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 178,
+            "end": 190,
+            "score": 10.837269723508268
+          },
+          "overlap": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 181,
+            "end": 247,
+            "score": 12
+          },
+          "overlap": 16,
+          "marks": 10
+        }
+      }
+    },
+    {
+      "id": 12,
+      "query": "How are new routes added to the router?",
+      "truth": {
+        "start": 183,
+        "end": 186
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 177,
+            "end": 251,
+            "score": 183
+          },
+          "overlap": 4,
+          "marks": 10
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 177,
+            "end": 204,
+            "score": 58.5459233090435
+          },
+          "overlap": 4,
+          "marks": 10
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 181,
+            "end": 247,
+            "score": 81
+          },
+          "overlap": 4,
+          "marks": 10
+        }
+      }
+    },
+    {
+      "id": 13,
+      "query": "Where is the request body parsed from the stream?",
+      "truth": {
+        "start": 238,
+        "end": 251
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 257,
+            "end": 278,
+            "score": 138
+          },
+          "overlap": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 117,
+            "end": 180,
+            "score": 60.00452213109219
+          },
+          "overlap": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 669,
+            "end": 750,
+            "score": 52
+          },
+          "overlap": 0,
+          "marks": 0
+        }
+      }
+    },
+    {
+      "id": 14,
+      "query": "How is the authorization header validated?",
+      "truth": {
+        "start": 256,
+        "end": 270
+      },
+      "results": {
+        "Gemini-3.0-pro": {
+          "range": {
+            "start": 275,
+            "end": 298,
+            "score": 120
+          },
+          "overlap": 0,
+          "marks": 0
+        },
+        "GPT-5.1-codex-max": {
+          "range": {
+            "start": 275,
+            "end": 298,
+            "score": 19.628487047161375
+          },
+          "overlap": 0,
+          "marks": 0
+        },
+        "Claude-Opus-4.5": {
+          "range": {
+            "start": 279,
+            "end": 294,
+            "score": 30
+          },
+          "overlap": 0,
+          "marks": 0
+        }
+      }
+    }
+  ],
+  "finalScores": {
+    "Gemini-3.0-pro": {
+      "score": 100,
+      "accuracy": "71.4%"
+    },
+    "Claude-Opus-4.5": {
+      "score": 80,
+      "accuracy": "57.1%"
+    },
+    "GPT-5.1-codex-max": {
+      "score": 50,
+      "accuracy": "35.7%"
+    }
+  }
+}

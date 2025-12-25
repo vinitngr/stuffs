@@ -1,0 +1,434 @@
+{
+  "meta": {
+    "model": "Claude",
+    "sourceFile": "test.file.js",
+    "totalQuestions": 28,
+    "maxScore": 280
+  },
+  "questions": [
+    {
+      "id": 1,
+      "query": "How does the system retry failed tasks with exponential backoff?",
+      "description": "Retry Logic Core",
+      "truth": {
+        "start": 78,
+        "end": 93
+      },
+      "predicted": {
+        "start": 5,
+        "end": 109
+      },
+      "overlapLines": 16,
+      "marks": 10
+    },
+    {
+      "id": 2,
+      "query": "Where is the exponential delay calculated for retries?",
+      "description": "Retry Delay Calculation",
+      "truth": {
+        "start": 86,
+        "end": 92
+      },
+      "predicted": {
+        "start": 75,
+        "end": 98
+      },
+      "overlapLines": 7,
+      "marks": 10
+    },
+    {
+      "id": 3,
+      "query": "How many retry attempts are allowed per task?",
+      "description": "Retry Attempts Limit",
+      "truth": {
+        "start": 75,
+        "end": 93
+      },
+      "predicted": {
+        "start": 5,
+        "end": 109
+      },
+      "overlapLines": 19,
+      "marks": 10
+    },
+    {
+      "id": 4,
+      "query": "Where are task attempts incremented?",
+      "description": "Attempts Increment",
+      "truth": {
+        "start": 81,
+        "end": 84
+      },
+      "predicted": {
+        "start": 5,
+        "end": 109
+      },
+      "overlapLines": 4,
+      "marks": 10
+    },
+    {
+      "id": 5,
+      "query": "Where are system health metrics computed?",
+      "description": "Health Metrics Computation",
+      "truth": {
+        "start": 96,
+        "end": 105
+      },
+      "predicted": {
+        "start": 92,
+        "end": 108
+      },
+      "overlapLines": 10,
+      "marks": 10
+    },
+    {
+      "id": 6,
+      "query": "How is system uptime calculated?",
+      "description": "Uptime Calculation",
+      "truth": {
+        "start": 96,
+        "end": 101
+      },
+      "predicted": {
+        "start": 92,
+        "end": 108
+      },
+      "overlapLines": 6,
+      "marks": 10
+    },
+    {
+      "id": 7,
+      "query": "Where is success rate derived from completed and failed tasks?",
+      "description": "Success Rate Logic",
+      "truth": {
+        "start": 98,
+        "end": 104
+      },
+      "predicted": {
+        "start": 5,
+        "end": 109
+      },
+      "overlapLines": 7,
+      "marks": 10
+    },
+    {
+      "id": 8,
+      "query": "Where are active and queued tasks counted?",
+      "description": "Queue and Active Counts",
+      "truth": {
+        "start": 97,
+        "end": 100
+      },
+      "predicted": {
+        "start": 5,
+        "end": 109
+      },
+      "overlapLines": 4,
+      "marks": 10
+    },
+    {
+      "id": 9,
+      "query": "Where are tasks registered into the system?",
+      "description": "Task Registration",
+      "truth": {
+        "start": 33,
+        "end": 63
+      },
+      "predicted": {
+        "start": 5,
+        "end": 109
+      },
+      "overlapLines": 31,
+      "marks": 10
+    },
+    {
+      "id": 10,
+      "query": "How are tasks added to the execution queue?",
+      "description": "Queue Push Logic",
+      "truth": {
+        "start": 44,
+        "end": 50
+      },
+      "predicted": {
+        "start": 5,
+        "end": 109
+      },
+      "overlapLines": 7,
+      "marks": 10
+    },
+    {
+      "id": 11,
+      "query": "Where does task processing start automatically?",
+      "description": "Auto Queue Processing",
+      "truth": {
+        "start": 52,
+        "end": 55
+      },
+      "predicted": {
+        "start": 5,
+        "end": 109
+      },
+      "overlapLines": 4,
+      "marks": 10
+    },
+    {
+      "id": 12,
+      "query": "How does the system enforce concurrency limits?",
+      "description": "Concurrency Control",
+      "truth": {
+        "start": 57,
+        "end": 70
+      },
+      "predicted": {
+        "start": 5,
+        "end": 109
+      },
+      "overlapLines": 14,
+      "marks": 10
+    },
+    {
+      "id": 13,
+      "query": "Where is running task count incremented and decremented?",
+      "description": "Running Count Management",
+      "truth": {
+        "start": 65,
+        "end": 74
+      },
+      "predicted": {
+        "start": 5,
+        "end": 109
+      },
+      "overlapLines": 10,
+      "marks": 10
+    },
+    {
+      "id": 14,
+      "query": "Where does task execution actually happen?",
+      "description": "Task Execution Flow",
+      "truth": {
+        "start": 60,
+        "end": 74
+      },
+      "predicted": {
+        "start": 45,
+        "end": 81
+      },
+      "overlapLines": 15,
+      "marks": 10
+    },
+    {
+      "id": 15,
+      "query": "Where are task success events emitted?",
+      "description": "Task Success Event",
+      "truth": {
+        "start": 66,
+        "end": 69
+      },
+      "predicted": {
+        "start": 5,
+        "end": 109
+      },
+      "overlapLines": 4,
+      "marks": 10
+    },
+    {
+      "id": 16,
+      "query": "Where are task failure events handled?",
+      "description": "Task Failure Handling",
+      "truth": {
+        "start": 69,
+        "end": 73
+      },
+      "predicted": {
+        "start": 5,
+        "end": 109
+      },
+      "overlapLines": 5,
+      "marks": 10
+    },
+    {
+      "id": 17,
+      "query": "Where is database cleanup simulated?",
+      "description": "DB Cleanup Task",
+      "truth": {
+        "start": 155,
+        "end": 160
+      },
+      "predicted": {
+        "start": 140,
+        "end": 183
+      },
+      "overlapLines": 6,
+      "marks": 10
+    },
+    {
+      "id": 18,
+      "query": "What logic simulates database failure?",
+      "description": "DB Failure Simulation",
+      "truth": {
+        "start": 156,
+        "end": 159
+      },
+      "predicted": {
+        "start": 140,
+        "end": 183
+      },
+      "overlapLines": 4,
+      "marks": 10
+    },
+    {
+      "id": 19,
+      "query": "Where are image processing tasks created?",
+      "description": "Image Processing Tasks",
+      "truth": {
+        "start": 163,
+        "end": 170
+      },
+      "predicted": {
+        "start": 26,
+        "end": 51
+      },
+      "overlapLines": 0,
+      "marks": 0
+    },
+    {
+      "id": 20,
+      "query": "How does the system periodically report status?",
+      "description": "Periodic Status Reporting",
+      "truth": {
+        "start": 173,
+        "end": 189
+      },
+      "predicted": {
+        "start": 140,
+        "end": 183
+      },
+      "overlapLines": 11,
+      "marks": 6.47
+    },
+    {
+      "id": 21,
+      "query": "Where are metrics exported to disk?",
+      "description": "Metrics Export Logic",
+      "truth": {
+        "start": 118,
+        "end": 134
+      },
+      "predicted": {
+        "start": 243,
+        "end": 266
+      },
+      "overlapLines": 0,
+      "marks": 0
+    },
+    {
+      "id": 22,
+      "query": "Where is metrics history read back from storage?",
+      "description": "Metrics Read History",
+      "truth": {
+        "start": 136,
+        "end": 144
+      },
+      "predicted": {
+        "start": 127,
+        "end": 142
+      },
+      "overlapLines": 7,
+      "marks": 7.78
+    },
+    {
+      "id": 23,
+      "query": "How does the system handle graceful shutdown on SIGINT?",
+      "description": "SIGINT Shutdown Handler",
+      "truth": {
+        "start": 229,
+        "end": 232
+      },
+      "predicted": {
+        "start": 224,
+        "end": 235
+      },
+      "overlapLines": 4,
+      "marks": 10
+    },
+    {
+      "id": 24,
+      "query": "Where are unhandled promise rejections logged?",
+      "description": "Unhandled Rejection Handler",
+      "truth": {
+        "start": 234,
+        "end": 238
+      },
+      "predicted": {
+        "start": 230,
+        "end": 240
+      },
+      "overlapLines": 5,
+      "marks": 10
+    },
+    {
+      "id": 25,
+      "query": "How is disk usage calculated recursively?",
+      "description": "Disk Usage Calculation",
+      "truth": {
+        "start": 247,
+        "end": 260
+      },
+      "predicted": {
+        "start": 243,
+        "end": 266
+      },
+      "overlapLines": 14,
+      "marks": 10
+    },
+    {
+      "id": 26,
+      "query": "Where does the filesystem traversal happen?",
+      "description": "Filesystem Traversal",
+      "truth": {
+        "start": 250,
+        "end": 259
+      },
+      "predicted": {
+        "start": 1,
+        "end": 2
+      },
+      "overlapLines": 0,
+      "marks": 0
+    },
+    {
+      "id": 27,
+      "query": "Where is configuration loaded from environment variables?",
+      "description": "Configuration Manager",
+      "truth": {
+        "start": 268,
+        "end": 284
+      },
+      "predicted": {
+        "start": 269,
+        "end": 281
+      },
+      "overlapLines": 13,
+      "marks": 7.65
+    },
+    {
+      "id": 28,
+      "query": "Where is CPU intensive computation simulated?",
+      "description": "Complex Math Algorithm",
+      "truth": {
+        "start": 287,
+        "end": 296
+      },
+      "predicted": {
+        "start": 276,
+        "end": 289
+      },
+      "overlapLines": 3,
+      "marks": 3
+    }
+  ],
+  "finalScore": {
+    "score": 234.9,
+    "accuracy": 83.89
+  }
+}
