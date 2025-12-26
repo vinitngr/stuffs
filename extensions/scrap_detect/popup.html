@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            width: 260px;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'Consolas', 'Monaco', monospace;
+            padding: 15px;
+            text-align: center;
+        }
+        h3 { margin-top: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #58a6ff; }
+        
+        #status-box {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 12px;
+            font-size: 11px;
+        }
+
+        .mode-info {
+            font-size: 10px;
+            color: #8b949e;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #161b22;
+            border-radius: 4px;
+            text-align: left;
+        }
+
+        .mode-info .auto { color: #ff9900; }
+        .mode-info .manual { color: #58a6ff; }
+        
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(240, 246, 252, 0.1);
+            border-radius: 6px;
+            background: #21262d;
+            color: #c9d1d9;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        button:hover { background: #30363d; border-color: #8b949e; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        #captureBtn { border-color: #58a6ff; color: #58a6ff; }
+        #captureBtn:hover { background: #58a6ff; color: #0d1117; }
+        
+        #downloadBtn { border-color: #238636; color: #238636; }
+        #downloadBtn:hover { background: #238636; color: white; }
+        
+        #clearBtn { border-color: #da3633; color: #da3633; font-size: 10px; padding: 6px; }
+        #clearBtn:hover { background: #da3633; color: white; }
+
+        .stat-count { font-size: 11px; color: #58a6ff; margin-bottom: 10px; font-weight: bold; }
+        .shortcut { font-size: 9px; color: #484f58; margin-top: 10px; }
+
+        .url-list {
+            max-height: 100px;
+            overflow-y: auto;
+            text-align: left;
+            font-size: 9px;
+            color: #666;
+            background: #0d1117;
+            padding: 5px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .url-list div {
+            padding: 2px 0;
+            border-bottom: 1px solid #21262d;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <h3>👻 Ghost Scraper v4</h3>
+    
+    <div id="status-box">
+        <span style="color: #00ff00;">● Active</span>
+    </div>
+
+    <div class="mode-info">
+        <span class="auto">🤖 AUTO:</span> Captures /in/profile URLs<br>
+        <span class="manual">👆 MANUAL:</span> Ctrl+Shift+S or button
+    </div>
+    
+    <div class="stat-count" id="itemCount">📁 0 profiles captured</div>
+
+    <div class="url-list" id="urlList"></div>
+
+    <button id="captureBtn">👆 CAPTURE THIS PAGE</button>
+    <button id="downloadBtn">⬇ DOWNLOAD JSON</button>
+    <button id="clearBtn">✖ CLEAR ALL DATA</button>
+    
+    <div class="shortcut">Manual: Ctrl+Shift+S</div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

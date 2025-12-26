@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Ghost Scraper v4",
+  "version": "4.0",
+  "description": "Auto-capture LinkedIn profiles stealthily",
+  "permissions": ["storage", "activeTab", "scripting", "tabs"],
+  "host_permissions": [
+    "*://*.linkedin.com/in/*",
+    "http://127.0.0.1/*",
+    "http://localhost/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "commands": {
+    "stealth-capture": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "Manually capture current page"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

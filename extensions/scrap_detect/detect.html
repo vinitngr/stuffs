@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extension Activity Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: { 900: '#0d1117', 800: '#161b22', 700: '#21262d', 600: '#30363d' },
+                        accent: { blue: '#58a6ff', green: '#3fb950', red: '#f85149', orange: '#f0883e', purple: '#a371f7', yellow: '#d29922' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 5px currentColor; } 50% { box-shadow: 0 0 20px currentColor; } }
+        .pulse-glow { animation: pulse-glow 2s infinite; }
+        .detected-card { border-color: #f85149 !important; box-shadow: 0 0 20px rgba(248, 81, 73, 0.3); }
+        .safe-card { border-color: #3fb950 !important; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0d1117; }
+        ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-dark-900 text-gray-300 min-h-screen">
+    <div class="max-w-7xl mx-auto p-4 md:p-6">
+        
+        <header class="text-center py-6 border-b border-dark-600 mb-6">
+            <h1 class="text-3xl font-bold text-accent-blue mb-2">🔍 Extension Activity Monitor</h1>
+            <p class="text-gray-500 text-sm">Real-time detection of content scraping, DOM manipulation, and data extraction</p>
+        </header>
+
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-6">
+            <h2 class="text-sm font-semibold text-accent-blue mb-4 flex items-center gap-2">
+                <span>⚙️</span> Target Configuration
+            </h2>
+            <div class="flex flex-col md:flex-row gap-4 items-start md:items-end">
+                <div class="flex-1 w-full">
+                    <label class="block text-xs text-gray-500 mb-2">Extension ID (leave empty to monitor ALL extensions)</label>
+                    <input type="text" id="targetExtId" placeholder="e.g., kpdphlaceikamkhmoochncmobnkelail" 
+                        class="w-full bg-dark-900 border border-dark-600 rounded-lg px-4 py-3 text-sm text-accent-orange placeholder-gray-600 focus:border-accent-blue focus:outline-none transition font-mono">
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="setTarget()" class="bg-accent-blue hover:bg-blue-600 text-white px-6 py-3 rounded-lg text-sm font-semibold transition">
+                        Set Target
+                    </button>
+                    <button onclick="clearTarget()" class="bg-dark-700 hover:bg-dark-600 border border-dark-600 text-gray-300 px-6 py-3 rounded-lg text-sm font-semibold transition">
+                        Monitor All
+                    </button>
+                </div>
+            </div>
+            <div class="mt-4 flex flex-wrap items-center gap-3">
+                <span class="text-xs text-gray-500">Current Target:</span>
+                <span id="currentTarget" class="bg-dark-700 text-accent-green px-4 py-1.5 rounded-full text-xs border border-dark-600 font-mono">
+                    All Extensions
+                </span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+            <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center">
+                <div class="text-3xl font-bold text-accent-blue" id="totalChecks">0</div>
+                <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Total Checks</div>
+            </div>
+            <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center">
+                <div class="text-3xl font-bold text-accent-red" id="detectedCount">0</div>
+                <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Detected</div>
+            </div>
+            <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center">
+                <div class="text-3xl font-bold text-accent-green" id="safeCount">0</div>
+                <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Safe</div>
+            </div>
+            <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center">
+                <div class="text-3xl font-bold text-accent-purple" id="extensionsDetected">0</div>
+                <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Extensions</div>
+            </div>
+            <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center">
+                <div class="text-3xl font-bold text-accent-yellow" id="totalActivity">0</div>
+                <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Activities</div>
+            </div>
+        </div>
+
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-4 mb-6" id="extensionsList">
+            <h3 class="text-sm font-semibold text-accent-purple mb-3 flex items-center gap-2">
+                <span>🧩</span> Detected Extensions
+            </h3>
+            <div id="extensionsContainer" class="flex flex-wrap gap-2">
+                <span class="text-xs text-gray-500 italic">No extensions detected yet...</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6" id="detectionGrid"></div>
+
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-6">
+            <h3 class="text-sm font-semibold text-accent-orange mb-4 flex items-center gap-2">
+                <span>🎯</span> Test Content (Scraping Target)
+            </h3>
+            <div class="bg-dark-700 rounded-xl p-6 border-2 border-dashed border-dark-600">
+                <div class="flex gap-6 items-start">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-green-600 to-green-400 flex items-center justify-center text-4xl flex-shrink-0">
+                        👤
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-xl font-bold text-white mb-1" id="test-name">John Doe</h4>
+                        <p class="text-gray-400 text-sm mb-3" id="test-headline">Senior Software Engineer at TechCorp | AI/ML Enthusiast</p>
+                        <p class="text-gray-500 text-xs leading-relaxed" id="test-about">
+                            Hi, I'm John! Passionate about building scalable systems and exploring new technologies. 
+                            Currently working on distributed systems and machine learning pipelines.
+                            #OpenToWork #SoftwareEngineering #AI
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-dark-800 border border-dark-600 rounded-xl overflow-hidden mb-6">
+            <div class="bg-dark-700 px-6 py-4 border-b border-dark-600 flex justify-between items-center">
+                <h3 class="text-sm font-semibold text-accent-blue flex items-center gap-2">
+                    <span>📜</span> Activity Log
+                </h3>
+                <span class="text-xs text-gray-500" id="logCount">0 entries</span>
+            </div>
+            <div class="max-h-80 overflow-y-auto p-4" id="logEntries">
+                <div class="flex gap-4 p-3 rounded-lg bg-dark-700/50 text-xs">
+                    <span class="text-gray-500 font-mono w-20 flex-shrink-0">--:--:--</span>
+                    <span class="text-accent-blue">Monitoring started. Waiting for extension activity...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-3 flex-wrap">
+            <button onclick="runAllDetections()" class="bg-accent-green hover:bg-green-600 text-white px-6 py-3 rounded-lg text-sm font-semibold transition flex items-center gap-2">
+                <span>🔄</span> Run All Detections
+            </button>
+            <button onclick="clearLogs()" class="bg-dark-700 hover:bg-dark-600 border border-dark-600 text-gray-300 px-6 py-3 rounded-lg text-sm font-semibold transition flex items-center gap-2">
+                <span>🗑️</span> Clear Logs
+            </button>
+            <button onclick="resetAll()" class="bg-accent-red/20 hover:bg-accent-red/30 border border-accent-red/50 text-accent-red px-6 py-3 rounded-lg text-sm font-semibold transition flex items-center gap-2">
+                <span>⚠️</span> Reset All
+            </button>
+        </div>
+
+        <footer class="text-center py-8 mt-6 border-t border-dark-600 text-gray-600 text-xs">
+            Extension Monitor v2.0 | Note: Extensions using ISOLATED world may bypass these detections
+        </footer>
+    </div>
+
+    <script>
+        let targetExtensionId = null;
+        const detectedExtensions = new Set();
+        let logEntryCount = 0;
+        
+        let stats = { total: 0, detected: 0, safe: 0 };
+
+        const detectionConfigs = [
+            { id: 'innerhtml', icon: '📄', title: 'innerHTML Access', desc: 'Detects document.documentElement.innerHTML or document.body.innerHTML access', threshold: 5 },
+            { id: 'outerhtml', icon: '📑', title: 'outerHTML Access', desc: 'Detects document.documentElement.outerHTML for full page capture', threshold: 0 },
+            { id: 'innertext', icon: '📝', title: 'innerText Access', desc: 'Detects document.body.innerText to extract visible text', threshold: 5 },
+            { id: 'textcontent', icon: '📃', title: 'textContent Access', desc: 'Detects element.textContent for text extraction', threshold: 10 },
+            { id: 'queryselector', icon: '🔎', title: 'querySelector Calls', desc: 'Detects excessive querySelector/querySelectorAll calls', threshold: 20 },
+            { id: 'getattribute', icon: '🏷️', title: 'getAttribute Calls', desc: 'Detects element attribute reads (href, src, data-*)', threshold: 10 },
+            { id: 'clonenode', icon: '📋', title: 'cloneNode Calls', desc: 'Detects DOM node cloning for data extraction', threshold: 0 },
+            { id: 'xmlserializer', icon: '🔧', title: 'XMLSerializer', desc: 'Detects XMLSerializer usage to serialize DOM', threshold: 0 },
+            { id: 'domparser', icon: '🔨', title: 'DOMParser', desc: 'Detects DOMParser to parse HTML strings', threshold: 0 },
+            { id: 'getselection', icon: '✂️', title: 'Selection API', desc: 'Detects getSelection() or Range API for text capture', threshold: 0 },
+            { id: 'clipboard', icon: '📎', title: 'Clipboard Access', desc: 'Detects clipboard API access to copy content', threshold: 0 },
+            { id: 'mutationobserver', icon: '👁️', title: 'MutationObserver', desc: 'Detects DOM change monitoring via MutationObserver', threshold: 0 },
+            { id: 'fetch', icon: '🌐', title: 'Fetch/XHR Intercept', desc: 'Detects network request interception', threshold: 0 },
+            { id: 'eval', icon: '⚠️', title: 'eval/Function', desc: 'Detects eval() or Function() constructor usage', threshold: 0 },
+            { id: 'storage', icon: '💾', title: 'Storage Access', desc: 'Detects localStorage/sessionStorage access', threshold: 0 },
+            { id: 'canvas', icon: '🎨', title: 'Canvas Fingerprint', desc: 'Detects canvas for fingerprinting or screenshots', threshold: 0 },
+            { id: 'treewalker', icon: '🌲', title: 'TreeWalker', desc: 'Detects TreeWalker/NodeIterator for DOM traversal', threshold: 0 },
+            { id: 'computed', icon: '🎨', title: 'getComputedStyle', desc: 'Detects computed style access for layout info', threshold: 10 },
+            { id: 'iframe', icon: '🖼️', title: 'iframe Creation', desc: 'Detects iframe creation for isolated scraping', threshold: 0 },
+            { id: 'shadowdom', icon: '👻', title: 'Shadow DOM', desc: 'Detects Shadow DOM access for hidden content', threshold: 0 }
+        ];
+
+        const detectionState = {};
+        detectionConfigs.forEach(c => {
+            detectionState[c.id] = { count: 0, extCount: 0, lastAccess: null, details: [], sources: new Set() };
+        });
+
+        function getTime() {
+            return new Date().toLocaleTimeString('en-US', { hour12: false });
+        }
+
+        function setTarget() {
+            const input = document.getElementById('targetExtId').value.trim();
+            if (input) {
+                targetExtensionId = input;
+                document.getElementById('currentTarget').textContent = input;
+                document.getElementById('currentTarget').className = 'bg-accent-orange/20 text-accent-orange px-4 py-1.5 rounded-full text-xs border border-accent-orange/50 font-mono';
+                addLog(`Target set to: ${input}`, 'info');
+            }
+        }
+
+        function clearTarget() {
+            targetExtensionId = null;
+            document.getElementById('targetExtId').value = '';
+            document.getElementById('currentTarget').textContent = 'All Extensions';
+            document.getElementById('currentTarget').className = 'bg-dark-700 text-accent-green px-4 py-1.5 rounded-full text-xs border border-dark-600 font-mono';
+            addLog('Now monitoring ALL extensions', 'info');
+        }
+
+        function addLog(message, type = 'info') {
+            const logEntries = document.getElementById('logEntries');
+            const entry = document.createElement('div');
+            
+            const colors = {
+                info: 'text-accent-blue',
+                detected: 'text-accent-red',
+                safe: 'text-accent-green',
+                warning: 'text-accent-yellow',
+                extension: 'text-accent-purple'
+            };
+            
+            const bgColors = {
+                info: 'bg-dark-700/50',
+                detected: 'bg-accent-red/10 border-l-2 border-accent-red',
+                safe: 'bg-accent-green/10 border-l-2 border-accent-green',
+                warning: 'bg-accent-yellow/10 border-l-2 border-accent-yellow',
+                extension: 'bg-accent-purple/10 border-l-2 border-accent-purple'
+            };
+            
+            entry.className = `flex gap-4 p-3 rounded-lg ${bgColors[type]} text-xs mb-2`;
+            entry.innerHTML = `
+                <span class="text-gray-500 font-mono w-20 flex-shrink-0">${getTime()}</span>
+                <span class="${colors[type]}">${message}</span>
+            `;
+            logEntries.insertBefore(entry, logEntries.firstChild.nextSibling);
+            
+            logEntryCount++;
+            document.getElementById('logCount').textContent = `${logEntryCount} entries`;
+            
+            if (logEntries.children.length > 100) {
+                logEntries.removeChild(logEntries.lastChild);
+            }
+        }
+
+        function addDetectedExtension(extId) {
+            if (!detectedExtensions.has(extId)) {
+                detectedExtensions.add(extId);
+                updateExtensionsList();
+                addLog(`New extension detected: ${extId}`, 'extension');
+            }
+        }
+
+        function updateExtensionsList() {
+            const container = document.getElementById('extensionsContainer');
+            document.getElementById('extensionsDetected').textContent = detectedExtensions.size;
+            
+            if (detectedExtensions.size === 0) {
+                container.innerHTML = '<span class="text-xs text-gray-500 italic">No extensions detected yet...</span>';
+                return;
+            }
+            
+            container.innerHTML = Array.from(detectedExtensions).map(ext => {
+                const isTarget = targetExtensionId && ext === targetExtensionId;
+                return `<span class="px-3 py-1.5 rounded-full text-xs font-mono ${isTarget ? 'bg-accent-orange/20 text-accent-orange border border-accent-orange/50' : 'bg-dark-700 text-gray-400 border border-dark-600'}">${ext}</span>`;
+            }).join('');
+        }
+
+        function updateStats() {
+            document.getElementById('totalChecks').textContent = stats.total;
+            document.getElementById('detectedCount').textContent = stats.detected;
+            document.getElementById('safeCount').textContent = stats.safe;
+            
+            const totalActivity = Object.values(detectionState).reduce((sum, s) => sum + s.count, 0);
+            document.getElementById('totalActivity').textContent = totalActivity;
+        }
+
+        function createDetectionCards() {
+            const grid = document.getElementById('detectionGrid');
+            grid.innerHTML = detectionConfigs.map(config => `
+                <div class="bg-dark-800 border border-dark-600 rounded-xl overflow-hidden transition-all duration-300" id="card-${config.id}">
+                    <div class="bg-dark-700 px-4 py-3 flex justify-between items-center border-b border-dark-600">
+                        <span class="text-sm font-semibold flex items-center gap-2">
+                            <span>${config.icon}</span>
+                            <span class="truncate">${config.title}</span>
+                        </span>
+                        <span class="text-[10px] px-2 py-1 rounded-full bg-dark-600 text-gray-400" id="status-${config.id}">WAITING</span>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-[11px] text-gray-500 mb-3 leading-relaxed">${config.desc}</p>
+                        <div class="space-y-2 text-xs" id="details-${config.id}">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Total Count:</span>
+                                <span class="text-gray-400 font-mono" id="count-${config.id}">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Ext Count:</span>
+                                <span class="text-accent-purple font-mono" id="extcount-${config.id}">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Last Access:</span>
+                                <span class="text-gray-400 font-mono" id="time-${config.id}">Never</span>
+                            </div>
+                            <div class="mt-2 pt-2 border-t border-dark-600">
+                                <span class="text-gray-500 block mb-1">Extensions:</span>
+                                <div class="flex flex-wrap gap-1" id="sources-${config.id}">
+                                    <span class="text-gray-600 text-[10px] italic">None</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateCard(id, detected) {
+            const card = document.getElementById(`card-${id}`);
+            const status = document.getElementById(`status-${id}`);
+            const count = document.getElementById(`count-${id}`);
+            const extcount = document.getElementById(`extcount-${id}`);
+            const time = document.getElementById(`time-${id}`);
+            const sources = document.getElementById(`sources-${id}`);
+            const state = detectionState[id];
+            
+            count.textContent = state.count;
+            extcount.textContent = state.extCount || 0;
+            time.textContent = state.lastAccess ? new Date(state.lastAccess).toLocaleTimeString() : 'Never';
+            
+            const sourceArray = Array.from(state.sources);
+            if (sourceArray.length > 0) {
+                sources.innerHTML = sourceArray.map(ext => {
+                    const isTarget = targetExtensionId && ext === targetExtensionId;
+                    return `<span class="px-2 py-0.5 rounded text-[10px] font-mono ${isTarget ? 'bg-accent-orange/30 text-accent-orange' : 'bg-accent-purple/20 text-accent-purple'}" title="${ext}">${ext.substring(0, 12)}${ext.length > 12 ? '...' : ''}</span>`;
+                }).join('');
+            } else {
+                sources.innerHTML = '<span class="text-gray-600 text-[10px] italic">None</span>';
+            }
+            
+            const hasExtensionActivity = sourceArray.length > 0;
+            const isOverThreshold = state.count > detectionConfigs.find(c => c.id === id).threshold;
+            
+            if (hasExtensionActivity || isOverThreshold) {
+                card.className = 'bg-dark-800 border border-dark-600 rounded-xl overflow-hidden transition-all duration-300 detected-card';
+                status.className = 'text-[10px] px-2 py-1 rounded-full bg-accent-red/20 text-accent-red';
+                status.textContent = hasExtensionActivity ? 'EXT DETECTED' : 'DETECTED';
+            } else {
+                card.className = 'bg-dark-800 border border-dark-600 rounded-xl overflow-hidden transition-all duration-300 safe-card';
+                status.className = 'text-[10px] px-2 py-1 rounded-full bg-accent-green/20 text-accent-green';
+                status.textContent = 'SAFE';
+            }
+        }
+
+        function clearLogs() {
+            const logEntries = document.getElementById('logEntries');
+            logEntries.innerHTML = `
+                <div class="flex gap-4 p-3 rounded-lg bg-dark-700/50 text-xs">
+                    <span class="text-gray-500 font-mono w-20 flex-shrink-0">${getTime()}</span>
+                    <span class="text-accent-blue">Logs cleared. Monitoring continues...</span>
+                </div>
+            `;
+            logEntryCount = 0;
+            document.getElementById('logCount').textContent = '0 entries';
+        }
+
+        function resetAll() {
+            Object.keys(detectionState).forEach(key => {
+                detectionState[key] = { count: 0, extCount: 0, lastAccess: null, details: [], sources: new Set() };
+            });
+            stats = { total: 0, detected: 0, safe: 0 };
+            detectedExtensions.clear();
+            updateExtensionsList();
+            updateStats();
+            createDetectionCards();
+            clearLogs();
+            addLog('All detection states reset', 'warning');
+        }
+
+        function getCallerInfo() {
+            try {
+                const stack = new Error().stack;
+                const lines = stack.split('\n');
+                for (const line of lines) {
+                    if (line.includes('chrome-extension://')) {
+                        const match = line.match(/chrome-extension:\/\/([a-z0-9]+)/i);
+                        if (match && match[1]) return match[1];
+                    }
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        function recordDetection(type, extId = null) {
+            if (extId) {
+                addDetectedExtension(extId);
+                detectionState[type].sources.add(extId);
+                if (targetExtensionId && extId !== targetExtensionId) return false;
+                detectionState[type].count++;
+                detectionState[type].lastAccess = Date.now();
+                detectionState[type].extCount = (detectionState[type].extCount || 0) + 1;
+                return true;
+            }
+            if (!targetExtensionId) {
+                detectionState[type].count++;
+                detectionState[type].lastAccess = Date.now();
+            }
+            return !targetExtensionId;
+        }
+
+        function setupDetectionTraps() {
+            const originalInnerHTMLDesc = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML');
+            Object.defineProperty(Element.prototype, 'innerHTML', {
+                get: function() {
+                    const ext = getCallerInfo();
+                    recordDetection('innerhtml', ext);
+                    return originalInnerHTMLDesc.get.call(this);
+                },
+                set: originalInnerHTMLDesc.set,
+                configurable: true
+            });
+
+            const originalOuterHTMLDesc = Object.getOwnPropertyDescriptor(Element.prototype, 'outerHTML');
+            Object.defineProperty(Element.prototype, 'outerHTML', {
+                get: function() {
+                    const ext = getCallerInfo();
+                    recordDetection('outerhtml', ext);
+                    return originalOuterHTMLDesc.get.call(this);
+                },
+                set: originalOuterHTMLDesc.set,
+                configurable: true
+            });
+
+            const originalInnerTextDesc = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'innerText');
+            Object.defineProperty(HTMLElement.prototype, 'innerText', {
+                get: function() {
+                    const ext = getCallerInfo();
+                    recordDetection('innertext', ext);
+                    return originalInnerTextDesc.get.call(this);
+                },
+                set: originalInnerTextDesc.set,
+                configurable: true
+            });
+
+            const originalTextContentDesc = Object.getOwnPropertyDescriptor(Node.prototype, 'textContent');
+            Object.defineProperty(Node.prototype, 'textContent', {
+                get: function() {
+                    const ext = getCallerInfo();
+                    recordDetection('textcontent', ext);
+                    return originalTextContentDesc.get.call(this);
+                },
+                set: originalTextContentDesc.set,
+                configurable: true
+            });
+
+            const originalQuerySelector = Document.prototype.querySelector;
+            Document.prototype.querySelector = function(selector) {
+                const ext = getCallerInfo();
+                recordDetection('queryselector', ext);
+                return originalQuerySelector.call(this, selector);
+            };
+
+            const originalQuerySelectorAll = Document.prototype.querySelectorAll;
+            Document.prototype.querySelectorAll = function(selector) {
+                const ext = getCallerInfo();
+                recordDetection('queryselector', ext);
+                return originalQuerySelectorAll.call(this, selector);
+            };
+
+            const originalElementQS = Element.prototype.querySelector;
+            Element.prototype.querySelector = function(selector) {
+                const ext = getCallerInfo();
+                recordDetection('queryselector', ext);
+                return originalElementQS.call(this, selector);
+            };
+
+            const originalElementQSA = Element.prototype.querySelectorAll;
+            Element.prototype.querySelectorAll = function(selector) {
+                const ext = getCallerInfo();
+                recordDetection('queryselector', ext);
+                return originalElementQSA.call(this, selector);
+            };
+
+            const originalGetAttribute = Element.prototype.getAttribute;
+            Element.prototype.getAttribute = function(attr) {
+                const ext = getCallerInfo();
+                recordDetection('getattribute', ext);
+                return originalGetAttribute.call(this, attr);
+            };
+
+            const originalCloneNode = Node.prototype.cloneNode;
+            Node.prototype.cloneNode = function(deep) {
+                const ext = getCallerInfo();
+                recordDetection('clonenode', ext);
+                return originalCloneNode.call(this, deep);
+            };
+
+            const OriginalXMLSerializer = window.XMLSerializer;
+            window.XMLSerializer = function() {
+                const ext = getCallerInfo();
+                recordDetection('xmlserializer', ext);
+                return new OriginalXMLSerializer();
+            };
+            window.XMLSerializer.prototype = OriginalXMLSerializer.prototype;
+
+            const OriginalDOMParser = window.DOMParser;
+            window.DOMParser = function() {
+                const ext = getCallerInfo();
+                recordDetection('domparser', ext);
+                return new OriginalDOMParser();
+            };
+            window.DOMParser.prototype = OriginalDOMParser.prototype;
+
+            const originalGetSelection = window.getSelection;
+            window.getSelection = function() {
+                const ext = getCallerInfo();
+                recordDetection('getselection', ext);
+                return originalGetSelection.call(this);
+            };
+
+            if (navigator.clipboard) {
+                const originalReadText = navigator.clipboard.readText;
+                const originalWriteText = navigator.clipboard.writeText;
+                const originalRead = navigator.clipboard.read;
+                const originalWrite = navigator.clipboard.write;
+                
+                if (originalReadText) {
+                    navigator.clipboard.readText = function() {
+                        const ext = getCallerInfo();
+                        recordDetection('clipboard', ext);
+                        return originalReadText.call(this);
+                    };
+                }
+                if (originalWriteText) {
+                    navigator.clipboard.writeText = function(text) {
+                        const ext = getCallerInfo();
+                        recordDetection('clipboard', ext);
+                        return originalWriteText.call(this, text);
+                    };
+                }
+                if (originalRead) {
+                    navigator.clipboard.read = function() {
+                        const ext = getCallerInfo();
+                        recordDetection('clipboard', ext);
+                        return originalRead.call(this);
+                    };
+                }
+                if (originalWrite) {
+                    navigator.clipboard.write = function(data) {
+                        const ext = getCallerInfo();
+                        recordDetection('clipboard', ext);
+                        return originalWrite.call(this, data);
+                    };
+                }
+            }
+
+            const OriginalMutationObserver = window.MutationObserver;
+            window.MutationObserver = function(callback) {
+                const ext = getCallerInfo();
+                recordDetection('mutationobserver', ext);
+                return new OriginalMutationObserver(callback);
+            };
+            window.MutationObserver.prototype = OriginalMutationObserver.prototype;
+
+            const originalFetch = window.fetch;
+            window.fetch = function(url, options) {
+                const ext = getCallerInfo();
+                recordDetection('fetch', ext);
+                return originalFetch.call(this, url, options);
+            };
+
+            const OriginalXHR = window.XMLHttpRequest;
+            window.XMLHttpRequest = function() {
+                const xhr = new OriginalXHR();
+                const originalOpen = xhr.open;
+                xhr.open = function(method, url) {
+                    const ext = getCallerInfo();
+                    recordDetection('fetch', ext);
+                    return originalOpen.apply(this, arguments);
+                };
+                return xhr;
+            };
+            window.XMLHttpRequest.prototype = OriginalXHR.prototype;
+
+            const originalEval = window.eval;
+            window.eval = function(code) {
+                const ext = getCallerInfo();
+                recordDetection('eval', ext);
+                return originalEval.call(this, code);
+            };
+
+            const OriginalFunction = window.Function;
+            window.Function = function(...args) {
+                const ext = getCallerInfo();
+                recordDetection('eval', ext);
+                return new OriginalFunction(...args);
+            };
+            window.Function.prototype = OriginalFunction.prototype;
+
+            const originalLocalStorageGetItem = localStorage.getItem;
+            const originalLocalStorageSetItem = localStorage.setItem;
+            localStorage.getItem = function(key) {
+                const ext = getCallerInfo();
+                recordDetection('storage', ext);
+                return originalLocalStorageGetItem.call(this, key);
+            };
+            localStorage.setItem = function(key, value) {
+                const ext = getCallerInfo();
+                recordDetection('storage', ext);
+                return originalLocalStorageSetItem.call(this, key, value);
+            };
+
+            const originalSessionStorageGetItem = sessionStorage.getItem;
+            const originalSessionStorageSetItem = sessionStorage.setItem;
+            sessionStorage.getItem = function(key) {
+                const ext = getCallerInfo();
+                recordDetection('storage', ext);
+                return originalSessionStorageGetItem.call(this, key);
+            };
+            sessionStorage.setItem = function(key, value) {
+                const ext = getCallerInfo();
+                recordDetection('storage', ext);
+                return originalSessionStorageSetItem.call(this, key, value);
+            };
+
+            const originalGetContext = HTMLCanvasElement.prototype.getContext;
+            HTMLCanvasElement.prototype.getContext = function(type) {
+                const ext = getCallerInfo();
+                recordDetection('canvas', ext);
+                return originalGetContext.call(this, type);
+            };
+
+            const originalToDataURL = HTMLCanvasElement.prototype.toDataURL;
+            HTMLCanvasElement.prototype.toDataURL = function() {
+                const ext = getCallerInfo();
+                recordDetection('canvas', ext);
+                return originalToDataURL.apply(this, arguments);
+            };
+
+            const OriginalTreeWalker = document.createTreeWalker;
+            document.createTreeWalker = function() {
+                const ext = getCallerInfo();
+                recordDetection('treewalker', ext);
+                return OriginalTreeWalker.apply(this, arguments);
+            };
+
+            const OriginalNodeIterator = document.createNodeIterator;
+            document.createNodeIterator = function() {
+                const ext = getCallerInfo();
+                recordDetection('treewalker', ext);
+                return OriginalNodeIterator.apply(this, arguments);
+            };
+
+            const originalGetComputedStyle = window.getComputedStyle;
+            window.getComputedStyle = function(element, pseudoElt) {
+                const ext = getCallerInfo();
+                recordDetection('computed', ext);
+                return originalGetComputedStyle.call(this, element, pseudoElt);
+            };
+
+            const originalCreateElement = document.createElement;
+            document.createElement = function(tagName) {
+                const ext = getCallerInfo();
+                if (tagName.toLowerCase() === 'iframe') {
+                    recordDetection('iframe', ext);
+                }
+                return originalCreateElement.call(this, tagName);
+            };
+
+            const originalAttachShadow = Element.prototype.attachShadow;
+            Element.prototype.attachShadow = function(init) {
+                const ext = getCallerInfo();
+                recordDetection('shadowdom', ext);
+                return originalAttachShadow.call(this, init);
+            };
+
+            const shadowRootDesc = Object.getOwnPropertyDescriptor(Element.prototype, 'shadowRoot');
+            if (shadowRootDesc) {
+                Object.defineProperty(Element.prototype, 'shadowRoot', {
+                    get: function() {
+                        const ext = getCallerInfo();
+                        recordDetection('shadowdom', ext);
+                        return shadowRootDesc.get.call(this);
+                    },
+                    configurable: true
+                });
+            }
+
+            addLog('Detection traps initialized for MAIN world scripts', 'info');
+            addLog('Note: Extensions using ISOLATED world bypass these traps', 'warning');
+        }
+
+        function runAllDetections() {
+            stats = { total: 0, detected: 0, safe: 0 };
+            
+            addLog('Running all detection checks...', 'info');
+
+            detectionConfigs.forEach(config => {
+                const state = detectionState[config.id];
+                const sourceArray = Array.from(state.sources);
+                const hasExtensionActivity = sourceArray.length > 0;
+                const isOverThreshold = state.count > config.threshold;
+                const detected = hasExtensionActivity || isOverThreshold;
+                
+                stats.total++;
+                if (detected) {
+                    stats.detected++;
+                    if (hasExtensionActivity) {
+                        addLog(`[${config.title}] EXT DETECTED - Extensions: ${sourceArray.join(', ')} - Count: ${state.extCount || 0}`, 'detected');
+                    } else {
+                        addLog(`[${config.title}] DETECTED - Count: ${state.count} (threshold: ${config.threshold})`, 'detected');
+                    }
+                } else {
+                    stats.safe++;
+                }
+                
+                updateCard(config.id, detected);
+            });
+
+            updateStats();
+            addLog(`Detection complete: ${stats.detected} detected, ${stats.safe} safe`, stats.detected > 0 ? 'warning' : 'safe');
+        }
+
+        createDetectionCards();
+        setupDetectionTraps();
+        
+        setTimeout(runAllDetections, 2000);
+
+        setInterval(() => {
+            const hasNewActivity = Object.values(detectionState).some(s => 
+                s.lastAccess && (Date.now() - s.lastAccess) < 3000
+            );
+            if (hasNewActivity) {
+                runAllDetections();
+            }
+        }, 3000);
+    </script>
+</body>
+</html>

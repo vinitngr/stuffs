@@ -2,23 +2,23 @@ const { search } = require('./index.js');
 const fs = require('fs');
 
 const tests = [
-  { file: '../test.file.js', query: 'retry logic exponential backoff', truth: { start: 78, end: 93 } },
-  { file: '../test.file.js', query: 'where are tasks registered', truth: { start: 33, end: 63 } },
-  { file: '../test.file.js', query: 'system health metrics computed', truth: { start: 96, end: 105 } },
-  { file: '../test.file.js', query: 'task success events emitted', truth: { start: 66, end: 69 } },
-  { file: '../test.file.js', query: 'disk usage calculated recursively', truth: { start: 247, end: 260 } },
+  { file: './test.file.js', query: 'retry logic exponential backoff', truth: { start: 78, end: 93 } },
+  { file: './test.file.js', query: 'where are tasks registered', truth: { start: 33, end: 63 } },
+  { file: './test.file.js', query: 'system health metrics computed', truth: { start: 96, end: 105 } },
+  { file: './test.file.js', query: 'task success events emitted', truth: { start: 66, end: 69 } },
+  { file: './test.file.js', query: 'disk usage calculated recursively', truth: { start: 247, end: 260 } },
 
-  { file: '../test2.file.js', query: 'cache store values with TTL', truth: { start: 16, end: 21 } },
-  { file: '../test2.file.js', query: 'rate limiter tokens refilled', truth: { start: 75, end: 84 } },
-  { file: '../test2.file.js', query: 'session created with ID', truth: { start: 349, end: 361 } },
-  { file: '../test2.file.js', query: 'middleware execute sequence', truth: { start: 217, end: 229 } },
-  { file: '../test2.file.js', query: 'email validated regex', truth: { start: 399, end: 403 } },
+  { file: './test2.file.js', query: 'cache store values with TTL', truth: { start: 16, end: 21 } },
+  { file: './test2.file.js', query: 'rate limiter tokens refilled', truth: { start: 75, end: 84 } },
+  { file: './test2.file.js', query: 'session created with ID', truth: { start: 349, end: 361 } },
+  { file: './test2.file.js', query: 'middleware execute sequence', truth: { start: 217, end: 229 } },
+  { file: './test2.file.js', query: 'email validated regex', truth: { start: 399, end: 403 } },
 
-  { file: '../test3.file.js', query: 'round robin select server', truth: { start: 82, end: 88 } },
-  { file: '../test3.file.js', query: 'distributed lock acquired timeout', truth: { start: 338, end: 357 } },
-  { file: '../test3.file.js', query: 'message queue publish priority', truth: { start: 256, end: 280 } },
-  { file: '../test3.file.js', query: 'health check executed', truth: { start: 441, end: 466 } },
-  { file: '../test3.file.js', query: 'service registered endpoint', truth: { start: 14, end: 27 } },
+  { file: './test3.file.js', query: 'round robin select server', truth: { start: 82, end: 88 } },
+  { file: './test3.file.js', query: 'distributed lock acquired timeout', truth: { start: 338, end: 357 } },
+  { file: './test3.file.js', query: 'message queue publish priority', truth: { start: 256, end: 280 } },
+  { file: './test3.file.js', query: 'health check executed', truth: { start: 441, end: 466 } },
+  { file: './test3.file.js', query: 'service registered endpoint', truth: { start: 14, end: 27 } },
 ];
 
 console.log('=== ADVANCED SEARCH ENGINE ACCURACY TEST ===\n');
@@ -35,6 +35,7 @@ tests.forEach((t, i) => {
     maxLines: 80,
     windowStep: 3,
   });
+
 
   const checkHit = (r) => {
     const overlapStart = Math.max(r.start, t.truth.start);

@@ -441,4 +441,44 @@ function search(code, query, opts = {}) {
   }));
 }
 
+
+if (require.main === module) {
+  const args = process.argv.slice(2);
+  
+  if (args.length < 2) {
+    console.log(`
+🎯 THE CHOSEN ONE - Configurable Code Search Engine
+
+Usage:
+  node search_engine.js <file.js> "<query>" [options]
+
+Options:
+  --min <n>      Minimum lines per result (default: 30)
+  --max <n>      Maximum lines per result (default: 200)
+  --topK <n>     Number of results (default: 5)
+  --no-expand    Disable smart function expansion
+
+Examples:
+  node search_engine.js ../test.file.js "where is retry logic"
+  node search_engine.js ../test.file.js "cache implementation" --min 50 --max 150 --topK 3
+`);
+    process.exit(1);
+  }
+  
+  const filePath = args[0];
+  const query = args[1];
+  
+  // Parse options
+  const config = {};
+  for (let i = 2; i < args.length; i++) {
+    if (args[i] === '--min' && args[i + 1]) config.minLines = parseInt(args[++i]);
+    if (args[i] === '--max' && args[i + 1]) config.maxLines = parseInt(args[++i]);
+    if (args[i] === '--topK' && args[i + 1]) config.topK = parseInt(args[++i]);
+    if (args[i] === '--no-expand') config.smartExpand = false;
+  }
+  
+  search(filePath, query, config);
+}
+
 module.exports = { search };
+

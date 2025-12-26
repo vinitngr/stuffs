@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extension Activity Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: { 900: '#0d1117', 800: '#161b22', 700: '#21262d', 600: '#30363d' },
+                        accent: { blue: '#58a6ff', green: '#3fb950', red: '#f85149', orange: '#f0883e', purple: '#a371f7' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes pulse-red { 0%, 100% { box-shadow: 0 0 5px #f85149; } 50% { box-shadow: 0 0 20px #f85149; } }
+        @keyframes pulse-green { 0%, 100% { box-shadow: 0 0 5px #3fb950; } 50% { box-shadow: 0 0 15px #3fb950; } }
+        .pulse-red { animation: pulse-red 2s infinite; }
+        .pulse-green { animation: pulse-green 2s infinite; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0d1117; }
+        ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-dark-900 text-gray-300 min-h-screen font-mono">
+    <div class="max-w-7xl mx-auto p-4 md:p-6">
+        
+        <header class="text-center py-6 border-b border-dark-600 mb-6">
+            <h1 class="text-2xl font-bold text-accent-blue mb-2">🔍 Extension Activity Monitor</h1>
+            <p class="text-gray-500 text-xs">Real-time detection of content scraping, DOM manipulation, and data extraction</p>
+        </header>
+
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-6 mb-6">
+            <h2 class="text-sm font-semibold text-accent-blue mb-4">⚙️ Target Configuration</h2>
+            <div class="flex flex-col md:flex-row gap-4 items-start md:items-end">
+                <div class="flex-1 w-full">
+                    <label class="block text-xs text-gray-500 mb-2">Extension ID (leave empty to monitor ALL extensions)</label>
+                    <input type="text" id="targetExtId" placeholder="e.g., kpdphlaceikamkhmoochncmobnkelail" 
+                        class="w-full bg-dark-900 border border-dark-600 rounded-lg px-4 py-3 text-sm text-accent-orange placeholder-gray-600 focus:border-accent-blue focus:outline-none transition">
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="setTarget()" class="bg-accent-blue hover:bg-blue-600 text-white px-5 py-3 rounded-lg text-xs font-semibold transition">
+                        Set Target
+                    </button>
+                    <button onclick="clearTarget()" class="bg-dark-700 hover:bg-dark-600 border border-dark-600 text-gray-300 px-5 py-3 rounded-lg text-xs font-semibold transition">
+                        Monitor All
+                    </button>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center gap-3">
+                <span class="text-xs text-gray-500">Current Target:</span>
+                <span id="currentTarget" class="bg-dark-700 text-accent-orange px-3 py-1 rounded-full text-xs border border-dark-600">
+                    All Extensions
+                </span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center">
+                <div class="text-3xl font-bold text-accent-blue" id="totalChecks">0</div>
+                <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Total Checks</div>
+            </div>
+            <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center">
+                <div class="text-3xl font-bold text-accent-red" id="detectedCount">0</div>
+                <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Detected</div>
+            </div>
+            <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center">
+                <div class="text-3xl font-bold text-accent-green" id="undetectedCount">0</div>
+                <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Undetected</div>
+            </div>
+            <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center">
+                <div class="text-3xl font-bold text-accent-purple" id="extensionsDetected">0</div>
+                <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Extensions</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" id="detectionGrid">
+            <div class="detection-box" id="box-innerhtml">
+                <div class="box-header">
+                    <span class="box-title">📄 innerHTML Access</span>
+                    <span class="box-status waiting" id="status-innerhtml">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension reads document.documentElement.innerHTML or document.body.innerHTML</div>
+                    <div class="detection-details" id="details-innerhtml"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-outerhtml">
+                <div class="box-header">
+                    <span class="box-title">📑 outerHTML Access</span>
+                    <span class="box-status waiting" id="status-outerhtml">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension reads document.documentElement.outerHTML for full page capture</div>
+                    <div class="detection-details" id="details-outerhtml"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-innertext">
+                <div class="box-header">
+                    <span class="box-title">📝 innerText Access</span>
+                    <span class="box-status waiting" id="status-innertext">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension reads document.body.innerText to extract visible text</div>
+                    <div class="detection-details" id="details-innertext"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-textcontent">
+                <div class="box-header">
+                    <span class="box-title">📃 textContent Access</span>
+                    <span class="box-status waiting" id="status-textcontent">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension reads element.textContent for text extraction</div>
+                    <div class="detection-details" id="details-textcontent"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-queryselector">
+                <div class="box-header">
+                    <span class="box-title">🔎 querySelector Calls</span>
+                    <span class="box-status waiting" id="status-queryselector">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects excessive querySelector/querySelectorAll calls for DOM scraping</div>
+                    <div class="detection-details" id="details-queryselector"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-getattribute">
+                <div class="box-header">
+                    <span class="box-title">🏷️ getAttribute Calls</span>
+                    <span class="box-status waiting" id="status-getattribute">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension reads element attributes like href, src, data-*</div>
+                    <div class="detection-details" id="details-getattribute"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-clonenode">
+                <div class="box-header">
+                    <span class="box-title">📋 cloneNode Calls</span>
+                    <span class="box-status waiting" id="status-clonenode">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension clones DOM nodes for data extraction</div>
+                    <div class="detection-details" id="details-clonenode"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-xmlserializer">
+                <div class="box-header">
+                    <span class="box-title">🔧 XMLSerializer</span>
+                    <span class="box-status waiting" id="status-xmlserializer">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension uses XMLSerializer to serialize DOM</div>
+                    <div class="detection-details" id="details-xmlserializer"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-domparser">
+                <div class="box-header">
+                    <span class="box-title">🔨 DOMParser</span>
+                    <span class="box-status waiting" id="status-domparser">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension creates DOMParser to parse HTML strings</div>
+                    <div class="detection-details" id="details-domparser"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-getselection">
+                <div class="box-header">
+                    <span class="box-title">✂️ Selection API</span>
+                    <span class="box-status waiting" id="status-getselection">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension uses getSelection() or Range API for text capture</div>
+                    <div class="detection-details" id="details-getselection"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-clipboard">
+                <div class="box-header">
+                    <span class="box-title">📎 Clipboard Access</span>
+                    <span class="box-status waiting" id="status-clipboard">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension accesses clipboard API to copy content</div>
+                    <div class="detection-details" id="details-clipboard"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-mutationobserver">
+                <div class="box-header">
+                    <span class="box-title">👁️ MutationObserver</span>
+                    <span class="box-status waiting" id="status-mutationobserver">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension monitors DOM changes via MutationObserver</div>
+                    <div class="detection-details" id="details-mutationobserver"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-fetch">
+                <div class="box-header">
+                    <span class="box-title">🌐 Fetch/XHR Intercept</span>
+                    <span class="box-status waiting" id="status-fetch">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension intercepts or makes network requests</div>
+                    <div class="detection-details" id="details-fetch"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-eval">
+                <div class="box-header">
+                    <span class="box-title">⚠️ eval/Function</span>
+                    <span class="box-status waiting" id="status-eval">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension uses eval() or Function() constructor</div>
+                    <div class="detection-details" id="details-eval"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-storage">
+                <div class="box-header">
+                    <span class="box-title">💾 Storage Access</span>
+                    <span class="box-status waiting" id="status-storage">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension accesses localStorage/sessionStorage</div>
+                    <div class="detection-details" id="details-storage"></div>
+                </div>
+            </div>
+
+            <div class="detection-box" id="box-canvas">
+                <div class="box-header">
+                    <span class="box-title">🎨 Canvas Fingerprint</span>
+                    <span class="box-status waiting" id="status-canvas">WAITING</span>
+                </div>
+                <div class="box-content">
+                    <div class="box-description">Detects when extension uses canvas for fingerprinting or screenshots</div>
+                    <div class="detection-details" id="details-canvas"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fake-content">
+            <h3>🎯 Test Content (Scraping Target)</h3>
+            <div class="profile-card">
+                <div class="profile-photo">👤</div>
+                <div class="profile-info">
+                    <h4 id="test-name">John Doe</h4>
+                    <div class="headline" id="test-headline">Senior Software Engineer at TechCorp | AI/ML Enthusiast</div>
+                    <div class="about" id="test-about">
+                        Hi, I'm John! Passionate about building scalable systems and exploring new technologies. 
+                        Currently working on distributed systems and machine learning pipelines.
+                        #OpenToWork #SoftwareEngineering #AI
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="activity-log">
+            <div class="log-header">📜 Activity Log</div>
+            <div class="log-entries" id="logEntries">
+                <div class="log-entry info">
+                    <span class="log-time">--:--:--</span>
+                    <span class="log-message">Monitoring started. Waiting for extension activity...</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="refresh-btn" onclick="runAllDetections()">🔄 Run All Detections</button>
+        <button class="clear-btn" onclick="clearLogs()">🗑️ Clear Logs</button>
+
+        <footer>
+            Extension Monitor v1.0 | Target: kpdphlaceikamkhmoochncmobnkelail | 
+            Note: Extensions using ISOLATED world may bypass these detections
+        </footer>
+    </div>
+
+    <script>
+        const TARGET_EXTENSION_ID = 'kpdphlaceikamkhmoochncmobnkelail';
+        
+        let stats = {
+            total: 0,
+            detected: 0,
+            undetected: 0
+        };
+
+        const detectionResults = {};
+
+        function getTime() {
+            return new Date().toLocaleTimeString('en-US', { hour12: false });
+        }
+
+        function addLog(message, type = 'info') {
+            const logEntries = document.getElementById('logEntries');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.innerHTML = `
+                <span class="log-time">${getTime()}</span>
+                <span class="log-message">${message}</span>
+            `;
+            logEntries.insertBefore(entry, logEntries.firstChild);
+            
+            if (logEntries.children.length > 100) {
+                logEntries.removeChild(logEntries.lastChild);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalChecks').textContent = stats.total;
+            document.getElementById('detectedCount').textContent = stats.detected;
+            document.getElementById('undetectedCount').textContent = stats.undetected;
+        }
+
+        function updateBox(boxId, detected, details = {}) {
+            const box = document.getElementById(`box-${boxId}`);
+            const status = document.getElementById(`status-${boxId}`);
+            const detailsEl = document.getElementById(`details-${boxId}`);
+            
+            stats.total++;
+            
+            if (detected) {
+                stats.detected++;
+                box.className = 'detection-box detected';
+                status.className = 'box-status detected';
+                status.textContent = 'DETECTED';
+                
+                let detailsHTML = '';
+                for (const [key, value] of Object.entries(details)) {
+                    detailsHTML += `
+                        <div class="detail-row">
+                            <span class="detail-label">${key}:</span>
+                            <span class="detail-value ${key === 'Action' ? 'danger' : ''}">${value}</span>
+                        </div>
+                    `;
+                }
+                detailsEl.innerHTML = detailsHTML;
+                detailsEl.classList.add('show');
+                
+                addLog(`[${boxId.toUpperCase()}] DETECTED - ${details.Action || 'Activity captured'}`, 'detected');
+            } else {
+                stats.undetected++;
+                box.className = 'detection-box undetected';
+                status.className = 'box-status undetected';
+                status.textContent = 'UNDETECTED';
+                detailsEl.classList.remove('show');
+                
+                addLog(`[${boxId.toUpperCase()}] Undetected - Extension bypassed this check`, 'undetected');
+            }
+            
+            updateStats();
+            detectionResults[boxId] = { detected, details, timestamp: Date.now() };
+        }
+
+        function clearLogs() {
+            document.getElementById('logEntries').innerHTML = `
+                <div class="log-entry info">
+                    <span class="log-time">${getTime()}</span>
+                    <span class="log-message">Logs cleared. Monitoring continues...</span>
+                </div>
+            `;
+        }
+
+        const detectionState = {
+            innerHTML: { count: 0, lastAccess: null },
+            outerHTML: { count: 0, lastAccess: null },
+            innerText: { count: 0, lastAccess: null },
+            textContent: { count: 0, lastAccess: null },
+            querySelector: { count: 0, selectors: [] },
+            getAttribute: { count: 0, attributes: [] },
+            cloneNode: { count: 0, lastAccess: null },
+            xmlSerializer: { count: 0, lastAccess: null },
+            domParser: { count: 0, lastAccess: null },
+            getSelection: { count: 0, lastAccess: null },
+            clipboard: { count: 0, lastAccess: null },
+            mutationObserver: { count: 0, lastAccess: null },
+            fetch: { count: 0, urls: [] },
+            eval: { count: 0, lastAccess: null },
+            storage: { count: 0, keys: [] },
+            canvas: { count: 0, lastAccess: null }
+        };
+
+        function setupDetectionTraps() {
+            const originalInnerHTMLDesc = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML');
+            Object.defineProperty(Element.prototype, 'innerHTML', {
+                get: function() {
+                    detectionState.innerHTML.count++;
+                    detectionState.innerHTML.lastAccess = Date.now();
+                    return originalInnerHTMLDesc.get.call(this);
+                },
+                set: originalInnerHTMLDesc.set,
+                configurable: true
+            });
+
+            const originalOuterHTMLDesc = Object.getOwnPropertyDescriptor(Element.prototype, 'outerHTML');
+            Object.defineProperty(Element.prototype, 'outerHTML', {
+                get: function() {
+                    detectionState.outerHTML.count++;
+                    detectionState.outerHTML.lastAccess = Date.now();
+                    return originalOuterHTMLDesc.get.call(this);
+                },
+                set: originalOuterHTMLDesc.set,
+                configurable: true
+            });
+
+            const originalInnerTextDesc = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'innerText');
+            Object.defineProperty(HTMLElement.prototype, 'innerText', {
+                get: function() {
+                    detectionState.innerText.count++;
+                    detectionState.innerText.lastAccess = Date.now();
+                    return originalInnerTextDesc.get.call(this);
+                },
+                set: originalInnerTextDesc.set,
+                configurable: true
+            });
+
+            const originalTextContentDesc = Object.getOwnPropertyDescriptor(Node.prototype, 'textContent');
+            Object.defineProperty(Node.prototype, 'textContent', {
+                get: function() {
+                    detectionState.textContent.count++;
+                    detectionState.textContent.lastAccess = Date.now();
+                    return originalTextContentDesc.get.call(this);
+                },
+                set: originalTextContentDesc.set,
+                configurable: true
+            });
+
+            const originalQuerySelector = Document.prototype.querySelector;
+            Document.prototype.querySelector = function(selector) {
+                detectionState.querySelector.count++;
+                if (!detectionState.querySelector.selectors.includes(selector)) {
+                    detectionState.querySelector.selectors.push(selector);
+                }
+                return originalQuerySelector.call(this, selector);
+            };
+
+            const originalQuerySelectorAll = Document.prototype.querySelectorAll;
+            Document.prototype.querySelectorAll = function(selector) {
+                detectionState.querySelector.count++;
+                if (!detectionState.querySelector.selectors.includes(selector)) {
+                    detectionState.querySelector.selectors.push(selector);
+                }
+                return originalQuerySelectorAll.call(this, selector);
+            };
+
+            const originalGetAttribute = Element.prototype.getAttribute;
+            Element.prototype.getAttribute = function(attr) {
+                detectionState.getAttribute.count++;
+                if (!detectionState.getAttribute.attributes.includes(attr)) {
+                    detectionState.getAttribute.attributes.push(attr);
+                }
+                return originalGetAttribute.call(this, attr);
+            };
+
+            const originalCloneNode = Node.prototype.cloneNode;
+            Node.prototype.cloneNode = function(deep) {
+                detectionState.cloneNode.count++;
+                detectionState.cloneNode.lastAccess = Date.now();
+                return originalCloneNode.call(this, deep);
+            };
+
+            const OriginalXMLSerializer = window.XMLSerializer;
+            window.XMLSerializer = function() {
+                detectionState.xmlSerializer.count++;
+                detectionState.xmlSerializer.lastAccess = Date.now();
+                return new OriginalXMLSerializer();
+            };
+
+            const OriginalDOMParser = window.DOMParser;
+            window.DOMParser = function() {
+                detectionState.domParser.count++;
+                detectionState.domParser.lastAccess = Date.now();
+                return new OriginalDOMParser();
+            };
+
+            const originalGetSelection = window.getSelection;
+            window.getSelection = function() {
+                detectionState.getSelection.count++;
+                detectionState.getSelection.lastAccess = Date.now();
+                return originalGetSelection.call(this);
+            };
+
+            if (navigator.clipboard) {
+                const originalReadText = navigator.clipboard.readText;
+                const originalWriteText = navigator.clipboard.writeText;
+                
+                if (originalReadText) {
+                    navigator.clipboard.readText = function() {
+                        detectionState.clipboard.count++;
+                        detectionState.clipboard.lastAccess = Date.now();
+                        return originalReadText.call(this);
+                    };
+                }
+                
+                if (originalWriteText) {
+                    navigator.clipboard.writeText = function(text) {
+                        detectionState.clipboard.count++;
+                        detectionState.clipboard.lastAccess = Date.now();
+                        return originalWriteText.call(this, text);
+                    };
+                }
+            }
+
+            const OriginalMutationObserver = window.MutationObserver;
+            window.MutationObserver = function(callback) {
+                detectionState.mutationObserver.count++;
+                detectionState.mutationObserver.lastAccess = Date.now();
+                return new OriginalMutationObserver(callback);
+            };
+
+            const originalFetch = window.fetch;
+            window.fetch = function(url, options) {
+                detectionState.fetch.count++;
+                detectionState.fetch.urls.push(String(url).substring(0, 100));
+                return originalFetch.call(this, url, options);
+            };
+
+            const OriginalXHR = window.XMLHttpRequest;
+            window.XMLHttpRequest = function() {
+                const xhr = new OriginalXHR();
+                const originalOpen = xhr.open;
+                xhr.open = function(method, url) {
+                    detectionState.fetch.count++;
+                    detectionState.fetch.urls.push(String(url).substring(0, 100));
+                    return originalOpen.apply(this, arguments);
+                };
+                return xhr;
+            };
+
+            const originalEval = window.eval;
+            window.eval = function(code) {
+                detectionState.eval.count++;
+                detectionState.eval.lastAccess = Date.now();
+                return originalEval.call(this, code);
+            };
+
+            const originalLocalStorageGetItem = localStorage.getItem;
+            localStorage.getItem = function(key) {
+                detectionState.storage.count++;
+                if (!detectionState.storage.keys.includes(key)) {
+                    detectionState.storage.keys.push(key);
+                }
+                return originalLocalStorageGetItem.call(this, key);
+            };
+
+            const originalGetContext = HTMLCanvasElement.prototype.getContext;
+            HTMLCanvasElement.prototype.getContext = function(type) {
+                detectionState.canvas.count++;
+                detectionState.canvas.lastAccess = Date.now();
+                return originalGetContext.call(this, type);
+            };
+
+            addLog('Detection traps initialized for MAIN world scripts', 'info');
+        }
+
+        function runAllDetections() {
+            stats = { total: 0, detected: 0, undetected: 0 };
+            
+            addLog('Running all detection checks...', 'info');
+
+            updateBox('innerhtml', detectionState.innerHTML.count > 5, {
+                'Action': 'innerHTML property accessed',
+                'Count': detectionState.innerHTML.count,
+                'Last Access': detectionState.innerHTML.lastAccess ? new Date(detectionState.innerHTML.lastAccess).toLocaleTimeString() : 'Never'
+            });
+
+            updateBox('outerhtml', detectionState.outerHTML.count > 0, {
+                'Action': 'outerHTML property accessed',
+                'Count': detectionState.outerHTML.count,
+                'Last Access': detectionState.outerHTML.lastAccess ? new Date(detectionState.outerHTML.lastAccess).toLocaleTimeString() : 'Never'
+            });
+
+            updateBox('innertext', detectionState.innerText.count > 5, {
+                'Action': 'innerText property accessed',
+                'Count': detectionState.innerText.count,
+                'Last Access': detectionState.innerText.lastAccess ? new Date(detectionState.innerText.lastAccess).toLocaleTimeString() : 'Never'
+            });
+
+            updateBox('textcontent', detectionState.textContent.count > 10, {
+                'Action': 'textContent property accessed',
+                'Count': detectionState.textContent.count,
+                'Last Access': detectionState.textContent.lastAccess ? new Date(detectionState.textContent.lastAccess).toLocaleTimeString() : 'Never'
+            });
+
+            updateBox('queryselector', detectionState.querySelector.count > 20, {
+                'Action': 'querySelector/querySelectorAll called',
+                'Count': detectionState.querySelector.count,
+                'Selectors': detectionState.querySelector.selectors.slice(-5).join(', ') || 'None'
+            });
+
+            updateBox('getattribute', detectionState.getAttribute.count > 10, {
+                'Action': 'getAttribute called',
+                'Count': detectionState.getAttribute.count,
+                'Attributes': detectionState.getAttribute.attributes.slice(-10).join(', ') || 'None'
+            });
+
+            updateBox('clonenode', detectionState.cloneNode.count > 0, {
+                'Action': 'cloneNode called',
+                'Count': detectionState.cloneNode.count,
+                'Last Access': detectionState.cloneNode.lastAccess ? new Date(detectionState.cloneNode.lastAccess).toLocaleTimeString() : 'Never'
+            });
+
+            updateBox('xmlserializer', detectionState.xmlSerializer.count > 0, {
+                'Action': 'XMLSerializer instantiated',
+                'Count': detectionState.xmlSerializer.count,
+                'Last Access': detectionState.xmlSerializer.lastAccess ? new Date(detectionState.xmlSerializer.lastAccess).toLocaleTimeString() : 'Never'
+            });
+
+            updateBox('domparser', detectionState.domParser.count > 0, {
+                'Action': 'DOMParser instantiated',
+                'Count': detectionState.domParser.count,
+                'Last Access': detectionState.domParser.lastAccess ? new Date(detectionState.domParser.lastAccess).toLocaleTimeString() : 'Never'
+            });
+
+            updateBox('getselection', detectionState.getSelection.count > 0, {
+                'Action': 'getSelection called',
+                'Count': detectionState.getSelection.count,
+                'Last Access': detectionState.getSelection.lastAccess ? new Date(detectionState.getSelection.lastAccess).toLocaleTimeString() : 'Never'
+            });
+
+            updateBox('clipboard', detectionState.clipboard.count > 0, {
+                'Action': 'Clipboard API accessed',
+                'Count': detectionState.clipboard.count,
+                'Last Access': detectionState.clipboard.lastAccess ? new Date(detectionState.clipboard.lastAccess).toLocaleTimeString() : 'Never'
+            });
+
+            updateBox('mutationobserver', detectionState.mutationObserver.count > 0, {
+                'Action': 'MutationObserver created',
+                'Count': detectionState.mutationObserver.count,
+                'Last Access': detectionState.mutationObserver.lastAccess ? new Date(detectionState.mutationObserver.lastAccess).toLocaleTimeString() : 'Never'
+            });
+
+            updateBox('fetch', detectionState.fetch.count > 0, {
+                'Action': 'Network request intercepted',
+                'Count': detectionState.fetch.count,
+                'URLs': detectionState.fetch.urls.slice(-3).join(', ') || 'None'
+            });
+
+            updateBox('eval', detectionState.eval.count > 0, {
+                'Action': 'eval() called',
+                'Count': detectionState.eval.count,
+                'Last Access': detectionState.eval.lastAccess ? new Date(detectionState.eval.lastAccess).toLocaleTimeString() : 'Never'
+            });
+
+            updateBox('storage', detectionState.storage.count > 0, {
+                'Action': 'localStorage accessed',
+                'Count': detectionState.storage.count,
+                'Keys': detectionState.storage.keys.slice(-5).join(', ') || 'None'
+            });
+
+            updateBox('canvas', detectionState.canvas.count > 0, {
+                'Action': 'Canvas getContext called',
+                'Count': detectionState.canvas.count,
+                'Last Access': detectionState.canvas.lastAccess ? new Date(detectionState.canvas.lastAccess).toLocaleTimeString() : 'Never'
+            });
+
+            addLog(`Detection complete: ${stats.detected} detected, ${stats.undetected} undetected`, 'info');
+        }
+
+        setupDetectionTraps();
+
+        addLog(`Target extension: ${TARGET_EXTENSION_ID}`, 'info');
+        addLog('Note: Extensions using ISOLATED world bypass these traps', 'info');
+
+        setTimeout(runAllDetections, 2000);
+
+        setInterval(() => {
+            const hasNewActivity = Object.values(detectionState).some(s => 
+                s.lastAccess && (Date.now() - s.lastAccess) < 5000
+            );
+            
+            if (hasNewActivity) {
+                runAllDetections();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
