@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Ghost Scraper v4",
+  "name": "Sxrapie",
   "version": "4.0",
   "description": "Auto-capture LinkedIn profiles stealthily",
   "permissions": ["storage", "activeTab", "scripting", "tabs"],

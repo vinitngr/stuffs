@@ -89,4 +89,34 @@ document.getElementById('clearBtn').addEventListener('click', () => {
   }
 });
 
+// Toggle auto/manual mode
+const autoToggle = document.getElementById('autoToggle');
+const modeLabel = document.getElementById('modeLabel');
+
+function updateModeLabel(isAuto) {
+  if (isAuto) {
+    modeLabel.textContent = '🤖 AUTO';
+    modeLabel.className = 'toggle-label auto';
+  } else {
+    modeLabel.textContent = '👆 MANUAL';
+    modeLabel.className = 'toggle-label manual';
+  }
+}
+
+// Load saved mode
+chrome.storage.local.get({ autoCapture: false }, (result) => {
+  autoToggle.checked = result.autoCapture;
+  updateModeLabel(result.autoCapture);
+});
+
+// Save mode on toggle
+autoToggle.addEventListener('change', () => {
+  const isAuto = autoToggle.checked;
+  chrome.storage.local.set({ autoCapture: isAuto });
+  updateModeLabel(isAuto);
+  
+  // Notify background script
+  chrome.runtime.sendMessage({ action: "setAutoMode", enabled: isAuto });
+});
+
 updateStats();
