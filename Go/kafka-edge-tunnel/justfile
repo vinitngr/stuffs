@@ -11,4 +11,5 @@ tunnel:
   cloudflared tunnel --config ./config.yml run kafka-edge
 
 start: 
-  just up & just tunnel
+  just up
+  just tunnel
