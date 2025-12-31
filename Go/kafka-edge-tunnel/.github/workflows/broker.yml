@@ -1,0 +1,32 @@
+name: run-kafka-consumer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  consumer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25"
+
+      - name: Download dependencies
+        run: |
+          cd consumer
+          go mod download
+
+      - name: Run Kafka consumer
+        run: |
+          cd consumer
+          go run .
+        env:
+          KAFKA_BROKER: ${{ secrets.KAFKA_BROKER }}
+          KAFKA_TOPIC:  ${{ secrets.KAFKA_TOPIC }}
+          KAFKA_GROUP:  ${{ secrets.KAFKA_GROUP }}
