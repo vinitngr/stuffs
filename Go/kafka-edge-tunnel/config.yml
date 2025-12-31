@@ -1,0 +1,7 @@
+tunnel: kafka-edge
+credentials-file: ~/.cloudflared/0d8b01bd-68ce-4aa8-8c7d-0869136891fa.json
+
+ingress:
+  - hostname: temp_broker.vinitngr.xyz
+    service: tcp://localhost:9092
+  - service: http_status:404
