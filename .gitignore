@@ -1,2 +1,5 @@
 context/js-context-retrieval/the_chosen_one/pickedup.json
 context/js-context-retrieval/the_chosen_one/pickedup.json
+
+node_modules/
+out/

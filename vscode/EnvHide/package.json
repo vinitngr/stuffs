@@ -1,0 +1,33 @@
+{
+  "name": "env-masker",
+  "displayName": "Env Masker",
+  "description": "Visually hides .env values while keeping keys visible",
+  "version": "0.0.1",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": [
+    "onLanguage:dotenv",
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "dotenv",
+        "extensions": [".env"],
+        "aliases": ["Env"]
+      }
+    ]
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "vscode:prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/vscode": "^1.85.0"
+  }
+}
