@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            width: 260px;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'Consolas', 'Monaco', monospace;
+            padding: 15px;
+            text-align: center;
+        }
+        h3 { margin-top: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #58a6ff; }
+        
+        #status-box {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 12px;
+            font-size: 11px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(240, 246, 252, 0.1);
+            border-radius: 6px;
+            background: #21262d;
+            color: #c9d1d9;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        button:hover { background: #30363d; border-color: #8b949e; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        #captureBtn { border-color: #58a6ff; color: #58a6ff; }
+        #captureBtn:hover { background: #58a6ff; color: #0d1117; }
+        
+        #downloadBtn { border-color: #238636; color: #238636; }
+        #downloadBtn:hover { background: #238636; color: white; }
+        
+        #clearBtn { border-color: #da3633; color: #da3633; font-size: 10px; padding: 6px; }
+        #clearBtn:hover { background: #da3633; color: white; }
+
+        .stat-count { font-size: 11px; color: #58a6ff; margin-bottom: 10px; font-weight: bold; }
+
+        /* Toggle Switch */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+        }
+        .toggle-label {
+            font-size: 11px;
+            color: #c9d1d9;
+        }
+        .toggle-label.manual { color: #58a6ff; }
+        .toggle-label.auto { color: #ff9900; }
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 22px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #58a6ff;
+            transition: 0.3s;
+            border-radius: 22px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: #ff9900;
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+        .shortcut { font-size: 9px; color: #484f58; margin-top: 10px; }
+
+        .url-list {
+            max-height: 100px;
+            overflow-y: auto;
+            text-align: left;
+            font-size: 9px;
+            color: #666;
+            background: #0d1117;
+            padding: 5px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .url-list div {
+            padding: 2px 0;
+            border-bottom: 1px solid #21262d;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <h3>🏢 Company Ghost</h3>
+    
+    <div id="status-box">
+        <span style="color: #00ff00;">● Ready</span>
+    </div>
+
+    <div class="toggle-container">
+        <span class="toggle-label" id="modeLabel">👆 MANUAL</span>
+        <label class="toggle-switch">
+            <input type="checkbox" id="autoToggle">
+            <span class="toggle-slider"></span>
+        </label>
+    </div>
+    
+    <div class="stat-count" id="itemCount">📁 0 companies captured</div>
+
+    <div class="url-list" id="urlList"></div>
+
+    <button id="captureBtn">👆 CAPTURE COMPANY</button>
+    <button id="downloadBtn">⬇ DOWNLOAD JSON</button>
+    <button id="clearBtn">✖ CLEAR DATA</button>
+    
+    <div class="shortcut">Manual: Ctrl+Shift+Y</div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
