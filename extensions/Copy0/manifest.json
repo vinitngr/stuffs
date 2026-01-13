@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Copy0 - Session Clipboard Manager",
+  "version": "1.0.0",
+  "description": "Keyboard-driven session-only clipboard manager with long-press Ctrl+C/V shortcuts",
+  "permissions": [
+    "activeTab",
+    "clipboardRead",
+    "clipboardWrite"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}
