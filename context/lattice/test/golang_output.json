@@ -1,0 +1,957 @@
+{
+  "sample.go": {
+    "file": {
+      "path": "C:\\Users\\HP VICTUS\\Desktop\\stuffs\\context\\lattice\\test\\sample.go",
+      "name": "sample.go",
+      "language": "go",
+      "package": "main",
+      "lines": 229,
+      "sizeBytes": 5532
+    },
+    "imports": {
+      "context": {
+        "kind": "native",
+        "symbols": [
+          "context"
+        ],
+        "alias": null
+      },
+      "encoding/json": {
+        "kind": "native",
+        "symbols": [
+          "json"
+        ],
+        "alias": null
+      },
+      "fmt": {
+        "kind": "native",
+        "symbols": [
+          "fmt"
+        ],
+        "alias": null
+      },
+      "log": {
+        "kind": "native",
+        "symbols": [
+          "log"
+        ],
+        "alias": null
+      },
+      "net/http": {
+        "kind": "native",
+        "symbols": [
+          "http"
+        ],
+        "alias": null
+      },
+      "sync": {
+        "kind": "native",
+        "symbols": [
+          "sync"
+        ],
+        "alias": null
+      },
+      "time": {
+        "kind": "native",
+        "symbols": [
+          "time"
+        ],
+        "alias": null
+      },
+      "github.com/gorilla/mux": {
+        "kind": "external",
+        "symbols": [
+          "mux"
+        ],
+        "alias": null
+      },
+      "github.com/yourdomain/myapp/services": {
+        "kind": "external",
+        "symbols": [
+          "services"
+        ],
+        "alias": null
+      }
+    },
+    "exports": [
+      "User",
+      "UserService",
+      "UserController",
+      "DataUtils",
+      "NewUserController",
+      "GetUser",
+      "CreateUser",
+      "ArrayToMap",
+      "DeepClone",
+      "InitializeDatabase",
+      "FetchExternalData"
+    ],
+    "chunks": [
+      {
+        "id": "User",
+        "type": "struct",
+        "role": "module",
+        "isExported": true,
+        "location": {
+          "startLine": 18,
+          "endLine": 24
+        },
+        "size": {
+          "lines": 7,
+          "bytes": 207
+        },
+        "doc": "User represents a user in the system",
+        "fields": [
+          {
+            "name": "ID",
+            "type": "int",
+            "tag": "json:\"id\"",
+            "isExported": true
+          },
+          {
+            "name": "Name",
+            "type": "string",
+            "tag": "json:\"name\"",
+            "isExported": true
+          },
+          {
+            "name": "Email",
+            "type": "string",
+            "tag": "json:\"email\"",
+            "isExported": true
+          },
+          {
+            "name": "Role",
+            "type": "string",
+            "tag": "json:\"role\"",
+            "isExported": true
+          },
+          {
+            "name": "CreatedAt",
+            "type": "time.Time",
+            "tag": "json:\"created_at\"",
+            "isExported": true
+          }
+        ],
+        "dependencies": {
+          "importsUsed": [
+            "json",
+            "time"
+          ]
+        },
+        "methods": [],
+        "content": "type User struct {\r\n\tID        int       `json:\"id\"`\r\n\tName      string    `json:\"name\"`\r\n\tEmail     string    `json:\"email\"`\r\n\tRole      string    `json:\"role\"`\r\n\tCreatedAt time.Time `json:\"created_at\"`\r\n}\r"
+      },
+      {
+        "id": "UserService",
+        "type": "interface",
+        "role": "service",
+        "isExported": true,
+        "location": {
+          "startLine": 27,
+          "endLine": 32
+        },
+        "size": {
+          "lines": 6,
+          "bytes": 227
+        },
+        "doc": "UserService defines the interface for user operations",
+        "dependencies": {
+          "importsUsed": [
+            "context"
+          ]
+        },
+        "methods": [
+          {
+            "name": "FindByID",
+            "params": [
+              {
+                "name": "ctx",
+                "type": "context.Context"
+              },
+              {
+                "name": "id",
+                "type": "int"
+              }
+            ],
+            "returns": "(*User, error)",
+            "isExported": true
+          },
+          {
+            "name": "Create",
+            "params": [
+              {
+                "name": "ctx",
+                "type": "context.Context"
+              },
+              {
+                "name": "user",
+                "type": "*User"
+              }
+            ],
+            "returns": "error",
+            "isExported": true
+          },
+          {
+            "name": "Update",
+            "params": [
+              {
+                "name": "ctx",
+                "type": "context.Context"
+              },
+              {
+                "name": "user",
+                "type": "*User"
+              }
+            ],
+            "returns": "error",
+            "isExported": true
+          },
+          {
+            "name": "Delete",
+            "params": [
+              {
+                "name": "ctx",
+                "type": "context.Context"
+              },
+              {
+                "name": "id",
+                "type": "int"
+              }
+            ],
+            "returns": "error",
+            "isExported": true
+          }
+        ],
+        "content": "type UserService interface {\r\n\tFindByID(ctx context.Context, id int) (*User, error)\r\n\tCreate(ctx context.Context, user *User) error\r\n\tUpdate(ctx context.Context, user *User) error\r\n\tDelete(ctx context.Context, id int) error\r\n}\r"
+      },
+      {
+        "id": "UserController",
+        "type": "struct",
+        "role": "controller",
+        "isExported": true,
+        "location": {
+          "startLine": 35,
+          "endLine": 40
+        },
+        "size": {
+          "lines": 6,
+          "bytes": 148
+        },
+        "doc": "UserController handles HTTP requests for user operations",
+        "fields": [
+          {
+            "name": "userService",
+            "type": "UserService",
+            "tag": null,
+            "isExported": false
+          },
+          {
+            "name": "authService",
+            "type": "services.AuthService",
+            "tag": null,
+            "isExported": false
+          },
+          {
+            "name": "cache",
+            "type": "map[int]*User",
+            "tag": null,
+            "isExported": false
+          },
+          {
+            "name": "mu",
+            "type": "sync.RWMutex",
+            "tag": null,
+            "isExported": false
+          }
+        ],
+        "dependencies": {
+          "importsUsed": [
+            "sync",
+            "services"
+          ]
+        },
+        "methods": [
+          {
+            "id": "UserController.GetUser",
+            "name": "GetUser",
+            "receiver": {
+              "name": "c",
+              "type": "*UserController",
+              "isPointer": true
+            },
+            "isExported": true,
+            "location": {
+              "startLine": 53,
+              "endLine": 70
+            },
+            "size": {
+              "lines": 18,
+              "bytes": 444
+            },
+            "doc": "GetUser retrieves a user by ID It first checks the cache, then falls back to the service",
+            "io": {
+              "inputs": [
+                {
+                  "name": "w",
+                  "type": "http.ResponseWriter"
+                },
+                {
+                  "name": "r",
+                  "type": "*http.Request"
+                }
+              ],
+              "output": {
+                "type": "void"
+              }
+            },
+            "dependencies": {
+              "localCalls": [
+                "r.Context",
+                "userService.FindByID",
+                "parseInt",
+                "w.Header"
+              ],
+              "externalCalls": [
+                "mux.Vars",
+                "http.Error",
+                "json.NewEncoder"
+              ]
+            },
+            "importsUsed": [
+              "json",
+              "http",
+              "mux"
+            ],
+            "behavior": {
+              "sideEffects": [
+                "http-response"
+              ],
+              "mutatesState": false
+            },
+            "content": "func (c *UserController) GetUser(w http.ResponseWriter, r *http.Request) {\r\n\tvars := mux.Vars(r)\r\n\tid := vars[\"id\"]\r\n\t\r\n\tctx := r.Context()\r\n\tuser, err := c.userService.FindByID(ctx, parseInt(id))\r\n\t\r\n\tif err != nil {\r\n\t\thttp.Error(w, \"User not found\", http.StatusNotFound)\r\n\t\treturn\r\n\t}\r\n\t\r\n\tw.Header().Set(\"Content-Type\", \"application/json\")\r\n\tjson.NewEncoder(w).Encode(map[string]interface{}{\r\n\t\t\"success\": true,\r\n\t\t\"data\":    user,\r\n\t})\r\n}\r"
+          },
+          {
+            "id": "UserController.CreateUser",
+            "name": "CreateUser",
+            "receiver": {
+              "name": "c",
+              "type": "*UserController",
+              "isPointer": true
+            },
+            "isExported": true,
+            "location": {
+              "startLine": 73,
+              "endLine": 100
+            },
+            "size": {
+              "lines": 28,
+              "bytes": 714
+            },
+            "doc": "CreateUser creates a new user",
+            "io": {
+              "inputs": [
+                {
+                  "name": "w",
+                  "type": "http.ResponseWriter"
+                },
+                {
+                  "name": "r",
+                  "type": "*http.Request"
+                }
+              ],
+              "output": {
+                "type": "void"
+              }
+            },
+            "dependencies": {
+              "localCalls": [
+                "validateEmail",
+                "r.Context",
+                "userService.Create",
+                "mu.Lock",
+                "mu.Unlock",
+                "w.WriteHeader"
+              ],
+              "externalCalls": [
+                "json.NewDecoder",
+                "http.Error",
+                "json.NewEncoder"
+              ]
+            },
+            "importsUsed": [
+              "json",
+              "http"
+            ],
+            "behavior": {
+              "sideEffects": [
+                "http-response"
+              ],
+              "mutatesState": false
+            },
+            "content": "func (c *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {\r\n\tvar user User\r\n\tif err := json.NewDecoder(r.Body).Decode(&user); err != nil {\r\n\t\thttp.Error(w, \"Invalid request body\", http.StatusBadRequest)\r\n\t\treturn\r\n\t}\r\n\t\r\n\tif !validateEmail(user.Email) {\r\n\t\thttp.Error(w, \"Invalid email\", http.StatusBadRequest)\r\n\t\treturn\r\n\t}\r\n\t\r\n\tctx := r.Context()\r\n\tif err := c.userService.Create(ctx, &user); err != nil {\r\n\t\thttp.Error(w, \"Failed to create user\", http.StatusInternalServerError)\r\n\t\treturn\r\n\t}\r\n\t\r\n\tc.mu.Lock()\r\n\tc.cache[user.ID] = &user\r\n\tc.mu.Unlock()\r\n\t\r\n\tw.WriteHeader(http.StatusCreated)\r\n\tjson.NewEncoder(w).Encode(map[string]interface{}{\r\n\t\t\"success\": true,\r\n\t\t\"data\":    user,\r\n\t})\r\n}\r"
+          },
+          {
+            "id": "UserController.getCachedUser",
+            "name": "getCachedUser",
+            "receiver": {
+              "name": "c",
+              "type": "*UserController",
+              "isPointer": true
+            },
+            "isExported": false,
+            "location": {
+              "startLine": 103,
+              "endLine": 108
+            },
+            "size": {
+              "lines": 6,
+              "bytes": 148
+            },
+            "doc": "getCachedUser retrieves a user from the cache",
+            "io": {
+              "inputs": [
+                {
+                  "name": "id",
+                  "type": "int"
+                }
+              ],
+              "output": {
+                "type": "tuple",
+                "types": [
+                  {
+                    "type": "*User"
+                  },
+                  {
+                    "type": "bool"
+                  }
+                ]
+              }
+            },
+            "dependencies": {
+              "localCalls": [
+                "getCachedUser",
+                "mu.RLock",
+                "mu.RUnlock"
+              ],
+              "externalCalls": []
+            },
+            "importsUsed": [],
+            "behavior": {
+              "sideEffects": [],
+              "mutatesState": false
+            },
+            "content": "func (c *UserController) getCachedUser(id int) (*User, bool) {\r\n\tc.mu.RLock()\r\n\tdefer c.mu.RUnlock()\r\n\tuser, ok := c.cache[id]\r\n\treturn user, ok\r\n}\r"
+          }
+        ],
+        "content": "type UserController struct {\r\n\tuserService UserService\r\n\tauthService services.AuthService\r\n\tcache       map[int]*User\r\n\tmu          sync.RWMutex\r\n}\r"
+      },
+      {
+        "id": "NewUserController",
+        "type": "function",
+        "role": "factory",
+        "isExported": true,
+        "location": {
+          "startLine": 43,
+          "endLine": 49
+        },
+        "size": {
+          "lines": 7,
+          "bytes": 228
+        },
+        "doc": "NewUserController creates a new UserController instance",
+        "io": {
+          "inputs": [
+            {
+              "name": "userService",
+              "type": "UserService"
+            },
+            {
+              "name": "authService",
+              "type": "services.AuthService"
+            }
+          ],
+          "output": {
+            "type": "*UserController"
+          }
+        },
+        "dependencies": {
+          "localCalls": [],
+          "externalCalls": []
+        },
+        "importsUsed": [
+          "services"
+        ],
+        "behavior": {
+          "sideEffects": [],
+          "mutatesState": false
+        },
+        "content": "func NewUserController(userService UserService, authService services.AuthService) *UserController {\r\n\treturn &UserController{\r\n\t\tuserService: userService,\r\n\t\tauthService: authService,\r\n\t\tcache:       make(map[int]*User),\r\n\t}\r\n}\r"
+      },
+      {
+        "id": "DataUtils",
+        "type": "struct",
+        "role": "utility",
+        "isExported": true,
+        "location": {
+          "startLine": 111,
+          "endLine": 111
+        },
+        "size": {
+          "lines": 1,
+          "bytes": 24
+        },
+        "doc": "DataUtils provides utility functions for data operations",
+        "fields": [],
+        "dependencies": {
+          "importsUsed": []
+        },
+        "methods": [
+          {
+            "id": "DataUtils.ArrayToMap",
+            "name": "ArrayToMap",
+            "receiver": {
+              "name": "d",
+              "type": "*DataUtils",
+              "isPointer": true
+            },
+            "isExported": true,
+            "location": {
+              "startLine": 114,
+              "endLine": 120
+            },
+            "size": {
+              "lines": 7,
+              "bytes": 174
+            },
+            "doc": "ArrayToMap converts a slice of users to a map keyed by ID",
+            "io": {
+              "inputs": [
+                {
+                  "name": "users",
+                  "type": "[]*User"
+                }
+              ],
+              "output": {
+                "type": "map[int]*User"
+              }
+            },
+            "dependencies": {
+              "localCalls": [],
+              "externalCalls": []
+            },
+            "importsUsed": [],
+            "behavior": {
+              "sideEffects": [],
+              "mutatesState": false
+            },
+            "content": "func (d *DataUtils) ArrayToMap(users []*User) map[int]*User {\r\n\tresult := make(map[int]*User)\r\n\tfor _, user := range users {\r\n\t\tresult[user.ID] = user\r\n\t}\r\n\treturn result\r\n}\r"
+          },
+          {
+            "id": "DataUtils.DeepClone",
+            "name": "DeepClone",
+            "receiver": {
+              "name": "d",
+              "type": "*DataUtils",
+              "isPointer": true
+            },
+            "isExported": true,
+            "location": {
+              "startLine": 123,
+              "endLine": 135
+            },
+            "size": {
+              "lines": 13,
+              "bytes": 262
+            },
+            "doc": "DeepClone creates a deep copy of a user",
+            "io": {
+              "inputs": [
+                {
+                  "name": "user",
+                  "type": "*User"
+                }
+              ],
+              "output": {
+                "type": "tuple",
+                "types": [
+                  {
+                    "type": "*User"
+                  },
+                  {
+                    "type": "error"
+                  }
+                ]
+              }
+            },
+            "dependencies": {
+              "localCalls": [],
+              "externalCalls": [
+                "json.Marshal",
+                "json.Unmarshal"
+              ]
+            },
+            "importsUsed": [
+              "json"
+            ],
+            "behavior": {
+              "sideEffects": [],
+              "mutatesState": false
+            },
+            "content": "func (d *DataUtils) DeepClone(user *User) (*User, error) {\r\n\tdata, err := json.Marshal(user)\r\n\tif err != nil {\r\n\t\treturn nil, err\r\n\t}\r\n\t\r\n\tvar cloned User\r\n\tif err := json.Unmarshal(data, &cloned); err != nil {\r\n\t\treturn nil, err\r\n\t}\r\n\t\r\n\treturn &cloned, nil\r\n}\r"
+          }
+        ],
+        "content": "type DataUtils struct{}\r"
+      },
+      {
+        "id": "InitializeDatabase",
+        "type": "function",
+        "role": "initializer",
+        "isExported": true,
+        "location": {
+          "startLine": 138,
+          "endLine": 143
+        },
+        "size": {
+          "lines": 6,
+          "bytes": 182
+        },
+        "doc": "InitializeDatabase sets up the database connection",
+        "io": {
+          "inputs": [
+            {
+              "name": "connectionString",
+              "type": "string"
+            }
+          ],
+          "output": {
+            "type": "error"
+          }
+        },
+        "dependencies": {
+          "localCalls": [],
+          "externalCalls": [
+            "log.Println",
+            "time.Sleep"
+          ]
+        },
+        "importsUsed": [
+          "log",
+          "time"
+        ],
+        "behavior": {
+          "sideEffects": [
+            "logging",
+            "timing"
+          ],
+          "mutatesState": false
+        },
+        "content": "func InitializeDatabase(connectionString string) error {\r\n\tlog.Println(\"Connecting to database...\")\r\n\ttime.Sleep(1 * time.Second)\r\n\tlog.Println(\"Database connected\")\r\n\treturn nil\r\n}\r"
+      },
+      {
+        "id": "FetchExternalData",
+        "type": "function",
+        "role": "getter",
+        "isExported": true,
+        "location": {
+          "startLine": 146,
+          "endLine": 159
+        },
+        "size": {
+          "lines": 14,
+          "bytes": 278
+        },
+        "doc": "FetchExternalData retrieves data from an external API",
+        "io": {
+          "inputs": [
+            {
+              "name": "endpoint",
+              "type": "string"
+            }
+          ],
+          "output": {
+            "type": "tuple",
+            "types": [
+              {
+                "type": "[]byte"
+              },
+              {
+                "type": "error"
+              }
+            ]
+          }
+        },
+        "dependencies": {
+          "localCalls": [],
+          "externalCalls": [
+            "http.Get"
+          ]
+        },
+        "importsUsed": [
+          "http"
+        ],
+        "behavior": {
+          "sideEffects": [
+            "network"
+          ],
+          "mutatesState": false
+        },
+        "content": "func FetchExternalData(endpoint string) ([]byte, error) {\r\n\tresp, err := http.Get(endpoint)\r\n\tif err != nil {\r\n\t\treturn nil, err\r\n\t}\r\n\tdefer resp.Body.Close()\r\n\t\r\n\tvar data []byte\r\n\tif _, err := resp.Body.Read(data); err != nil {\r\n\t\treturn nil, err\r\n\t}\r\n\t\r\n\treturn data, nil\r\n}\r"
+      },
+      {
+        "id": "calculateTotal",
+        "type": "function",
+        "role": "utility",
+        "isExported": false,
+        "location": {
+          "startLine": 162,
+          "endLine": 168
+        },
+        "size": {
+          "lines": 7,
+          "bytes": 122
+        },
+        "doc": "calculateTotal computes the sum of integers",
+        "io": {
+          "inputs": [
+            {
+              "name": "items",
+              "type": "[]int"
+            }
+          ],
+          "output": {
+            "type": "int"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "calculateTotal"
+          ],
+          "externalCalls": []
+        },
+        "importsUsed": [],
+        "behavior": {
+          "sideEffects": [],
+          "mutatesState": false
+        },
+        "content": "func calculateTotal(items []int) int {\r\n\ttotal := 0\r\n\tfor _, item := range items {\r\n\t\ttotal += item\r\n\t}\r\n\treturn total\r\n}\r"
+      },
+      {
+        "id": "formatCurrency",
+        "type": "function",
+        "role": "transformer",
+        "isExported": false,
+        "location": {
+          "startLine": 171,
+          "endLine": 184
+        },
+        "size": {
+          "lines": 14,
+          "bytes": 269
+        },
+        "doc": "formatCurrency formats a float as currency string",
+        "io": {
+          "inputs": [
+            {
+              "name": "amount",
+              "type": "float64"
+            },
+            {
+              "name": "currency",
+              "type": "string"
+            }
+          ],
+          "output": {
+            "type": "string"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "formatCurrency"
+          ],
+          "externalCalls": [
+            "fmt.Sprintf"
+          ]
+        },
+        "importsUsed": [
+          "fmt"
+        ],
+        "behavior": {
+          "sideEffects": [],
+          "mutatesState": false
+        },
+        "content": "func formatCurrency(amount float64, currency string) string {\r\n\tsymbols := map[string]string{\r\n\t\t\"USD\": \"$\",\r\n\t\t\"EUR\": \"€\",\r\n\t\t\"GBP\": \"£\",\r\n\t}\r\n\t\r\n\tsymbol, ok := symbols[currency]\r\n\tif !ok {\r\n\t\tsymbol = currency\r\n\t}\r\n\t\r\n\treturn fmt.Sprintf(\"%s%.2f\", symbol, amount)\r\n}\r"
+      },
+      {
+        "id": "validateEmail",
+        "type": "function",
+        "role": "validator",
+        "isExported": false,
+        "location": {
+          "startLine": 187,
+          "endLine": 190
+        },
+        "size": {
+          "lines": 4,
+          "bytes": 118
+        },
+        "doc": "validateEmail checks if an email address is valid",
+        "io": {
+          "inputs": [
+            {
+              "name": "email",
+              "type": "string"
+            }
+          ],
+          "output": {
+            "type": "bool"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "validateEmail",
+            "containsChar"
+          ],
+          "externalCalls": []
+        },
+        "importsUsed": [],
+        "behavior": {
+          "sideEffects": [],
+          "mutatesState": false
+        },
+        "content": "func validateEmail(email string) bool {\r\n\t// Simple validation\r\n\treturn len(email) > 3 && containsChar(email, '@')\r\n}\r"
+      },
+      {
+        "id": "parseInt",
+        "type": "function",
+        "role": "transformer",
+        "isExported": false,
+        "location": {
+          "startLine": 193,
+          "endLine": 197
+        },
+        "size": {
+          "lines": 5,
+          "bytes": 82
+        },
+        "doc": "parseInt converts a string to int (helper function)",
+        "io": {
+          "inputs": [
+            {
+              "name": "s",
+              "type": "string"
+            }
+          ],
+          "output": {
+            "type": "int"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "parseInt"
+          ],
+          "externalCalls": [
+            "fmt.Sscanf"
+          ]
+        },
+        "importsUsed": [
+          "fmt"
+        ],
+        "behavior": {
+          "sideEffects": [],
+          "mutatesState": false
+        },
+        "content": "func parseInt(s string) int {\r\n\tvar n int\r\n\tfmt.Sscanf(s, \"%d\", &n)\r\n\treturn n\r\n}\r"
+      },
+      {
+        "id": "containsChar",
+        "type": "function",
+        "role": "utility",
+        "isExported": false,
+        "location": {
+          "startLine": 200,
+          "endLine": 207
+        },
+        "size": {
+          "lines": 8,
+          "bytes": 131
+        },
+        "doc": "containsChar checks if a string contains a character",
+        "io": {
+          "inputs": [
+            {
+              "name": "s",
+              "type": "string"
+            },
+            {
+              "name": "c",
+              "type": "rune"
+            }
+          ],
+          "output": {
+            "type": "bool"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "containsChar"
+          ],
+          "externalCalls": []
+        },
+        "importsUsed": [],
+        "behavior": {
+          "sideEffects": [],
+          "mutatesState": false
+        },
+        "content": "func containsChar(s string, c rune) bool {\r\n\tfor _, char := range s {\r\n\t\tif char == c {\r\n\t\t\treturn true\r\n\t\t}\r\n\t}\r\n\treturn false\r\n}\r"
+      },
+      {
+        "id": "main",
+        "type": "function",
+        "role": "entrypoint",
+        "isExported": false,
+        "location": {
+          "startLine": 209,
+          "endLine": 228
+        },
+        "size": {
+          "lines": 20,
+          "bytes": 521
+        },
+        "doc": null,
+        "io": {
+          "inputs": [],
+          "output": {
+            "type": "void"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "main",
+            "r.HandleFunc"
+          ],
+          "externalCalls": [
+            "mux.NewRouter",
+            "services",
+            "log.Println",
+            "http.ListenAndServe",
+            "log.Fatal"
+          ]
+        },
+        "importsUsed": [
+          "log",
+          "http",
+          "mux",
+          "services"
+        ],
+        "behavior": {
+          "sideEffects": [
+            "logging"
+          ],
+          "mutatesState": false
+        },
+        "content": "func main() {\r\n\t// Setup router\r\n\tr := mux.NewRouter()\r\n\t\r\n\t// Initialize services (mock)\r\n\tvar userService UserService\r\n\tvar authService services.AuthService\r\n\t\r\n\tcontroller := NewUserController(userService, authService)\r\n\t\r\n\t// Register routes\r\n\tr.HandleFunc(\"/users/{id}\", controller.GetUser).Methods(\"GET\")\r\n\tr.HandleFunc(\"/users\", controller.CreateUser).Methods(\"POST\")\r\n\t\r\n\t// Start server\r\n\tlog.Println(\"Server starting on :8080\")\r\n\tif err := http.ListenAndServe(\":8080\", r); err != nil {\r\n\t\tlog.Fatal(err)\r\n\t}\r\n}\r"
+      }
+    ]
+  }
+}

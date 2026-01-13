@@ -1,0 +1,498 @@
+{
+  "sample.ts": {
+    "file": {
+      "path": "test/sample.ts",
+      "name": "sample.ts",
+      "language": "typescript",
+      "moduleType": "esm",
+      "lines": 163,
+      "sizeBytes": 3961
+    },
+    "imports": {
+      "express": {
+        "kind": "external",
+        "symbols": [
+          "express",
+          "Request",
+          "Response"
+        ]
+      },
+      "./services": {
+        "kind": "local",
+        "symbols": [
+          "UserService",
+          "AuthService"
+        ]
+      },
+      "../utils": {
+        "kind": "local",
+        "symbols": [
+          "* as utils"
+        ]
+      },
+      "axios": {
+        "kind": "external",
+        "symbols": [
+          "axios"
+        ]
+      },
+      "fs": {
+        "kind": "native",
+        "symbols": [
+          "fs"
+        ]
+      },
+      "util": {
+        "kind": "native",
+        "symbols": [
+          "promisify"
+        ]
+      }
+    },
+    "exports": [
+      "UserController"
+    ],
+    "chunks": [
+      {
+        "id": "UserController",
+        "type": "class",
+        "role": "controller",
+        "extends": null,
+        "location": {
+          "startLine": 34,
+          "endLine": 85
+        },
+        "size": {
+          "lines": 52,
+          "bytes": 1406
+        },
+        "doc": "",
+        "dependencies": {
+          "importsUsed": [
+            "Request",
+            "Response",
+            "UserService",
+            "AuthService"
+          ]
+        },
+        "methods": [
+          {
+            "id": "UserController.constructor",
+            "name": "constructor",
+            "isAsync": false,
+            "isPrivate": false,
+            "location": {
+              "startLine": 38,
+              "endLine": 41
+            },
+            "size": {
+              "lines": 4,
+              "bytes": 145
+            },
+            "io": {
+              "inputs": [
+                {
+                  "name": "userService",
+                  "type": "UserService",
+                  "source": "./services"
+                },
+                {
+                  "name": "authService",
+                  "type": "AuthService",
+                  "source": "./services"
+                }
+              ],
+              "output": {
+                "type": "void"
+              }
+            },
+            "dependencies": {
+              "localCalls": [],
+              "externalCalls": [
+                "constructor"
+              ]
+            },
+            "importsUsed": [
+              "UserService",
+              "AuthService"
+            ],
+            "behavior": {
+              "sideEffects": [],
+              "mutatesState": true
+            },
+            "content": "constructor(userService: UserService, authService: AuthService) {\r\n    this.userService = userService;\r\n    this.authService = authService;\r\n  }\r"
+          },
+          {
+            "id": "UserController.getUser",
+            "name": "getUser",
+            "isAsync": true,
+            "isPrivate": false,
+            "location": {
+              "startLine": 49,
+              "endLine": 59
+            },
+            "size": {
+              "lines": 11,
+              "bytes": 308
+            },
+            "io": {
+              "inputs": [
+                {
+                  "name": "req",
+                  "type": "Request",
+                  "source": "express"
+                },
+                {
+                  "name": "res",
+                  "type": "Response",
+                  "source": "express"
+                }
+              ],
+              "output": {
+                "type": "Promise<void>"
+              }
+            },
+            "dependencies": {
+              "localCalls": [
+                "getUser",
+                "userService.findById",
+                "res.status",
+                "json",
+                "res.json"
+              ],
+              "externalCalls": []
+            },
+            "importsUsed": [
+              "Request",
+              "Response"
+            ],
+            "behavior": {
+              "sideEffects": [
+                "http-response"
+              ],
+              "mutatesState": false
+            },
+            "content": "async getUser(req: Request, res: Response): Promise<void> {\r\n    const { id } = req.params;\r\n    const user = await this.userService.findById(id);\r\n    \r\n    if (!user) {\r\n      res.status(404).json({ error: 'User not found' });\r\n      return;\r\n    }\r\n    \r\n    res.json({ success: true, data: user });\r\n  }\r"
+          },
+          {
+            "id": "UserController.createUser",
+            "name": "createUser",
+            "isAsync": true,
+            "isPrivate": false,
+            "location": {
+              "startLine": 66,
+              "endLine": 76
+            },
+            "size": {
+              "lines": 11,
+              "bytes": 354
+            },
+            "io": {
+              "inputs": [
+                {
+                  "name": "req",
+                  "type": "Request",
+                  "source": "express"
+                },
+                {
+                  "name": "res",
+                  "type": "Response",
+                  "source": "express"
+                }
+              ],
+              "output": {
+                "type": "Promise<any>"
+              }
+            },
+            "dependencies": {
+              "localCalls": [
+                "createUser",
+                "validateEmail",
+                "res.status",
+                "json",
+                "userService.create"
+              ],
+              "externalCalls": []
+            },
+            "importsUsed": [
+              "Request",
+              "Response"
+            ],
+            "behavior": {
+              "sideEffects": [
+                "http-response"
+              ],
+              "mutatesState": false
+            },
+            "content": "async createUser(req: Request, res: Response) {\r\n    const { name, email, role } = req.body;\r\n    \r\n    if (!this.validateEmail(email)) {\r\n      res.status(400).json({ error: 'Invalid email' });\r\n      return;\r\n    }\r\n\r\n    const user = await this.userService.create({ name, email, role });\r\n    res.status(201).json({ success: true, data: user });\r\n  }\r"
+          },
+          {
+            "id": "UserController.validateEmail",
+            "name": "validateEmail",
+            "isAsync": false,
+            "isPrivate": false,
+            "location": {
+              "startLine": 78,
+              "endLine": 80
+            },
+            "size": {
+              "lines": 3,
+              "bytes": 99
+            },
+            "io": {
+              "inputs": [
+                {
+                  "name": "email",
+                  "type": "string",
+                  "source": null
+                }
+              ],
+              "output": {
+                "type": "boolean"
+              }
+            },
+            "dependencies": {
+              "localCalls": [
+                "validateEmail",
+                "test"
+              ],
+              "externalCalls": []
+            },
+            "importsUsed": [],
+            "behavior": {
+              "sideEffects": [],
+              "mutatesState": false
+            },
+            "content": "validateEmail(email: string): boolean {\r\n    return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);\r\n  }\r"
+          },
+          {
+            "id": "UserController._internalMethod",
+            "name": "_internalMethod",
+            "isAsync": false,
+            "isPrivate": true,
+            "location": {
+              "startLine": 82,
+              "endLine": 84
+            },
+            "size": {
+              "lines": 3,
+              "bytes": 66
+            },
+            "io": {
+              "inputs": [],
+              "output": {
+                "type": "void"
+              }
+            },
+            "dependencies": {
+              "localCalls": [
+                "_internalMethod"
+              ],
+              "externalCalls": []
+            },
+            "importsUsed": [],
+            "behavior": {
+              "sideEffects": [
+                "logging"
+              ],
+              "mutatesState": false
+            },
+            "content": "_internalMethod() {\r\n    console.log('Internal processing');\r\n  }\r"
+          }
+        ],
+        "content": "class UserController {\r\n  private userService: UserService;\r\n  private authService: AuthService;\r\n\r\n  constructor(userService: UserService, authService: AuthService) {\r\n    this.userService = userService;\r\n    this.authService = authService;\r\n  }\r\n\r\n  /**\r\n   * Get user by ID\r\n   * @param {Request} req - Express request\r\n   * @param {Response} res - Express response\r\n   * @returns {Promise<void>}\r\n   */\r\n  async getUser(req: Request, res: Response): Promise<void> {\r\n    const { id } = req.params;\r\n    const user = await this.userService.findById(id);\r\n    \r\n    if (!user) {\r\n      res.status(404).json({ error: 'User not found' });\r\n      return;\r\n    }\r\n    \r\n    res.json({ success: true, data: user });\r\n  }\r\n\r\n  /**\r\n   * Create new user\r\n   * @param {Request} req - Express request with user data\r\n   * @param {Response} res - Express response\r\n   */\r\n  async createUser(req: Request, res: Response) {\r\n    const { name, email, role } = req.body;\r\n    \r\n    if (!this.validateEmail(email)) {\r\n      res.status(400).json({ error: 'Invalid email' });\r\n      return;\r\n    }\r\n\r\n    const user = await this.userService.create({ name, email, role });\r\n    res.status(201).json({ success: true, data: user });\r\n  }\r\n\r\n  private validateEmail(email: string): boolean {\r\n    return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);\r\n  }\r\n\r\n  _internalMethod() {\r\n    console.log('Internal processing');\r\n  }\r\n}\r"
+      },
+      {
+        "id": "DataUtils",
+        "type": "object",
+        "role": "utility",
+        "location": {
+          "startLine": 90,
+          "endLine": 108
+        },
+        "size": {
+          "lines": 19,
+          "bytes": 376
+        },
+        "doc": "Utility functions for data processing /",
+        "dependencies": {
+          "importsUsed": []
+        },
+        "methods": [],
+        "content": "const DataUtils = {\r\n  /**\r\n   * Transform array to map\r\n   */\r\n  arrayToMap<T>(arr: T[], key: keyof T): Map<string, T> {\r\n    const map = new Map();\r\n    for (const item of arr) {\r\n      map.set(String(item[key]), item);\r\n    }\r\n    return map;\r\n  },\r\n\r\n  /**\r\n   * Deep clone object\r\n   */\r\n  deepClone<T>(obj: T): T {\r\n    return JSON.parse(JSON.stringify(obj));\r\n  },\r\n};\r"
+      },
+      {
+        "id": "initializeDatabase",
+        "type": "function",
+        "role": "initializer",
+        "isAsync": true,
+        "location": {
+          "startLine": 114,
+          "endLine": 125
+        },
+        "size": {
+          "lines": 12,
+          "bytes": 367
+        },
+        "doc": null,
+        "io": {
+          "inputs": [
+            {
+              "name": "connectionString",
+              "type": "string",
+              "source": null
+            }
+          ],
+          "output": {
+            "type": "Promise<boolean>"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "initializeDatabase",
+            "setTimeout"
+          ],
+          "externalCalls": []
+        },
+        "importsUsed": [],
+        "behavior": {
+          "sideEffects": [
+            "logging",
+            "timing"
+          ],
+          "mutatesState": false
+        },
+        "content": " */\r\nasync function initializeDatabase(connectionString: string): Promise<boolean> {\r\n  try {\r\n    console.log('Connecting to database...');\r\n    await new Promise(resolve => setTimeout(resolve, 1000));\r\n    console.log('Database connected');\r\n    return true;\r\n  } catch (error) {\r\n    console.error('Database connection failed:', error);\r\n    return false;\r\n  }\r\n}\r"
+      },
+      {
+        "id": "fetchExternalData",
+        "type": "function",
+        "role": "getter",
+        "isAsync": true,
+        "location": {
+          "startLine": 130,
+          "endLine": 133
+        },
+        "size": {
+          "lines": 4,
+          "bytes": 132
+        },
+        "doc": "Fetch data from external API /",
+        "io": {
+          "inputs": [
+            {
+              "name": "endpoint",
+              "type": "string",
+              "source": null
+            }
+          ],
+          "output": {
+            "type": "Promise<any>"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "async"
+          ],
+          "externalCalls": [
+            "axios.get"
+          ]
+        },
+        "importsUsed": [
+          "axios"
+        ],
+        "behavior": {
+          "sideEffects": [
+            "network"
+          ],
+          "mutatesState": false
+        },
+        "content": "const fetchExternalData = async (endpoint: string) => {\r\n  const response = await axios.get(endpoint);\r\n  return response.data;\r\n};\r"
+      },
+      {
+        "id": "calculateTotal",
+        "type": "function",
+        "role": "utility",
+        "isAsync": false,
+        "location": {
+          "startLine": 136,
+          "endLine": 136
+        },
+        "size": {
+          "lines": 1,
+          "bytes": 78
+        },
+        "doc": null,
+        "io": {
+          "inputs": [
+            {
+              "name": "items",
+              "type": "number[]",
+              "source": null
+            }
+          ],
+          "output": {
+            "type": "void"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "items.reduce"
+          ],
+          "externalCalls": []
+        },
+        "importsUsed": [],
+        "behavior": {
+          "sideEffects": [],
+          "mutatesState": false
+        },
+        "content": "const calculateTotal = (items: number[]) => items.reduce((a, b) => a + b, 0);\r"
+      },
+      {
+        "id": "formatCurrency",
+        "type": "function",
+        "role": "transformer",
+        "isAsync": false,
+        "location": {
+          "startLine": 138,
+          "endLine": 144
+        },
+        "size": {
+          "lines": 7,
+          "bytes": 204
+        },
+        "doc": null,
+        "io": {
+          "inputs": [
+            {
+              "name": "amount",
+              "type": "number",
+              "source": null
+            },
+            {
+              "name": "currency",
+              "type": "string",
+              "source": null
+            }
+          ],
+          "output": {
+            "type": "string"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "formatCurrency",
+            "format"
+          ],
+          "externalCalls": []
+        },
+        "importsUsed": [],
+        "behavior": {
+          "sideEffects": [],
+          "mutatesState": false
+        },
+        "content": "// Regular function\r\nfunction formatCurrency(amount: number, currency: string = 'USD'): string {\r\n  return new Intl.NumberFormat('en-US', {\r\n    style: 'currency',\r\n    currency,\r\n  }).format(amount);\r\n}\r"
+      }
+    ]
+  }
+}

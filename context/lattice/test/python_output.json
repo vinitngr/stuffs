@@ -1,0 +1,586 @@
+{
+  "sample.py": {
+    "file": {
+      "path": "C:\\Users\\HP VICTUS\\Desktop\\stuffs\\context\\lattice\\test\\sample.py",
+      "name": "sample.py",
+      "language": "python",
+      "moduleType": "script",
+      "lines": 170,
+      "sizeBytes": 4709
+    },
+    "imports": {
+      "os": {
+        "kind": "native",
+        "symbols": [
+          "os"
+        ]
+      },
+      "sys": {
+        "kind": "native",
+        "symbols": [
+          "sys"
+        ]
+      },
+      "typing": {
+        "kind": "native",
+        "symbols": [
+          "Optional",
+          "List",
+          "Dict",
+          "Any"
+        ]
+      },
+      "dataclasses": {
+        "kind": "native",
+        "symbols": [
+          "dataclass"
+        ]
+      },
+      "pathlib": {
+        "kind": "native",
+        "symbols": [
+          "Path"
+        ]
+      },
+      ".services": {
+        "kind": "local",
+        "symbols": [
+          "UserService",
+          "AuthService"
+        ]
+      },
+      "..utils": {
+        "kind": "local",
+        "symbols": [
+          "utils"
+        ]
+      },
+      "requests": {
+        "kind": "external",
+        "symbols": [
+          "requests"
+        ]
+      },
+      "re": {
+        "kind": "native",
+        "symbols": [
+          "re"
+        ]
+      },
+      "json": {
+        "kind": "native",
+        "symbols": [
+          "json"
+        ]
+      },
+      "asyncio": {
+        "kind": "native",
+        "symbols": [
+          "asyncio"
+        ]
+      }
+    },
+    "exports": [
+      "User",
+      "UserController",
+      "DataUtils",
+      "calculate_total",
+      "format_currency",
+      "config_path"
+    ],
+    "chunks": [
+      {
+        "id": "User",
+        "type": "class",
+        "role": "module",
+        "extends": null,
+        "bases": [],
+        "location": {
+          "startLine": 17,
+          "endLine": 24
+        },
+        "size": {
+          "lines": 8,
+          "bytes": 112
+        },
+        "doc": "User data model.",
+        "dependencies": {
+          "importsUsed": []
+        },
+        "methods": [],
+        "content": "class User:\r\n    \"\"\"User data model.\"\"\"\r\n    id: int\r\n    name: str\r\n    email: str\r\n    role: str = \"user\"\r\n\r\n\r"
+      },
+      {
+        "id": "UserController",
+        "type": "class",
+        "role": "controller",
+        "extends": null,
+        "bases": [],
+        "location": {
+          "startLine": 25,
+          "endLine": 97
+        },
+        "size": {
+          "lines": 73,
+          "bytes": 2290
+        },
+        "doc": "\"\"\" Controller for user-related operations. Handles HTTP requests for user management. \"\"\"",
+        "dependencies": {
+          "importsUsed": [
+            "Optional",
+            "Dict",
+            "Any",
+            "UserService",
+            "AuthService",
+            "requests",
+            "re",
+            "json"
+          ]
+        },
+        "methods": [
+          {
+            "id": "UserController.format_user_response",
+            "name": "format_user_response",
+            "isAsync": false,
+            "isPrivate": false,
+            "isSpecial": false,
+            "location": {
+              "startLine": 82,
+              "endLine": 97
+            },
+            "size": {
+              "lines": 16,
+              "bytes": 388
+            },
+            "doc": "Format user object for API response.",
+            "io": {
+              "inputs": [
+                {
+                  "name": "user",
+                  "type": "User",
+                  "source": null,
+                  "default": null
+                }
+              ],
+              "output": {
+                "type": "Dict"
+              }
+            },
+            "dependencies": {
+              "localCalls": [
+                "format_user_response",
+                "cache_size"
+              ],
+              "externalCalls": []
+            },
+            "importsUsed": [
+              "Dict"
+            ],
+            "behavior": {
+              "sideEffects": [
+                "http-response"
+              ],
+              "mutatesState": false
+            },
+            "content": "\n    def format_user_response(user: User) -> Dict:\r\n        \"\"\"Format user object for API response.\"\"\"\r\n        return {\r\n            'id': user.id,\r\n            'name': user.name,\r\n            'email': user.email,\r\n            'role': user.role\r\n        }\r\n    \r\n    @property\r\n    def cache_size(self) -> int:\r\n        \"\"\"Get current cache size.\"\"\"\r\n        return len(self._cache)\r\n\r\n\r"
+          },
+          {
+            "id": "UserController.cache_size",
+            "name": "cache_size",
+            "isAsync": false,
+            "isPrivate": false,
+            "isSpecial": false,
+            "location": {
+              "startLine": 92,
+              "endLine": 97
+            },
+            "size": {
+              "lines": 6,
+              "bytes": 110
+            },
+            "doc": "Get current cache size.",
+            "io": {
+              "inputs": [],
+              "output": {
+                "type": "int"
+              }
+            },
+            "dependencies": {
+              "localCalls": [
+                "cache_size"
+              ],
+              "externalCalls": []
+            },
+            "importsUsed": [],
+            "behavior": {
+              "sideEffects": [],
+              "mutatesState": false
+            },
+            "content": "\n    def cache_size(self) -> int:\r\n        \"\"\"Get current cache size.\"\"\"\r\n        return len(self._cache)\r\n\r\n\r"
+          }
+        ],
+        "content": "class UserController:\r\n    \"\"\"\r\n    Controller for user-related operations.\r\n    Handles HTTP requests for user management.\r\n    \"\"\"\r\n    \r\n    def __init__(self, user_service: UserService, auth_service: AuthService):\r\n        \"\"\"Initialize the controller with required services.\"\"\"\r\n        self.user_service = user_service\r\n        self.auth_service = auth_service\r\n        self._cache: Dict[str, Any] = {}\r\n    \r\n    async def get_user(self, request, response) -> Optional[Dict]:\r\n        \"\"\"\r\n        Get user by ID.\r\n        \r\n        Args:\r\n            request: The HTTP request object\r\n            response: The HTTP response object\r\n            \r\n        Returns:\r\n            User data dictionary or None if not found\r\n        \"\"\"\r\n        user_id = request.params.get('id')\r\n        user = await self.user_service.find_by_id(user_id)\r\n        \r\n        if not user:\r\n            response.status(404).json({'error': 'User not found'})\r\n            return None\r\n        \r\n        return response.json({'success': True, 'data': user})\r\n    \r\n    async def create_user(self, request, response) -> Dict:\r\n        \"\"\"Create a new user.\"\"\"\r\n        data = request.body\r\n        name = data.get('name')\r\n        email = data.get('email')\r\n        role = data.get('role', 'user')\r\n        \r\n        if not self._validate_email(email):\r\n            response.status(400).json({'error': 'Invalid email'})\r\n            return None\r\n        \r\n        user = await self.user_service.create({\r\n            'name': name,\r\n            'email': email,\r\n            'role': role\r\n        })\r\n        \r\n        return response.status(201).json({'success': True, 'data': user})\r\n    \r\n    def _validate_email(self, email: str) -> bool:\r\n        \"\"\"Validate email format.\"\"\"\r\n        import re\r\n        pattern = r'^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$'\r\n        return bool(re.match(pattern, email))\r\n    \r\n    @staticmethod\r\n    def format_user_response(user: User) -> Dict:\r\n        \"\"\"Format user object for API response.\"\"\"\r\n        return {\r\n            'id': user.id,\r\n            'name': user.name,\r\n            'email': user.email,\r\n            'role': user.role\r\n        }\r\n    \r\n    @property\r\n    def cache_size(self) -> int:\r\n        \"\"\"Get current cache size.\"\"\"\r\n        return len(self._cache)\r\n\r\n\r"
+      },
+      {
+        "id": "DataUtils",
+        "type": "class",
+        "role": "utility",
+        "extends": null,
+        "bases": [],
+        "location": {
+          "startLine": 98,
+          "endLine": 115
+        },
+        "size": {
+          "lines": 18,
+          "bytes": 489
+        },
+        "doc": "Utility functions for data processing.",
+        "dependencies": {
+          "importsUsed": [
+            "List",
+            "Dict",
+            "Any",
+            "json"
+          ]
+        },
+        "methods": [
+          {
+            "id": "DataUtils.array_to_map",
+            "name": "array_to_map",
+            "isAsync": false,
+            "isPrivate": false,
+            "isSpecial": false,
+            "location": {
+              "startLine": 101,
+              "endLine": 115
+            },
+            "size": {
+              "lines": 15,
+              "bytes": 397
+            },
+            "doc": "Transform array to map by key.",
+            "io": {
+              "inputs": [
+                {
+                  "name": "arr",
+                  "type": "List[Dict]",
+                  "source": null,
+                  "default": null
+                },
+                {
+                  "name": "key",
+                  "type": "str",
+                  "source": null,
+                  "default": null
+                }
+              ],
+              "output": {
+                "type": "Dict[str, Dict]"
+              }
+            },
+            "dependencies": {
+              "localCalls": [
+                "array_to_map",
+                "deep_clone"
+              ],
+              "externalCalls": [
+                "json.loads",
+                "json.dumps"
+              ]
+            },
+            "importsUsed": [
+              "List",
+              "Dict",
+              "Any",
+              "json"
+            ],
+            "behavior": {
+              "sideEffects": [],
+              "mutatesState": false
+            },
+            "content": "\n    def array_to_map(arr: List[Dict], key: str) -> Dict[str, Dict]:\r\n        \"\"\"Transform array to map by key.\"\"\"\r\n        result = {}\r\n        for item in arr:\r\n            result[str(item[key])] = item\r\n        return result\r\n    \r\n    @staticmethod\r\n    def deep_clone(obj: Any) -> Any:\r\n        \"\"\"Deep clone an object.\"\"\"\r\n        import json\r\n        return json.loads(json.dumps(obj))\r\n\r\n\r"
+          },
+          {
+            "id": "DataUtils.deep_clone",
+            "name": "deep_clone",
+            "isAsync": false,
+            "isPrivate": false,
+            "isSpecial": false,
+            "location": {
+              "startLine": 109,
+              "endLine": 115
+            },
+            "size": {
+              "lines": 7,
+              "bytes": 144
+            },
+            "doc": "Deep clone an object.",
+            "io": {
+              "inputs": [
+                {
+                  "name": "obj",
+                  "type": "Any",
+                  "source": "typing",
+                  "default": null
+                }
+              ],
+              "output": {
+                "type": "Any"
+              }
+            },
+            "dependencies": {
+              "localCalls": [
+                "deep_clone"
+              ],
+              "externalCalls": [
+                "json.loads",
+                "json.dumps"
+              ]
+            },
+            "importsUsed": [
+              "Any",
+              "json"
+            ],
+            "behavior": {
+              "sideEffects": [],
+              "mutatesState": false
+            },
+            "content": "\n    def deep_clone(obj: Any) -> Any:\r\n        \"\"\"Deep clone an object.\"\"\"\r\n        import json\r\n        return json.loads(json.dumps(obj))\r\n\r\n\r"
+          }
+        ],
+        "content": "class DataUtils:\r\n    \"\"\"Utility functions for data processing.\"\"\"\r\n    \r\n    @staticmethod\r\n    def array_to_map(arr: List[Dict], key: str) -> Dict[str, Dict]:\r\n        \"\"\"Transform array to map by key.\"\"\"\r\n        result = {}\r\n        for item in arr:\r\n            result[str(item[key])] = item\r\n        return result\r\n    \r\n    @staticmethod\r\n    def deep_clone(obj: Any) -> Any:\r\n        \"\"\"Deep clone an object.\"\"\"\r\n        import json\r\n        return json.loads(json.dumps(obj))\r\n\r\n\r"
+      },
+      {
+        "id": "initialize_database",
+        "type": "function",
+        "role": "initializer",
+        "isAsync": true,
+        "decorators": [],
+        "location": {
+          "startLine": 116,
+          "endLine": 136
+        },
+        "size": {
+          "lines": 21,
+          "bytes": 544
+        },
+        "doc": "\"\"\" Initialize database connection.",
+        "io": {
+          "inputs": [
+            {
+              "name": "connection_string",
+              "type": "str",
+              "source": null,
+              "default": null
+            }
+          ],
+          "output": {
+            "type": "bool"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "initialize_database"
+          ],
+          "externalCalls": [
+            "asyncio.sleep"
+          ]
+        },
+        "importsUsed": [
+          "asyncio"
+        ],
+        "behavior": {
+          "sideEffects": [
+            "logging",
+            "timing"
+          ],
+          "mutatesState": false
+        },
+        "content": "async def initialize_database(connection_string: str) -> bool:\r\n    \"\"\"\r\n    Initialize database connection.\r\n    \r\n    Args:\r\n        connection_string: Database connection URL\r\n        \r\n    Returns:\r\n        True if connection successful, False otherwise\r\n    \"\"\"\r\n    import asyncio\r\n    try:\r\n        print('Connecting to database...')\r\n        await asyncio.sleep(1)\r\n        print('Database connected')\r\n        return True\r\n    except Exception as error:\r\n        print(f'Database connection failed: {error}')\r\n        return False\r\n\r\n\r"
+      },
+      {
+        "id": "fetch_external_data",
+        "type": "function",
+        "role": "getter",
+        "isAsync": true,
+        "decorators": [],
+        "location": {
+          "startLine": 137,
+          "endLine": 142
+        },
+        "size": {
+          "lines": 6,
+          "bytes": 165
+        },
+        "doc": "Fetch data from external API.",
+        "io": {
+          "inputs": [
+            {
+              "name": "endpoint",
+              "type": "str",
+              "source": null,
+              "default": null
+            }
+          ],
+          "output": {
+            "type": "Any"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "fetch_external_data",
+            "response.json"
+          ],
+          "externalCalls": [
+            "requests.get"
+          ]
+        },
+        "importsUsed": [
+          "Any",
+          "requests",
+          "json"
+        ],
+        "behavior": {
+          "sideEffects": [
+            "http-response",
+            "network"
+          ],
+          "mutatesState": false
+        },
+        "content": "async def fetch_external_data(endpoint: str) -> Any:\r\n    \"\"\"Fetch data from external API.\"\"\"\r\n    response = requests.get(endpoint)\r\n    return response.json()\r\n\r\n\r"
+      },
+      {
+        "id": "calculate_total",
+        "type": "function",
+        "role": "utility",
+        "isAsync": false,
+        "decorators": [],
+        "location": {
+          "startLine": 143,
+          "endLine": 147
+        },
+        "size": {
+          "lines": 5,
+          "bytes": 108
+        },
+        "doc": "Calculate sum of items.",
+        "io": {
+          "inputs": [
+            {
+              "name": "items",
+              "type": "List[int]",
+              "source": null,
+              "default": null
+            }
+          ],
+          "output": {
+            "type": "int"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "calculate_total"
+          ],
+          "externalCalls": []
+        },
+        "importsUsed": [
+          "List"
+        ],
+        "behavior": {
+          "sideEffects": [],
+          "mutatesState": false
+        },
+        "content": "def calculate_total(items: List[int]) -> int:\r\n    \"\"\"Calculate sum of items.\"\"\"\r\n    return sum(items)\r\n\r\n\r"
+      },
+      {
+        "id": "format_currency",
+        "type": "function",
+        "role": "transformer",
+        "isAsync": false,
+        "decorators": [],
+        "location": {
+          "startLine": 148,
+          "endLine": 154
+        },
+        "size": {
+          "lines": 7,
+          "bytes": 250
+        },
+        "doc": "Format number as currency string.",
+        "io": {
+          "inputs": [
+            {
+              "name": "amount",
+              "type": "float",
+              "source": null,
+              "default": null
+            },
+            {
+              "name": "currency",
+              "type": "str",
+              "source": null,
+              "default": "'USD'"
+            }
+          ],
+          "output": {
+            "type": "str"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "format_currency",
+            "symbols.get"
+          ],
+          "externalCalls": []
+        },
+        "importsUsed": [],
+        "behavior": {
+          "sideEffects": [],
+          "mutatesState": false
+        },
+        "content": "def format_currency(amount: float, currency: str = 'USD') -> str:\r\n    \"\"\"Format number as currency string.\"\"\"\r\n    symbols = {'USD': '$', 'EUR': '€', 'GBP': '£'}\r\n    symbol = symbols.get(currency, currency)\r\n    return f'{symbol}{amount:,.2f}'\r\n\r\n\r"
+      },
+      {
+        "id": "config_path",
+        "type": "function",
+        "role": "property",
+        "isAsync": false,
+        "decorators": [
+          "property"
+        ],
+        "location": {
+          "startLine": 156,
+          "endLine": 160
+        },
+        "size": {
+          "lines": 5,
+          "bytes": 115
+        },
+        "doc": "Get configuration file path.",
+        "io": {
+          "inputs": [],
+          "output": {
+            "type": "Path"
+          }
+        },
+        "dependencies": {
+          "localCalls": [
+            "config_path"
+          ],
+          "externalCalls": [
+            "Path.home"
+          ]
+        },
+        "importsUsed": [
+          "Path"
+        ],
+        "behavior": {
+          "sideEffects": [],
+          "mutatesState": false
+        },
+        "content": "def config_path() -> Path:\r\n    \"\"\"Get configuration file path.\"\"\"\r\n    return Path.home() / '.config' / 'app'\r\n\r\n\r"
+      }
+    ]
+  }
+}
