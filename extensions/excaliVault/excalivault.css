@@ -1,0 +1,351 @@
+/* ExcaliVault Button in Toolbar */
+.excalivault-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    gap: 8px;
+    margin-left: 12px;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    white-space: nowrap;
+    line-height: 1;
+    min-width: fit-content;
+}
+
+.excalivault-button:hover {
+    background: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.excalivault-button svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.excalivault-button span {
+    display: inline-block;
+    line-height: 1;
+}
+
+/* ExcaliVault Modal Overlay */
+.excalivault-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.excalivault-overlay.active {
+    display: flex;
+}
+
+/* Modal */
+.excalivault-modal {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 900px;
+    max-height: 85vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.excalivault-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9fafb;
+}
+
+.excalivault-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.excalivault-close {
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.excalivault-close:hover {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.excalivault-body {
+    padding: 24px;
+    overflow-y: auto;
+    flex: 1;
+    background: white;
+}
+
+/* Grid */
+.excalivault-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* Empty State */
+.excalivault-empty {
+    text-align: center;
+    padding: 64px 20px;
+}
+
+.excalivault-empty svg {
+    width: 64px;
+    height: 64px;
+    color: #d1d5db;
+    margin: 0 auto 16px;
+}
+
+.excalivault-empty p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.excalivault-empty span {
+    font-size: 14px;
+    color: #6b7280;
+    display: block;
+    margin-bottom: 24px;
+}
+
+/* Card */
+.excalivault-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.excalivault-card:hover {
+    border-color: #818cf8;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+}
+
+.excalivault-preview {
+    width: 100%;
+    height: 140px;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.excalivault-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.excalivault-preview-text {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.excalivault-info {
+    padding: 14px;
+}
+
+.excalivault-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.excalivault-date {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 12px;
+}
+
+.excalivault-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Buttons */
+.excalivault-btn {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.excalivault-btn-load {
+    background: #6366f1;
+    color: white;
+}
+
+.excalivault-btn-load:hover {
+    background: #4f46e5;
+}
+
+.excalivault-btn-delete {
+    background: #dc2626;
+    color: white;
+}
+
+.excalivault-btn-delete:hover {
+    background: #b91c1c;
+}
+
+.excalivault-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.excalivault-btn-primary:hover {
+    background: #4f46e5;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    transform: translateY(-2px);
+}
+
+.excalivault-btn-secondary {
+    padding: 10px 24px;
+    background: #f3f4f6;
+    color: #374151;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.excalivault-btn-secondary:hover {
+    background: #e5e7eb;
+}
+
+/* Form */
+.excalivault-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.excalivault-input-group {
+    margin-bottom: 20px;
+}
+
+.excalivault-input-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.excalivault-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: white;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #111827;
+    transition: all 0.2s ease;
+}
+
+.excalivault-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.excalivault-preview-container {
+    width: 100%;
+    height: 200px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.excalivault-preview-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.excalivault-form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
