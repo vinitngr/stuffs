@@ -1,18 +1,14 @@
-// ExcaliVault - Integrated UI for ExcaliDraw
 console.log('ExcaliVault loaded');
 
 const STORAGE_KEY = 'excaliVault_projects';
 
-// Check if we need to load a project on startup (before ExcaliDraw initializes)
 const pendingLoadId = sessionStorage.getItem('excaliVault_loadOnStart');
 if (pendingLoadId) {
     console.log('ExcaliVault: Found pending load on startup, project ID:', pendingLoadId);
     
-    // Clear the flag
     sessionStorage.removeItem('excaliVault_loadOnStart');
     
     try {
-        // Get the project data
         const projectsData = localStorage.getItem(STORAGE_KEY);
         if (projectsData) {
             const projects = JSON.parse(projectsData);
@@ -23,7 +19,6 @@ if (pendingLoadId) {
                 const savedData = JSON.parse(project.canvasData);
                 
                 if (savedData.elements) {
-                    // Set localStorage BEFORE ExcaliDraw reads it
                     localStorage.setItem('excalidraw', savedData.elements);
                     console.log('ExcaliVault: Set excalidraw elements');
                 }
@@ -41,7 +36,6 @@ if (pendingLoadId) {
     }
 }
 
-// Wait for ExcaliDraw to load
 function initExcaliVault() {
     const topRight = document.querySelector('.layer-ui__wrapper__top-right');
     
@@ -54,7 +48,6 @@ function initExcaliVault() {
     createModalOverlay();
 }
 
-// Create the ExcaliVault button
 function createVaultButton(container) {
     const button = document.createElement('button');
     button.className = 'excalivault-button excalidraw-button';
@@ -77,7 +70,6 @@ function createVaultButton(container) {
     }
 }
 
-// Create modal overlay
 function createModalOverlay() {
     const overlay = document.createElement('div');
     overlay.className = 'excalivault-overlay';
@@ -109,18 +101,15 @@ function createModalOverlay() {
     document.getElementById('excalivault-close').addEventListener('click', closeVaultModal);
 }
 
-// Open modal
 function openVaultModal() {
     showProjectsView();
     document.getElementById('excalivault-overlay').classList.add('active');
 }
 
-// Close modal
 function closeVaultModal() {
     document.getElementById('excalivault-overlay').classList.remove('active');
 }
 
-// Show projects view
 function showProjectsView() {
     const body = document.getElementById('excalivault-body');
     const projects = getProjects();
@@ -191,7 +180,6 @@ function showProjectsView() {
     });
 }
 
-// Show save form
 function showSaveForm() {
     const body = document.getElementById('excalivault-body');
     const canvasData = getCanvasData();
@@ -228,10 +216,8 @@ function showSaveForm() {
     });
 }
 
-// Get canvas data - get the main excalidraw elements
 function getCanvasData() {
     try {
-        // Get the main excalidraw data (the elements array)
         const excalidrawData = localStorage.getItem('excalidraw');
         const excalidrawState = localStorage.getItem('excalidraw-state');
         
@@ -249,7 +235,6 @@ function getCanvasData() {
     }
 }
 
-// Get canvas preview
 function getCanvasPreview() {
     try {
         const canvas = document.querySelector('canvas');
@@ -263,7 +248,6 @@ function getCanvasPreview() {
     }
 }
 
-// Save project
 function saveProject(name, canvasData, preview) {
     if (!name) {
         alert('Please enter a project name');
@@ -290,7 +274,6 @@ function saveProject(name, canvasData, preview) {
     showProjectsView();
 }
 
-// Load project
 function loadProject(projectId) {
     const projects = getProjects();
     const project = projects.find(p => p.id === projectId);
@@ -304,7 +287,6 @@ function loadProject(projectId) {
         try {
             console.log('ExcaliVault: Loading project:', project.name);
             
-            // Parse the saved data
             const savedData = JSON.parse(project.canvasData);
             
             if (!savedData.elements) {
@@ -314,13 +296,10 @@ function loadProject(projectId) {
             
             console.log('ExcaliVault: Elements data length:', savedData.elements.length);
             
-            // Store the project ID to load after reload
             sessionStorage.setItem('excaliVault_loadOnStart', projectId.toString());
             
-            // Close modal and reload immediately
             closeVaultModal();
             
-            // Reload page immediately - our init function will restore the data
             window.location.reload();
             
         } catch (error) {
@@ -330,7 +309,6 @@ function loadProject(projectId) {
     }
 }
 
-// Delete project
 function deleteProject(projectId) {
     if (confirm('Delete this project? This cannot be undone.')) {
         const projects = getProjects();
@@ -340,7 +318,6 @@ function deleteProject(projectId) {
     }
 }
 
-// Get projects from storage
 function getProjects() {
     try {
         const data = localStorage.getItem(STORAGE_KEY);
@@ -351,7 +328,6 @@ function getProjects() {
     }
 }
 
-// Save projects to storage
 function saveProjects(projects) {
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
@@ -363,7 +339,6 @@ function saveProjects(projects) {
     }
 }
 
-// Initialize when page loads
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initExcaliVault);
 } else {
